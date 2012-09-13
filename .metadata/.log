@@ -1,0 +1,16 @@
+!SESSION 2012-09-13 16:00:15.121 -----------------------------------------------
+eclipse.buildId=I20120608-1400
+java.version=1.6.0_33
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=sv_SE
+Framework arguments:  -keyring /Users/marcusisaksson/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -data /Users/marcusisaksson/Documents/Androidprojekt -keyring /Users/marcusisaksson/.eclipse_keyring -showlocation
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-09-13 16:04:36.511
+!MESSAGE Failed to load properties file for project 'Androidprojekt'
+
+!ENTRY org.eclipse.ui 2 2 2012-09-13 16:05:44.121
+!MESSAGE Invalid property category path: ValidationPropertiesPage (bundle: org.eclipse.wst.xml.ui, propertyPage: org.eclipse.wst.xml.ui.propertyPage.project.validation)
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-09-13 16:06:44.650
+!MESSAGE Failed to load properties file for project 'Android_Budget_App'
