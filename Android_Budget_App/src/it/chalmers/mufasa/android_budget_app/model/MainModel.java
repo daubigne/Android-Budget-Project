@@ -10,8 +10,8 @@ public class MainModel {
 	int balance;
 	
 	public MainModel() {
-		this.setBalance(0);
 		this.listeners = new ArrayList<ModelListener>();
+		this.setBalance(0);
 	}
 	
 	public int getBalance() {
@@ -25,7 +25,7 @@ public class MainModel {
 	}
 	
 	public void addChangeListener(ModelListener listener) {
-		
+		listeners.add(listener);
 	}
 	
 	public void notifyChangeListeners() {
