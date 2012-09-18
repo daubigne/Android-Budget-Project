@@ -25,7 +25,7 @@ public class MainActivity extends Activity implements ModelListener {
 
 		balanceField = (EditText) findViewById(R.id.accountBalanceField);
 
-		this.model = new MainModel();
+		this.model = new MainModel(this.getApplicationContext());
 		this.controller = new MainController(model);
 
 		this.model.addChangeListener(this);
@@ -38,7 +38,7 @@ public class MainActivity extends Activity implements ModelListener {
 	}
 
 	public void saveBalance(View view) {
-		controller.setBalance(100);
+		controller.setBalance(Integer.parseInt(this.balanceField.getText().toString()));
 	}
 
 	public void onChange(MainModel model) {
