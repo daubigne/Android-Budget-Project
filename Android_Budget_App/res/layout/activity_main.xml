@@ -1,34 +1,41 @@
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-    <EditText
-        android:id="@+id/accountBalanceField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="47dp"
-        android:layout_y="64dp"
-        android:ems="10"
-        android:inputType="number" />
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="104dp"
-        android:layout_y="36dp"
         android:text="@string/balance"
         tools:context=".MainActivity" />
+    
+    <EditText
+        android:id="@+id/accountBalanceField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="122dp"
-        android:layout_y="118dp"
         android:onClick="saveBalance"
         android:text="@string/save" />
 
-</AbsoluteLayout>
+    <TextView
+        android:id="@+id/transactionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transactions" />
+
+    <ListView
+        android:id="@+id/transactionList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+</LinearLayout>
