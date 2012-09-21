@@ -8,14 +8,14 @@ import java.util.Date;
  * A class that is a transaction for the given account
  *
  */
-public class Transactions {
+public class Transaction {
 	private double amount;
 	private Date date;
 	private String name;
 	private Category cat;
 	private Account ac;
 		
-	public void Transaction(int a, Date d, String name, Category c, Account acc){
+	public Transaction(int a, Date d, String name, Category c, Account acc){
 		this.amount = a;
 		this.date = d;
 		this.name = name;
@@ -33,7 +33,7 @@ public class Transactions {
 		Date temp = this.date;
 		return temp;
 	}
-	public Category getCatergory(){
+	public Category getCategory(){
 		Category temp = this.cat;
 		return temp;
 	}

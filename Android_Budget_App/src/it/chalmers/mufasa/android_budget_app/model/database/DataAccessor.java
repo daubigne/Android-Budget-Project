@@ -1,6 +1,8 @@
 package it.chalmers.mufasa.android_budget_app.model.database;
 
-import java.util.Date;
+import it.chalmers.mufasa.android_budget_app.model.Account;
+import it.chalmers.mufasa.android_budget_app.model.Transaction;
+
 import java.util.List;
 
 import android.content.Context;
@@ -60,7 +62,7 @@ public class DataAccessor {
 				+ ", "
 				+ transaction.getDate()
 				+ ", "
-				+ transaction.getValue()
+				+ transaction.getAmount()
 				+ ", "
 				+ transaction.getCategory().getId() + ")");
 
@@ -72,9 +74,9 @@ public class DataAccessor {
 
 	public List<Transaction> getTransactions(Account account, SortBy sortBy,
 			SortByOrder sortByOrder, int start, int stop) {
-
-		String sortByTemp;
-		String sortByOrderTemp;
+		List<Transaction> transactions = null;
+		String sortByTemp = "date";
+		String sortByOrderTemp = "desc";
 
 		switch (sortBy) {
 		case NAME:
@@ -101,18 +103,19 @@ public class DataAccessor {
 		String[] arr = { "name", "date", "category", "value" };
 
 		Cursor cursor = db.query("table", arr, "account-id == "
-				+ account.getAccountID, null, null, null, sortByTemp + " "
+				+ account.getId(), null, null, null, sortByTemp + " "
 				+ sortByOrderTemp);
 
 		if (cursor.moveToFirst()) {
 			cursor.move(start);
 			for (int i = start; i < stop; i++) {
-				return cursor.getString(1);
-
+				Transaction transaction = new Transaction(i, null, cursor.getString(1), null, account);
+				transactions.add(transaction);
 				cursor.moveToNext();
 			}
+			return transactions;
 		} else {
-			return -1;
+			return null;
 		}
 	}
 }
