@@ -1,4 +1,4 @@
-package it.chalmers.mufasa.android_budget_app.model.database;
+package it.chalmers.mufasa.android_budget_app.controller.database;
 
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;

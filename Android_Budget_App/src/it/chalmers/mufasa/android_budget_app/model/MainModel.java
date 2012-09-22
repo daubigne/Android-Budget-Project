@@ -1,6 +1,6 @@
 package it.chalmers.mufasa.android_budget_app.model;
 
-import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
+import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor;
 
 import java.util.ArrayList;
 import java.util.List;
