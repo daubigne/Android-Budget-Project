@@ -12,4 +12,9 @@ public class Category {
 	public String getName(){
 		return this.name;
 	}
+	
+	public int getId(){
+		//TODO
+		return 1;
+	}
 }

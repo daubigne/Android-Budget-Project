@@ -1,9 +1,6 @@
 .DS_Store*
 
-/bin
-/gen
 local.properties
-stats.sh
 /.metadata
 /Android_Budget_App/gen
 /Android_Budget_App/bin

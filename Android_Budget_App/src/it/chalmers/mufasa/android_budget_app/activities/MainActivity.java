@@ -25,8 +25,8 @@ public class MainActivity extends Activity implements ModelListener {
 
 		balanceField = (EditText) findViewById(R.id.accountBalanceField);
 
-		this.model = new MainModel(this.getApplicationContext());
-		this.controller = new MainController(model);
+		this.model = new MainModel();
+		this.controller = new MainController(this.getApplicationContext(),model);
 
 		this.model.addChangeListener(this);
 	}
