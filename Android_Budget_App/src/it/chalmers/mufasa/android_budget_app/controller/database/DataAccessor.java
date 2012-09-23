@@ -1,8 +1,11 @@
 package it.chalmers.mufasa.android_budget_app.controller.database;
 
 import it.chalmers.mufasa.android_budget_app.model.Account;
+import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -79,7 +82,7 @@ public class DataAccessor {
 			SortByOrder sortByOrder, int start, int stop) {
 		List<Transaction> transactions = null;
 		String sortByTemp = "date";
-		String sortByOrderTemp = "desc";
+		String sortByOrderTemp = "desc";			
 
 		switch (sortBy) {
 		case NAME:
@@ -112,8 +115,13 @@ public class DataAccessor {
 		if (cursor.moveToFirst()) {
 			cursor.move(start);
 			for (int i = start; i < stop; i++) {
-				Transaction transaction = new Transaction(i, null, cursor.getString(1), null, account);
-				transactions.add(transaction);
+//				String dateString;
+//				SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-d");
+//				Date date;
+//				date = sdf.parse((dateString));
+				Category category = new Category((cursor.getString(4)));
+				Transaction transaction = new Transaction(Integer.parseInt(cursor.getString(3)), null, cursor.getString(2), category, account);
+				transactions.add(transaction); 
 				cursor.moveToNext();
 			}
 			return transactions;
