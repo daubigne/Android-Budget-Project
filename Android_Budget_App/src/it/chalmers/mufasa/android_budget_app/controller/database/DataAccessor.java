@@ -34,7 +34,7 @@ public class DataAccessor {
 		if (cursor.moveToFirst()) {
 			return cursor.getInt(0);
 		} else {
-			return -1;
+			throw new IllegalArgumentException("Account ID "+accountID+" does not exist");
 		}
 	}
 
@@ -42,12 +42,15 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 
-		if (getAccountBalance(accountID) == -1) {
-			db.execSQL("INSERT INTO accounts VALUES (" + accountID + ",null,"
-					+ balance + ")");
-		} else {
+		try {
+		    int currentBalance = getAccountBalance(accountID);
+		    if(currentBalance != balance) {
 			db.execSQL("UPDATE accounts SET balance=" + balance
-					+ " WHERE id == " + accountID);
+				+ " WHERE id == " + accountID);
+		    }
+		} catch(IllegalArgumentException e) {
+		    db.execSQL("INSERT INTO accounts VALUES (" + accountID + ",null,"
+				+ balance + ")");
 		}
 
 	}
