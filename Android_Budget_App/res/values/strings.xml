@@ -3,7 +3,7 @@
     <string name="app_name">StudentBudget</string>
     <string name="balance">Account Balance</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">StudentBudgetApp</string>
     <string name="save">Save</string>
 
 </resources>
