@@ -6,8 +6,8 @@ public class Category {
 	public Category(String name){
 		this.name = name;
 	}
-	public void setName(String name){
-		this.name = name;
+	public Category(int id){
+		
 	}
 	public String getName(){
 		return this.name;

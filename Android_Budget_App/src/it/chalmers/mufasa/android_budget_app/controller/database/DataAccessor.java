@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class DataAccessor {
-	Context context;
+	private Context context;
 
 	public DataAccessor(Context context) {
 		this.context = context;
@@ -59,28 +59,33 @@ public class DataAccessor {
 
 	}
 
-	public void addTransaction(Transaction transaction) {
+	public void addTransaction(Double amount, Date date, String name, Category category, Account account) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		db.execSQL("INSERT INTO transactions (accountId, name, date, value, categoryId ) VALUES ( "
-				+ transaction.getAccount().getId()
+				+ account.getId()
 				+ ", "
-				+ "\"" + transaction.getName() + "\""
+				+ "\"" + name + "\""
 				+ ", "
-				+ "\"" + transaction.getDate().getYear() + "-" + transaction.getDate().getMonth() + "-" + transaction.getDate().getDay() + "\""
+				+ "\"" + date.getYear() + "-" + date.getMonth() + "-" + date.getDay() + "\""
 				+ ", "
-				+ transaction.getAmount()
+				+ amount
 				+ ", "
-				+ transaction.getCategory().getId() + ")");
+				+ category.getId() + ")");
 
 	}
 
 	public void removeTransaction(Transaction transaction) {
-
+		SQLiteDatabase db = new DatabaseOpenHelper(context)
+				.getWritableDatabase();
+		db.execSQL("DELETE FROM transactions WHERE id ==" + transaction.getId());
 	}
 
 	public List<Transaction> getTransactions(Account account, SortBy sortBy,
 			SortByOrder sortByOrder, int start, int stop) {
+
+		SQLiteDatabase db = new DatabaseOpenHelper(context)
+				.getWritableDatabase();
 		List<Transaction> transactions = new ArrayList<Transaction>();
 		String sortByTemp = "date";
 		String sortByOrderTemp = "desc";			
@@ -105,8 +110,6 @@ public class DataAccessor {
 			break;
 		}
 
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 		String[] arr = { "name", "date", "id", "value" };
 
 		Cursor cursor = db.query("transactions", arr, "accountId == "
@@ -115,7 +118,7 @@ public class DataAccessor {
 		Log.println(9,"MainController", "hej");
 		if (cursor.moveToFirst()) {
 			Log.println(9,"MainController", "hej");
-			
+			cursor.moveToPosition(start);
 			for (int i = start; i < stop; i++) {
 				String dateString = cursor.getString(1);
 				Log.println(9,"MainController", dateString);
