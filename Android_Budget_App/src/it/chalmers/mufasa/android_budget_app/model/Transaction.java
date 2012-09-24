@@ -12,15 +12,15 @@ public class Transaction {
 	private double amount;
 	private Date date;
 	private String name;
-	private Category cat;
-	private Account ac;
+	private Category category;
+	private Account account;
 		
-	public Transaction(int a, Date d, String name, Category c, Account acc){
-		this.amount = a;
-		this.date = d;
+	public Transaction(double amount, Date date, String name, Category category, Account account){
+		this.amount = amount;
+		this.date = date;
 		this.name = name;
-		this.cat = c;
-		this.ac = acc;
+		this.category = category;
+		this.account = account;
 			
 	}
 	public double getAmount(){
@@ -34,12 +34,16 @@ public class Transaction {
 		return temp;
 	}
 	public Category getCategory(){
-		Category temp = this.cat;
+		Category temp = this.category;
 		return temp;
 	}
 	public Account getAccount(){
-		Account temp = this.ac;
+		Account temp = this.account;
 		return temp;
+	}
+	public int getId(){
+		//TODO
+		return 1;
 	}
 
 }
