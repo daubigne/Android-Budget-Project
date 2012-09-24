@@ -28,9 +28,29 @@ public class DataAccessor {
 		DESC, ASC
 	}
 
+	public List<Account> getAccounts() {
+		
+		List<Account> accountList = new ArrayList<Account>();
+		
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		String[] arr = { "id", "name", "balance"};
+		Cursor cursor = db.query("accounts", arr, null, null,
+				null, null, null);
+		
+		if (cursor.moveToFirst()) {
+			accountList.add(new Account(cursor.getInt(0),cursor.getString(1),cursor.getDouble(2)));
+			
+			while(cursor.moveToNext()) {
+				accountList.add(new Account(cursor.getInt(0),cursor.getString(1),cursor.getDouble(2)));
+			}
+		}
+		
+		return accountList;
+		
+	}
+	
 	public Account getAccount(int accountID) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
 		String[] arr = { "id", "name" , "balance" };
 		Cursor cursor = db.query("accounts", arr, "id == " + accountID, null,
 				null, null, null);
@@ -45,7 +65,7 @@ public class DataAccessor {
 	public void setAccountBalance(double balance, int accountID) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
-
+		
 		try {
 		    double currentBalance = getAccount(accountID).getBalance();
 		    if(currentBalance != balance) {
@@ -56,7 +76,6 @@ public class DataAccessor {
 		    db.execSQL("INSERT INTO accounts VALUES (" + accountID + ",null,"
 				+ balance + ")");
 		}
-
 	}
 
 	public void addTransaction(Double amount, Date date, String name, Category category, Account account) {
@@ -151,8 +170,11 @@ public class DataAccessor {
 		Cursor cursor = db.query("categories", arr, null, null, null, null, null);
 		
 		if (cursor.moveToFirst()) {
+			Category category = new Category(cursor.getString(0), cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+			list.add(category);
+			
 			while(cursor.moveToNext()) {
-				Category category = new Category(cursor.getString(0), cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+				category = new Category(cursor.getString(0), cursor.getInt(1), this.getCategory(cursor.getInt(2)));
 				list.add(category);
 			}
 		}
