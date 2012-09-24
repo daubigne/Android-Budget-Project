@@ -129,7 +129,7 @@ public class DataAccessor {
 				//Date date = new Date(Integer.parseInt(list[0]), Integer.parseInt(list[1]), Integer.parseInt(list[2]));
 				Date date = new Date(10000);
 				
-				Category category = new Category("untitled category");
+				Category category = new Category("untitled category",1,null);
 				Transaction transaction = new Transaction((cursor.getInt(3)), date, cursor.getString(2), category, account);
 				transactions.add(transaction); 
 				cursor.moveToNext();
@@ -139,4 +139,55 @@ public class DataAccessor {
 			return null;
 		}
 	}
+	
+	public List<Category> getCategories() {
+		
+		List<Category> list = new ArrayList<Category>();
+		
+		SQLiteDatabase db = new DatabaseOpenHelper(context)
+		.getWritableDatabase();
+		String[] arr = { "name", "id", "parentId" };
+		
+		Cursor cursor = db.query("categories", arr, null, null, null, null, null);
+		
+		if (cursor.moveToFirst()) {
+			while(cursor.moveToNext()) {
+				Category category = new Category(cursor.getString(0), cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+				list.add(category);
+			}
+		}
+		
+		return list;
+	}
+	
+	public Category getCategory(int id) {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		String[] arr = { "name", "id" , "parentId" };
+		
+		Cursor cursor = db.query("categories", arr, "id == " + id, null, null, null, null);
+		
+		if (cursor.moveToFirst()) {
+			return new Category(cursor.getString(0), cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+		}
+		
+		return null;
+	}
+	
+	public void addCategory(String name, Category parent) {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		String parentId = "null";
+		if(parent != null) {
+			parentId = String.valueOf(parent.getId());
+		}
+		
+		db.execSQL("INSERT INTO categories (name, parentId) VALUES ( "
+		+ "\"" + name + "\""
+		+ ", "
+		+ parentId
+		+ ")");
+
+	}
+	
 }

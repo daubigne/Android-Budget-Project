@@ -29,15 +29,27 @@ public class MainController {
 			model.setBalance(0);
 		}
 		
-		Category category = new Category("first category");
-		Account account = new Account(0,"account",200);
+		da.addCategory("first category", null);
+		da.addCategory("second category", null);
 		
-		Transaction transaction1 = new Transaction(-200,new Date(2012,9,24),"first transaction",category,account);
+		List<Category> catList = da.getCategories();
+		
+		Log.println(9,"MainController","Categories:");
+		for(Category cat : catList) {
+			Log.println(9,"MainController",cat.getName());
+		}
+		
+		Account account = new Account(0,"account",2000);
+		
+		Transaction transaction1 = new Transaction(-200,new Date(2012,9,24),"first transaction",catList.get(0),account);
+		Transaction transaction2 = new Transaction(-750,new Date(2012,9,23),"first transaction",catList.get(0),account);
 		
 		da.addTransaction(transaction1);
+		da.addTransaction(transaction2);
 		
-		List<Transaction> list = da.getTransactions(account, SortBy.DATE, SortByOrder.DESC, 0, 1);
+		List<Transaction> list = da.getTransactions(account, SortBy.DATE, SortByOrder.DESC, 0, 2);
 		
+		Log.println(9,"MainController","Transactions:");
 		for(Transaction t : list) {
 			Log.println(9,"MainController",t.getName() + " " + t.getAmount());
 		}
