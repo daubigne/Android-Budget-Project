@@ -8,8 +8,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity implements ModelListener {
 
@@ -17,6 +19,11 @@ public class MainActivity extends Activity implements ModelListener {
 	MainModel model;
 
 	EditText balanceField;
+	EditText transactionNameField;
+	ListView listView;
+	ArrayAdapter<String> listAdapter;
+	ArrayList<String> transactionList;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -24,11 +31,23 @@ public class MainActivity extends Activity implements ModelListener {
 		setContentView(R.layout.activity_main);
 
 		balanceField = (EditText) findViewById(R.id.accountBalanceField);
+		transactionNameField = (EditText) findViewById(R.id.transactionNameField);
+		listView = (ListView) findViewById(R.id.transactionList);
+		transactionList = new ArrayList<String>();
+		listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, transactionList);  
+
 
 		this.model = new MainModel();
 		this.controller = new MainController(this.getApplicationContext(),model);
-
 		this.model.addChangeListener(this);
+	}
+	
+	public void saveTransaction(View view) {
+		
+		String transaction = this.transactionNameField.getText().toString();
+		transactionList.add(transaction);
+		listView.setAdapter( listAdapter ); 
+		
 	}
 
 	@Override
