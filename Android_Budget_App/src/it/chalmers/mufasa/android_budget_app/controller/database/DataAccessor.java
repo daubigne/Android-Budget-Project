@@ -5,6 +5,7 @@ import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class DataAccessor {
 				+ ", "
 				+ transaction.getName()
 				+ ", "
-				+ transaction.getDate()
+				+ transaction.getDate().getYear() + "-" + transaction.getDate().getMonth() + "-" + transaction.getDate().getDay()
 				+ ", "
 				+ transaction.getAmount()
 				+ ", "
@@ -80,7 +81,7 @@ public class DataAccessor {
 
 	public List<Transaction> getTransactions(Account account, SortBy sortBy,
 			SortByOrder sortByOrder, int start, int stop) {
-		List<Transaction> transactions = null;
+		List<Transaction> transactions = new ArrayList<Transaction>();
 		String sortByTemp = "date";
 		String sortByOrderTemp = "desc";			
 
@@ -115,12 +116,13 @@ public class DataAccessor {
 		if (cursor.moveToFirst()) {
 			cursor.move(start);
 			for (int i = start; i < stop; i++) {
-//				String dateString;
-//				SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-d");
-//				Date date;
-//				date = sdf.parse((dateString));
+				String dateString = cursor.getString(2);
+				String[] list= dateString.split("-");
+				
+				Date date = new Date(Integer.parseInt(list[0]), Integer.parseInt(list[1]), Integer.parseInt(list[2]));
+				
 				Category category = new Category((cursor.getString(4)));
-				Transaction transaction = new Transaction(Integer.parseInt(cursor.getString(3)), null, cursor.getString(2), category, account);
+				Transaction transaction = new Transaction((cursor.getInt(3)), date, cursor.getString(2), category, account);
 				transactions.add(transaction); 
 				cursor.moveToNext();
 			}
