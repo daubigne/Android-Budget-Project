@@ -41,11 +41,8 @@ public class MainController {
 		
 		Account account = new Account(0,"account",2000);
 		
-		Transaction transaction1 = new Transaction(-200,new Date(2012,9,24),"first transaction",catList.get(0),account);
-		Transaction transaction2 = new Transaction(-750,new Date(2012,9,23),"first transaction",catList.get(0),account);
-		
-		da.addTransaction(transaction1);
-		da.addTransaction(transaction2);
+		da.addTransaction(-200.0,new Date(2012,9,24),"first transaction",catList.get(0),account);
+		da.addTransaction(-750.0,new Date(2012,9,23),"first transaction",catList.get(0),account);
 		
 		List<Transaction> list = da.getTransactions(account, SortBy.DATE, SortByOrder.DESC, 0, 2);
 		
@@ -64,8 +61,8 @@ public class MainController {
 		return model.getTransactionHistory();
 	}
 	
-	public void addTransaction(int amount, Date d, String name, Category c, Account acc){
-		da.addTransaction(new Transaction(amount, d, name, c, acc));
+	public void addTransaction(Double amount, Date date, String name, Category category, Account account){
+		da.addTransaction(amount, date, name, category, account);
 	}
 
 }
