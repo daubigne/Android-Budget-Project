@@ -4,7 +4,6 @@ import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.List;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DataAccessor {
 	Context context;
@@ -28,26 +28,26 @@ public class DataAccessor {
 		DESC, ASC
 	}
 
-	public int getAccountBalance(int accountID) {
+	public Account getAccount(int accountID) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
-		String[] arr = { "balance" };
+		String[] arr = { "id", "name" , "balance" };
 		Cursor cursor = db.query("accounts", arr, "id == " + accountID, null,
 				null, null, null);
 
 		if (cursor.moveToFirst()) {
-			return cursor.getInt(0);
+			return new Account(cursor.getInt(0),cursor.getString(1),cursor.getDouble(2));
 		} else {
 			throw new IllegalArgumentException("Account ID "+accountID+" does not exist");
 		}
 	}
 
-	public void setAccountBalance(int balance, int accountID) {
+	public void setAccountBalance(double balance, int accountID) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 
 		try {
-		    int currentBalance = getAccountBalance(accountID);
+		    double currentBalance = getAccount(accountID).getBalance();
 		    if(currentBalance != balance) {
 			db.execSQL("UPDATE accounts SET balance=" + balance
 				+ " WHERE id == " + accountID);
@@ -62,12 +62,12 @@ public class DataAccessor {
 	public void addTransaction(Transaction transaction) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
-		db.execSQL("INSERT INTO transactions (account-id, name, date, value, category-id ) ("
+		db.execSQL("INSERT INTO transactions (accountId, name, date, value, categoryId ) VALUES ( "
 				+ transaction.getAccount().getId()
 				+ ", "
-				+ transaction.getName()
+				+ "\"" + transaction.getName() + "\""
 				+ ", "
-				+ transaction.getDate().getYear() + "-" + transaction.getDate().getMonth() + "-" + transaction.getDate().getDay()
+				+ "\"" + transaction.getDate().getYear() + "-" + transaction.getDate().getMonth() + "-" + transaction.getDate().getDay() + "\""
 				+ ", "
 				+ transaction.getAmount()
 				+ ", "
@@ -98,30 +98,35 @@ public class DataAccessor {
 		}
 		switch (sortByOrder) {
 		case ASC:
-			sortByOrderTemp = "asc";
+			sortByOrderTemp = "ASC";
 			break;
 		case DESC:
-			sortByOrderTemp = "desc";
+			sortByOrderTemp = "DESC";
 			break;
 		}
 
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
-		String[] arr = { "name", "date", "category", "value" };
+		String[] arr = { "name", "date", "id", "value" };
 
-		Cursor cursor = db.query("table", arr, "account-id == "
+		Cursor cursor = db.query("transactions", arr, "accountId == "
 				+ account.getId(), null, null, null, sortByTemp + " "
 				+ sortByOrderTemp);
-
+		Log.println(9,"MainController", "hej");
 		if (cursor.moveToFirst()) {
-			cursor.move(start);
+			Log.println(9,"MainController", "hej");
+			
 			for (int i = start; i < stop; i++) {
-				String dateString = cursor.getString(2);
-				String[] list= dateString.split("-");
+				String dateString = cursor.getString(1);
+				Log.println(9,"MainController", dateString);
+				String[] list = dateString.split("-");
+				for(String s : list) {
+					Log.println(9,"MainController", s);
+				}
+				//Date date = new Date(Integer.parseInt(list[0]), Integer.parseInt(list[1]), Integer.parseInt(list[2]));
+				Date date = new Date(10000);
 				
-				Date date = new Date(Integer.parseInt(list[0]), Integer.parseInt(list[1]), Integer.parseInt(list[2]));
-				
-				Category category = new Category((cursor.getString(4)));
+				Category category = new Category("untitled category");
 				Transaction transaction = new Transaction((cursor.getInt(3)), date, cursor.getString(2), category, account);
 				transactions.add(transaction); 
 				cursor.moveToNext();

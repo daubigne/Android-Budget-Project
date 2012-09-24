@@ -7,18 +7,18 @@ public class MainModel {
 	
 	List<ModelListener> listeners;
 
-	int balance;
+	double balance;
 	
 	public MainModel() {
 		this.listeners = new ArrayList<ModelListener>();
 		this.balance = 0;
 	}
 	
-	public int getBalance() {
+	public double getBalance() {
 	    	return this.balance;
 	}
 	
-	public void setBalance(int balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 		this.notifyChangeListeners();
 	}

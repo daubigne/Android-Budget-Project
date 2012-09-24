@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class MainActivity extends Activity implements ModelListener {
 
@@ -42,6 +41,6 @@ public class MainActivity extends Activity implements ModelListener {
 	}
 
 	public void onChange(MainModel model) {
-		this.balanceField.setText(Integer.toString(model.getBalance()));
+		this.balanceField.setText(Double.toString(model.getBalance()));
 	}
 }
