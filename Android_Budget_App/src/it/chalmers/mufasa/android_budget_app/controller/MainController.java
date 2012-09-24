@@ -46,5 +46,9 @@ public class MainController {
 		this.da.setAccountBalance(balance,0);
 		model.setBalance(balance);
 	}
+	
+	public void addTransaction(int amount, Date d, String name, Category c, Account acc){
+		da.addTransaction(new Transaction(amount, d, name, c, acc));
+	}
 
 }
