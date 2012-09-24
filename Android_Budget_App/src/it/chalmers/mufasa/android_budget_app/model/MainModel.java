@@ -8,6 +8,7 @@ public class MainModel {
 	List<ModelListener> listeners;
 
 	double balance;
+	ArrayList<Transaction> transactionHistory;
 	
 	public MainModel() {
 		this.listeners = new ArrayList<ModelListener>();
@@ -32,6 +33,19 @@ public class MainModel {
 		for(ModelListener l : listeners) {
 			l.onChange(this);
 		}
+	}
+	
+	public ArrayList<Transaction> getTransactionHistory(){
+		return transactionHistory;
+	}
+	
+	public void updateTransactionHistory(ArrayList<Transaction> transactions){
+		if(!(transactionHistory.isEmpty())){
+			transactionHistory.clear();
+		}
+		
+		transactionHistory.addAll(transactions);
+		
 	}
 	
 }

@@ -8,6 +8,7 @@ import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.MainModel;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +46,10 @@ public class MainController {
 	public void setBalance(double balance) {
 		this.da.setAccountBalance(balance,0);
 		model.setBalance(balance);
+	}
+	
+	public  ArrayList<Transaction> getTransactionHistory(){
+		return model.getTransactionHistory();
 	}
 	
 	public void addTransaction(int amount, Date d, String name, Category c, Account acc){
