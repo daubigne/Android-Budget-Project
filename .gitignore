@@ -1,6 +1,6 @@
 .DS_Store*
 
 local.properties
-/.metadata
-/Android_Budget_App/gen
-/Android_Budget_App/bin
+.metadata
+gen
+bin

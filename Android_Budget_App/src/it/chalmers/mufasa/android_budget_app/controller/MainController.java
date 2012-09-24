@@ -26,34 +26,13 @@ public class MainController {
 		try {
 			model.setBalance(this.da.getAccount(0).getBalance());
 		} catch (IllegalArgumentException e) { // Account 0 does not exist...
-			model.setBalance(0);
-		}
-		
-		da.addCategory("first category", null);
-		da.addCategory("second category", null);
-		
-		List<Category> catList = da.getCategories();
-		
-		Log.println(9,"MainController","Categories:");
-		for(Category cat : catList) {
-			Log.println(9,"MainController",cat.getName());
-		}
-		
-		Account account = new Account(0,"account",2000);
-		
-		da.addTransaction(-200.0,new Date(2012,9,24),"first transaction",catList.get(0),account);
-		da.addTransaction(-750.0,new Date(2012,9,23),"first transaction",catList.get(0),account);
-		
-		List<Transaction> list = da.getTransactions(account, SortBy.DATE, SortByOrder.DESC, 0, 2);
-		
-		Log.println(9,"MainController","Transactions:");
-		for(Transaction t : list) {
-			Log.println(9,"MainController",t.getName() + " " + t.getAmount());
+			this.da.addAccount("My Account",0);
+			model.setBalance(da.getAccount(0).getBalance());
 		}
 	}
 
 	public void setBalance(double balance) {
-		this.da.setAccountBalance(balance,0);
+		this.da.setAccountBalance(da.getAccount(0),balance);
 		model.setBalance(balance);
 	}
 	
