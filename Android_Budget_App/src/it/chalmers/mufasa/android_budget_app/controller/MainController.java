@@ -26,12 +26,13 @@ public class MainController {
 		try {
 			model.setBalance(this.da.getAccount(0).getBalance());
 		} catch (IllegalArgumentException e) { // Account 0 does not exist...
-			model.setBalance(0);
+			this.da.addAccount("My Account",0);
+			model.setBalance(da.getAccount(0).getBalance());
 		}
 	}
 
 	public void setBalance(double balance) {
-		this.da.setAccountBalance(balance,0);
+		this.da.setAccountBalance(da.getAccount(0),balance);
 		model.setBalance(balance);
 	}
 	

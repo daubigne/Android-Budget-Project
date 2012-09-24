@@ -62,20 +62,21 @@ public class DataAccessor {
 		}
 	}
 
-	public void setAccountBalance(double balance, int accountID) {
+	public void addAccount(String name, double balance) {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		db.execSQL("INSERT INTO accounts (name, balance) VALUES (\""+name+"\","+balance+")");
+	}
+	
+	public void setAccountBalance(Account account, double balance) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		
-		try {
-		    double currentBalance = getAccount(accountID).getBalance();
+		double currentBalance = account.getBalance();
 		    if(currentBalance != balance) {
 			db.execSQL("UPDATE accounts SET balance=" + balance
-				+ " WHERE id == " + accountID);
+				+ " WHERE id == " + account.getId());
 		    }
-		} catch(IllegalArgumentException e) {
-		    db.execSQL("INSERT INTO accounts VALUES (" + accountID + ",null,"
-				+ balance + ")");
-		}
 	}
 
 	public void addTransaction(Double amount, Date date, String name, Category category, Account account) {
@@ -91,7 +92,9 @@ public class DataAccessor {
 				+ amount
 				+ ", "
 				+ category.getId() + ")");
-
+		
+		this.setAccountBalance(account, account.getBalance() + amount);
+		
 	}
 
 	public void removeTransaction(Transaction transaction) {
@@ -101,7 +104,7 @@ public class DataAccessor {
 	}
 
 	public List<Transaction> getTransactions(Account account, SortBy sortBy,
-			SortByOrder sortByOrder, int start, int stop) {
+			SortByOrder sortByOrder, int start, int count) {
 
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -134,29 +137,23 @@ public class DataAccessor {
 		Cursor cursor = db.query("transactions", arr, "accountId == "
 				+ account.getId(), null, null, null, sortByTemp + " "
 				+ sortByOrderTemp);
-		Log.println(9,"MainController", "hej");
-		if (cursor.moveToFirst()) {
-			Log.println(9,"MainController", "hej");
-			cursor.moveToPosition(start);
-			for (int i = start; i < stop; i++) {
+
+		if(cursor.moveToPosition(start)) {
+			for (int i = start; i < Math.min(start+count,cursor.getCount()-1); i++) {
 				String dateString = cursor.getString(1);
-				Log.println(9,"MainController", dateString);
 				String[] list = dateString.split("-");
-				for(String s : list) {
-					Log.println(9,"MainController", s);
-				}
 				//Date date = new Date(Integer.parseInt(list[0]), Integer.parseInt(list[1]), Integer.parseInt(list[2]));
 				Date date = new Date(10000);
 				
 				Category category = new Category("untitled category",1,null);
 				Transaction transaction = new Transaction((cursor.getInt(3)), date, cursor.getString(2), category, account);
-				transactions.add(transaction); 
+				transactions.add(transaction);
+				
 				cursor.moveToNext();
 			}
-			return transactions;
-		} else {
-			return null;
 		}
+		
+		return transactions;
 	}
 	
 	public List<Category> getCategories() {

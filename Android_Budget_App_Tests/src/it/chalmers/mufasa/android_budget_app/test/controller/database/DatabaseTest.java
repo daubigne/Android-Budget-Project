@@ -2,9 +2,13 @@ package it.chalmers.mufasa.android_budget_app.test.controller.database;
 
 
 import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor;
+import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor.SortBy;
+import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor.SortByOrder;
+import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
+import it.chalmers.mufasa.android_budget_app.model.Transaction;
 
-import java.io.Console;
+import java.util.Date;
 import java.util.List;
 
 import android.test.AndroidTestCase;
@@ -22,10 +26,22 @@ public class DatabaseTest extends AndroidTestCase {
 		dataAccessor = new DataAccessor(context);
 	}
 
-	public void testDummy() {
-		assertTrue(true);
+	public void testAddAccount() {
+		
+		double balance = 10.0;
+		
+		dataAccessor.addAccount("My Account",balance);
+		
+		System.out.println("ACCOUNTS " + dataAccessor.getAccounts().size());
+		
+		for(Account a : dataAccessor.getAccounts()) {
+			System.out.println(a.getName() + " B: " + a.getBalance());
+		}
+		
+		//assertTrue(true);
+		
+		assertTrue(dataAccessor.getAccount(1).getBalance() == balance);
 	}
-	
 	
 	public void testAddCategory() {
 		dataAccessor.addCategory("1", null);
@@ -78,6 +94,29 @@ public class DatabaseTest extends AndroidTestCase {
 		if(catList.size() != (2+2*2+2*2*2)) {
 			fail("Could not add or get subcategories. Size:"+catList.size());
 		}
+	}
+	
+	public void testAddTransactions() {
+		dataAccessor.addAccount("My Account",0);
+		dataAccessor.addCategory("category", null);
+		
+		Account account = dataAccessor.getAccount(1);
+		Category category = dataAccessor.getCategory(1);
+		
+		dataAccessor.addTransaction(100.0, new Date(), "transaction1", category, account);
+		dataAccessor.addTransaction(100.0, new Date(), "transaction2", category, account);
+		
+		List<Transaction> list = dataAccessor.getTransactions(account, SortBy.DATE, SortByOrder.DESC, 0, 10);
+		for(Transaction t : list) {
+			System.out.println("Name: " + t.getName() + " Date: " + t.getDate().getYear() + t.getDate().getMonth() + t.getDate().getDay() + " Value: " + t.getAmount());
+		}
+		
+		account = dataAccessor.getAccount(1);
+		
+		System.out.println("Balance: " + account.getBalance());
+		
+		assertTrue(list.size() == 1 && account.getBalance() == 100.0);
+		
 	}
 
 }
