@@ -45,6 +45,7 @@ public class MainActivity extends Activity implements ModelListener {
 	public void saveTransaction(View view) {
 		
 		String transaction = this.transactionNameField.getText().toString();
+		controller.addTransaction(Integer.parseInt(transaction), null, "", null, null);
 		transactionList.add(transaction);
 		listView.setAdapter( listAdapter ); 
 		
@@ -61,6 +62,6 @@ public class MainActivity extends Activity implements ModelListener {
 	}
 
 	public void onChange(MainModel model) {
-		this.balanceField.setText(Integer.toString(model.getBalance()));
+		this.balanceField.setText(Double.toString(model.getBalance()));
 	}
 }
