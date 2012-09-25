@@ -10,6 +10,11 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 
+/**
+ * 
+ * A class that responds to user input.
+ */
+
 public class MainActivity extends Activity implements ModelListener {
 
 	MainController controller;
