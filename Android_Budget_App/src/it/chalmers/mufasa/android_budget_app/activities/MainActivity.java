@@ -11,7 +11,13 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+
 import java.util.ArrayList;
+
+/**
+ * 
+ * A class that responds to user input.
+ */
 
 public class MainActivity extends Activity implements ModelListener {
 
@@ -45,7 +51,7 @@ public class MainActivity extends Activity implements ModelListener {
 	public void saveTransaction(View view) {
 		
 		String transaction = this.transactionNameField.getText().toString();
-		controller.addTransaction(Integer.parseInt(transaction), null, "", null, null);
+		controller.addTransaction(Double.parseDouble(transaction), null, "", null, null);
 		transactionList.add(transaction);
 		listView.setAdapter( listAdapter ); 
 		

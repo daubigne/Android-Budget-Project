@@ -8,19 +8,19 @@ import java.util.Date;
  * A class that is a transaction for the given account
  *
  */
-public class Transaction {
+public class Transactions {
 	private double amount;
 	private Date date;
 	private String name;
-	private Category category;
-	private Account account;
+	private Category cat;
+	private Account ac;
 		
-	public Transaction(double amount, Date date, String name, Category category, Account account){
-		this.amount = amount;
-		this.date = date;
+	public void Transaction(int a, Date d, String name, Category c, Account acc){
+		this.amount = a;
+		this.date = d;
 		this.name = name;
-		this.category = category;
-		this.account = account;
+		this.cat = c;
+		this.ac = acc;
 			
 	}
 	public double getAmount(){
@@ -33,17 +33,13 @@ public class Transaction {
 		Date temp = this.date;
 		return temp;
 	}
-	public Category getCategory(){
-		Category temp = this.category;
+	public Category getCatergory(){
+		Category temp = this.cat;
 		return temp;
 	}
 	public Account getAccount(){
-		Account temp = this.account;
+		Account temp = this.ac;
 		return temp;
-	}
-	public int getId(){
-		//TODO
-		return 1;
 	}
 
 }
