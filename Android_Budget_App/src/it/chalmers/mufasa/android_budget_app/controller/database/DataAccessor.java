@@ -1,6 +1,7 @@
 package it.chalmers.mufasa.android_budget_app.controller.database;
 
 import it.chalmers.mufasa.android_budget_app.model.Account;
+import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 
@@ -12,7 +13,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class DataAccessor {
 	private Context context;
@@ -223,24 +223,44 @@ public class DataAccessor {
 	}
 	
 	public List<BudgetItem> getBudgetItems() {
+
+		List<BudgetItem> budgetItemList = new ArrayList<BudgetItem>();
+		
 		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
 		
-		Cursor cursor = db.insert("budgetitems", null, values);
+		String[] columns = {"id","categoryId","value"};		
 		
-		return null;
+		Cursor cursor = db.query("budgetitems", columns, null, null, null, null, null);
+		
+		if(cursor.moveToFirst()) {
+			Category cat = this.getCategory(cursor.getInt(1));
+			BudgetItem item = new BudgetItem(cursor.getInt(0),cat,cursor.getDouble(2));
+			budgetItemList.add(item);
+			while(cursor.moveToNext()) {
+				cat = this.getCategory(cursor.getInt(1));
+				item = new BudgetItem(cursor.getInt(0),cat,cursor.getDouble(2));
+				budgetItemList.add(item);
+			}
+		}
+		
+		return budgetItemList;
 	}
 	
 	public void removeBudgetItem(BudgetItem item) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
 		
-		
+		db.delete("budgetitems", "id == "+item.getId(), null);
 		
 	}
 	
-	public void editBudgetItem(BudgetItem item) {
+	public void editBudgetItem(BudgetItem item, Double newValue) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
 		
+		ContentValues values = new ContentValues();
 		
+		values.put("value", newValue);
+		
+		db.update("budgetitems", values, "id == "+item.getId(), null);
 		
 	}
 	
