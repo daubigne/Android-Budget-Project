@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -208,5 +209,40 @@ public class DataAccessor {
 		+ ")");
 
 	}
+	
+	public void addBudgetItem(Category category, Double value) {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		
+		values.put("categoryId", category.getId());
+		values.put("value", value);
+		
+		db.insert("budgetitems", null, values);
+		
+	}
+	
+	public List<BudgetItem> getBudgetItems() {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		Cursor cursor = db.insert("budgetitems", null, values);
+		
+		return null;
+	}
+	
+	public void removeBudgetItem(BudgetItem item) {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		
+		
+	}
+	
+	public void editBudgetItem(BudgetItem item) {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		
+		
+	}
+	
 	
 }
