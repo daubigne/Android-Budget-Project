@@ -2,6 +2,7 @@ package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.MainController;
+import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.MainModel;
 import it.chalmers.mufasa.android_budget_app.model.ModelListener;
 import android.app.Activity;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * 
@@ -21,14 +23,14 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity implements ModelListener {
 
-	MainController controller;
-	MainModel model;
+	private MainController controller;
+	private MainModel model;
 
-	EditText balanceField;
-	EditText transactionNameField;
-	ListView listView;
-	ArrayAdapter<String> listAdapter;
-	ArrayList<String> transactionList;
+	private EditText balanceField;
+	private EditText transactionNameField;
+	private ListView listView;
+	private ArrayAdapter<String> listAdapter;
+	private ArrayList<String> transactionList;
 
 
 	@Override
@@ -49,10 +51,11 @@ public class MainActivity extends Activity implements ModelListener {
 	}
 	
 	public void saveTransaction(View view) {
-		
+		//TODO: Very unfinished
+		Category cat = new Category("Cat", 1, null);
 		String transaction = this.transactionNameField.getText().toString();
-		controller.addTransaction(Double.parseDouble(transaction), null, "", null, null);
-		transactionList.add(transaction);
+		controller.addTransaction(Double.parseDouble(transaction), new Date(), "", cat, model.getAccount());
+		transactionList.add(0,transaction);
 		listView.setAdapter( listAdapter ); 
 		
 	}

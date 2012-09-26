@@ -5,12 +5,13 @@ import java.util.List;
 
 public class MainModel {
 	
-	List<ModelListener> listeners;
-
-	double balance;
-	ArrayList<Transaction> transactionHistory;
+	private List<ModelListener> listeners;
+	private Account account;
+	private double balance;
+	private ArrayList<Transaction> transactionHistory;
 	
 	public MainModel() {
+		account = new Account(1, "placeholder", balance);
 		this.listeners = new ArrayList<ModelListener>();
 		this.balance = 0;
 	}
@@ -46,6 +47,10 @@ public class MainModel {
 		
 		transactionHistory.addAll(transactions);
 		
+	}
+	
+	public Account getAccount(){
+		return account;
 	}
 	
 }
