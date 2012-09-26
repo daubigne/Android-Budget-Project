@@ -126,7 +126,6 @@ public class DatabaseTest extends AndroidTestCase {
 		dataAccessor.addCategory("food", null);
 		
 		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
-		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 3000.0);
 		
 		List<BudgetItem> list = dataAccessor.getBudgetItems();
 		
@@ -134,7 +133,10 @@ public class DatabaseTest extends AndroidTestCase {
 			System.out.println("Category: " + item.getCategory().getName() + " Value: " + item.getValue());
 		}
 		
-		assertTrue(list.size() == 2);
+		boolean condition1 = list.size() == 1;
+		boolean condition2 = list.get(0).getValue() == 2000.0;
+		
+		assertTrue(condition1 && condition2);
 	}
 
 }
