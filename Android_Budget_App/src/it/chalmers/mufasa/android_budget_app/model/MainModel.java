@@ -46,6 +46,7 @@ public class MainModel {
 		}
 		
 		transactionHistory.addAll(transactions);
+		this.notifyChangeListeners();
 		
 	}
 	

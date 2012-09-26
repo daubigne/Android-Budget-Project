@@ -55,6 +55,7 @@ public class MainActivity extends Activity implements ModelListener {
 		Category cat = new Category("Cat", 1, null);
 		String transaction = this.transactionNameField.getText().toString();
 		controller.addTransaction(Double.parseDouble(transaction), new Date(), "", cat, model.getAccount());
+		
 		transactionList.add(0,transaction);
 		listView.setAdapter( listAdapter ); 
 		
