@@ -118,5 +118,35 @@ public class DatabaseTest extends AndroidTestCase {
 		assertTrue(list.size() == 1 && account.getBalance() == 100.0);
 		
 	}
+	
+	public void testRemoveCategory(){
+		Category category;
+		dataAccessor.addCategory("herpaderp", null);
+		
+		category = dataAccessor.getCategory(1);
+		System.out.println(category.getName());
+		
+		dataAccessor.removeCategory(category);
+		if(dataAccessor.getCategory(category.getId())!=null){
+			fail("Could not remove category: "+category.getName());
+		}
+		
+		
+	}
+	
+	public void testEditCategory(){
+		Category category;
+		
+		dataAccessor.addCategory("herpaderp", null);
+		category = dataAccessor.getCategory(1);
+		dataAccessor.editCategory(category, "derpaherp");
+		category = dataAccessor.getCategory(1);
+		
+		if(!category.getName().equals("derpaherp")){
+			fail("Could not rename category: "+category.getName());
+		}
+		
+		
+	}
 
 }
