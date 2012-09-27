@@ -6,5 +6,6 @@
     <string name="title_activity_main">StudentBudgetApp</string>
     <string name="save">Save</string>
     <string name="transactions">Transactions</string>
+    <string name="name">Name</string>
 
 </resources>

@@ -101,6 +101,7 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		db.execSQL("DELETE FROM transactions WHERE id ==" + transaction.getId());
+		this.setAccountBalance(transaction.getAccount(), transaction.getAccount().getBalance() - transaction.getAmount());
 	}
 
 	public List<Transaction> getTransactions(Account account, SortBy sortBy,
@@ -139,7 +140,7 @@ public class DataAccessor {
 				+ sortByOrderTemp);
 
 		if(cursor.moveToPosition(start)) {
-			for (int i = start; i < Math.min(start+count,cursor.getCount()-1); i++) {
+			for (int i = start; i < Math.min(start+count,cursor.getCount()); i++) {
 				String dateString = cursor.getString(1);
 				String[] list = dateString.split("-");
 				//Date date = new Date(Integer.parseInt(list[0]), Integer.parseInt(list[1]), Integer.parseInt(list[2]));

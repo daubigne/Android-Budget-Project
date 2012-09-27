@@ -104,8 +104,11 @@ public class DatabaseTest extends AndroidTestCase {
 		Category category = dataAccessor.getCategory(1);
 		
 		dataAccessor.addTransaction(100.0, new Date(), "transaction1", category, account);
+		
+		account = dataAccessor.getAccount(1);
 		dataAccessor.addTransaction(100.0, new Date(), "transaction2", category, account);
 		
+		account = dataAccessor.getAccount(1);
 		List<Transaction> list = dataAccessor.getTransactions(account, SortBy.DATE, SortByOrder.DESC, 0, 10);
 		for(Transaction t : list) {
 			System.out.println("Name: " + t.getName() + " Date: " + t.getDate().getYear() + t.getDate().getMonth() + t.getDate().getDay() + " Value: " + t.getAmount());
@@ -113,10 +116,46 @@ public class DatabaseTest extends AndroidTestCase {
 		
 		account = dataAccessor.getAccount(1);
 		
-		System.out.println("Balance: " + account.getBalance());
+		if(list.size() != 2){
+			fail("Size != 2 is " + list.size());
+		}
+		if(account.getBalance() != 200.0) {
+			fail("Balance != 200 is " + account.getBalance());
+		}
 		
-		assertTrue(list.size() == 1 && account.getBalance() == 100.0);
+	}
+	
+	public void testRemoveTransactions() {
+		dataAccessor.addAccount("My Account",0);
+		dataAccessor.addCategory("category", null);
 		
+		Account account = dataAccessor.getAccount(1);
+		Category category = dataAccessor.getCategory(1);
+		
+		dataAccessor.addTransaction(100.0, new Date(01,01,2012), "transaction1", category, account);
+		
+		account = dataAccessor.getAccount(1);
+		dataAccessor.addTransaction(50.0, new Date(02,01,2012), "transaction2", category, account);
+		
+		account = dataAccessor.getAccount(1);
+		List<Transaction> list = dataAccessor.getTransactions(account, SortBy.DATE, SortByOrder.DESC, 0, 10);
+		
+		dataAccessor.removeTransaction(list.get(0));
+		
+		for(Transaction t : list) {
+			System.out.println("Name: " + t.getName() + " Date: " + t.getDate().getYear() + t.getDate().getMonth() + t.getDate().getDay() + " Value: " + t.getAmount());
+		}
+		
+		list = dataAccessor.getTransactions(account, SortBy.DATE, SortByOrder.DESC, 0, 10);
+		
+		account = dataAccessor.getAccount(1);
+		
+		if(list.size() != 1){
+			fail("Size != 1 is " + list.size());
+		}
+		if(account.getBalance() != 100.0) {
+			fail("Balance != 100 is " + account.getBalance());
+		}		
 	}
 	
 	public void testRemoveCategory(){

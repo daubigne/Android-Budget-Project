@@ -1,5 +1,9 @@
 package it.chalmers.mufasa.android_budget_app.model;
-
+/**
+ * A class representing categories in which transactions will be placed in.
+ * @author marcusisaksson
+ *
+ */
 
 public class Category {
 	private String name;

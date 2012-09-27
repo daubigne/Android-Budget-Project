@@ -16,23 +16,25 @@ import android.content.Context;
 import android.util.Log;
 
 public class MainController {
-	MainModel model;
-
-	DataAccessor da;
+	
+	private MainModel model;
+	private DataAccessor dataAccessor;
 
 	public MainController(Context context, MainModel model) {
 		this.model = model;
-		this.da = new DataAccessor(context);
+		this.dataAccessor = new DataAccessor(context);
 		try {
-			model.setBalance(this.da.getAccount(1).getBalance());
+
+			model.setBalance(this.dataAccessor.getAccount(1).getBalance());
 		} catch (IllegalArgumentException e) { // Account 1 does not exist...
-			this.da.addAccount("My Account",0);
-			model.setBalance(da.getAccount(1).getBalance());
+			this.dataAccessor.addAccount("My Account",0);
+			model.setBalance(dataAccessor.getAccount(1).getBalance());
+
 		}
 	}
 
 	public void setBalance(double balance) {
-		this.da.setAccountBalance(da.getAccount(0),balance);
+		this.dataAccessor.setAccountBalance(dataAccessor.getAccount(1),balance);
 		model.setBalance(balance);
 	}
 	
@@ -41,7 +43,7 @@ public class MainController {
 	}
 	
 	public void addTransaction(Double amount, Date date, String name, Category category, Account account){
-		da.addTransaction(amount, date, name, category, account);
+		dataAccessor.addTransaction(amount, date, name, category, account);
 	}
 
 }
