@@ -5,6 +5,8 @@ import it.chalmers.mufasa.android_budget_app.controller.MainController;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.MainModel;
 import it.chalmers.mufasa.android_budget_app.model.ModelListener;
+import it.chalmers.mufasa.android_budget_app.model.Transaction;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,15 +15,18 @@ import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
  * A class that responds to user input.
  */
 
-public class MainActivity extends Activity implements ModelListener {
+public class MainActivity extends Activity implements PropertyChangeListener {
 
 	private MainController controller;
 	private MainModel model;
@@ -30,7 +35,7 @@ public class MainActivity extends Activity implements ModelListener {
 	private EditText transactionNameField;
 	private ListView listView;
 	private ArrayAdapter<String> listAdapter;
-	private ArrayList<String> transactionList;
+	private ArrayList<String> transactionListString;
 
 
 	@Override
@@ -41,24 +46,44 @@ public class MainActivity extends Activity implements ModelListener {
 		balanceField = (EditText) findViewById(R.id.accountBalanceField);
 		transactionNameField = (EditText) findViewById(R.id.transactionNameField);
 		listView = (ListView) findViewById(R.id.transactionList);
-		transactionList = new ArrayList<String>();
-		listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, transactionList);  
-
 
 		this.model = new MainModel();
 		this.controller = new MainController(this.getApplicationContext(),model);
-		this.model.addChangeListener(this);
+		this.model.addPropertyChangeListener(this);
+		
+		transactionListString = new ArrayList<String>();
+		controller.updateTransactionHistory();
+		listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, transactionListString);  
+		updateTransactionList();
+		
+		
 	}
 	
 	public void saveTransaction(View view) {
-		//TODO: Very unfinished
-		Category cat = new Category("Cat", 1, null);
-		String transaction = this.transactionNameField.getText().toString();
-		controller.addTransaction(Double.parseDouble(transaction), new Date(), "", cat, model.getAccount());
+		Category cat = new Category("CatFromSaveTransaction", 1, null);
+		//TODO: If nothing is written in the text field?
+		String amount;
+		try{
+			amount = this.transactionNameField.getText().toString();
+		} catch(NumberFormatException npe){
+			return;
+		}
 		
-		transactionList.add(0,transaction);
-		listView.setAdapter( listAdapter ); 
+		//TODO: This function should get more user input in the future.
+		controller.addTransaction(Double.parseDouble(amount), new Date(), "", cat, model.getAccount());
 		
+	}
+	
+	@TargetApi(11)
+	public void updateTransactionList(){
+		for (Transaction t : model.getTransactionHistory()) {
+			transactionListString.add(t.getAmount() + "");
+		}
+		listView.setAdapter(listAdapter);
+	}
+	
+	public void removeTransaction(View view){
+		controller.removeTransaction(controller.getTransactionHistory().get(0));
 	}
 
 	@Override
@@ -73,5 +98,11 @@ public class MainActivity extends Activity implements ModelListener {
 
 	public void onChange(MainModel model) {
 		this.balanceField.setText(Double.toString(model.getBalance()));
+	}
+
+	public void propertyChange(PropertyChangeEvent event) {
+		if(event.getPropertyName().equals("Transaction Updated")){
+			updateTransactionList();
+		}
 	}
 }

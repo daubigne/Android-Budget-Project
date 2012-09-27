@@ -36,12 +36,22 @@ public class MainController {
 		model.setBalance(balance);
 	}
 	
-	public  ArrayList<Transaction> getTransactionHistory(){
+	public  List<Transaction> getTransactionHistory(){
 		return model.getTransactionHistory();
 	}
 	
 	public void addTransaction(Double amount, Date date, String name, Category category, Account account){
 		dataAccessor.addTransaction(amount, date, name, category, account);
+		updateTransactionHistory();
+	}
+	
+	public void updateTransactionHistory(){
+		model.updateTransactionHistory(dataAccessor.getTransactions(model.getAccount(), SortBy.DATE, SortByOrder.ASC,0,100));
+	}
+	
+	public void removeTransaction(Transaction t){
+		dataAccessor.removeTransaction(t);
+		updateTransactionHistory();	
 	}
 
 }
