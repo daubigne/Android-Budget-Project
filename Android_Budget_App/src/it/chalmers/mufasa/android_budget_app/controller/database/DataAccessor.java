@@ -4,10 +4,13 @@ import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
+import it.chalmers.mufasa.android_budget_app.settings.Settings;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -208,7 +211,21 @@ public class DataAccessor {
 		+ ", "
 		+ parentId
 		+ ")");
-
+	}
+	
+	public Settings getSettings() {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		String[] arr = { "currentAccountId"};
+		
+		Cursor cursor = db.query("settings", arr, null, null, null, null, null);
+		
+		if (cursor.moveToFirst()) {
+			Settings settings = new Settings(cursor.getInt(0));
+			return settings;
+		}
+		
+		return null;
 	}
 	
 	public void addBudgetItem(Category category, Double value) {
