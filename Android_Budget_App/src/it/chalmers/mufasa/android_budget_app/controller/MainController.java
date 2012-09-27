@@ -24,10 +24,10 @@ public class MainController {
 		this.model = model;
 		this.da = new DataAccessor(context);
 		try {
-			model.setBalance(this.da.getAccount(0).getBalance());
-		} catch (IllegalArgumentException e) { // Account 0 does not exist...
+			model.setBalance(this.da.getAccount(1).getBalance());
+		} catch (IllegalArgumentException e) { // Account 1 does not exist...
 			this.da.addAccount("My Account",0);
-			model.setBalance(da.getAccount(0).getBalance());
+			model.setBalance(da.getAccount(1).getBalance());
 		}
 	}
 
