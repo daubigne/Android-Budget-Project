@@ -147,7 +147,7 @@ public class DataAccessor {
 				Date date = new Date(10000);
 				
 				Category category = new Category("untitled category",1,null);
-				Transaction transaction = new Transaction((cursor.getInt(3)), date, cursor.getString(2), category, account);
+				Transaction transaction = new Transaction(cursor.getInt(2), (cursor.getInt(3)), date, cursor.getString(2), category, account);
 				transactions.add(transaction);
 				
 				cursor.moveToNext();

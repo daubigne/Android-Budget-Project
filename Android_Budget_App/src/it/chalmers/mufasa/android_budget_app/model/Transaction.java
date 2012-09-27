@@ -14,13 +14,15 @@ public class Transaction {
 	private String name;
 	private Category category;
 	private Account account;
+	private int id;
 		
-	public Transaction(double amount, Date date, String name, Category category, Account account){
+	public Transaction(int id, double amount, Date date, String name, Category category, Account account){
 		this.amount = amount;
 		this.date = date;
 		this.name = name;
 		this.category = category;
 		this.account = account;
+		this.id = id;
 			
 	}
 	public double getAmount(){
@@ -42,8 +44,7 @@ public class Transaction {
 		return temp;
 	}
 	public int getId(){
-		//TODO
-		return 1;
+		return id;
 	}
 
 }

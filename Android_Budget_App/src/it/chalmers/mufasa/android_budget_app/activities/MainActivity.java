@@ -28,7 +28,7 @@ import java.util.List;
 
 public class MainActivity extends Activity implements PropertyChangeListener {
 
-	private MainController controller;
+	private TransactionListController controller;
 	private MainModel model;
 
 	private EditText balanceField;
@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements PropertyChangeListener {
 		listView = (ListView) findViewById(R.id.transactionList);
 
 		this.model = new MainModel();
-		this.controller = new MainController(this.getApplicationContext(),model);
+		this.controller = new TransactionListController(this.getApplicationContext(),model);
 		this.model.addPropertyChangeListener(this);
 		
 		transactionListString = new ArrayList<String>();
@@ -74,22 +74,22 @@ public class MainActivity extends Activity implements PropertyChangeListener {
 		
 	}
 	
-	@TargetApi(11)
 	public void updateTransactionList(){
+		transactionListString.clear();
 		for (Transaction t : model.getTransactionHistory()) {
 			transactionListString.add(t.getAmount() + "");
 		}
 		listView.setAdapter(listAdapter);
 	}
 	
+	//TODO: Should receive a specific transaction to remove.
 	public void removeTransaction(View view){
+		List<Transaction> transactionList = controller.getTransactionHistory();
+		if(transactionList.isEmpty()){
+			System.out.println("Hej");
+			return;
+		}
 		controller.removeTransaction(controller.getTransactionHistory().get(0));
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
 	}
 
 	public void saveBalance(View view) {
