@@ -14,12 +14,9 @@ public class MainController {
 	public MainController(Context context, MainModel model) {
 		this.model = model;
 		this.dataAccessor = new DataAccessor(context);
-		try {
-			model.setBalance(this.dataAccessor.getAccount(1).getBalance());
-		} catch (IllegalArgumentException e) { // Account 0 does not exist...
-			this.dataAccessor.addAccount("My Account",0);
-			model.setBalance(dataAccessor.getAccount(1).getBalance());
-		}
+		
+		model.setBalance(this.dataAccessor.getAccount(dataAccessor.getSettings().getCurrentAccountId()).getBalance());
+		
 	}
 
 	public void setBalance(double balance) {
