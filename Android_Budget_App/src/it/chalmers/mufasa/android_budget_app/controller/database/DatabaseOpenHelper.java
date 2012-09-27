@@ -12,9 +12,13 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		db.execSQL("CREATE TABLE settings ( currentAccountId INTEGER);");
 		db.execSQL("CREATE TABLE accounts ( id INTEGER PRIMARY KEY, name TEXT, balance FLOAT NOT NULL);");
 		db.execSQL("CREATE TABLE transactions ( id INTEGER PRIMARY KEY, name TEXT, value FLOAT NOT NULL, date DATE NOT NULL, accountId INTEGER, categoryId INTEGER);");
 		db.execSQL("CREATE TABLE categories ( id INTEGER PRIMARY KEY, name TEXT, parentId INTEGER);");
+
+		db.execSQL("INSERT INTO accounts (id,name,balance) VALUES (1,\"My Account\",0)");
+		db.execSQL("INSERT INTO settings (currentAccountId) VALUES (1)");
 	}
 
 	@Override
