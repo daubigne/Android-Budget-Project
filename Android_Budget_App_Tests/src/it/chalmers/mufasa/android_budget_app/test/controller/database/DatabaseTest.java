@@ -177,5 +177,41 @@ public class DatabaseTest extends AndroidTestCase {
 		
 		assertTrue(condition1 && condition2);
 	}
+	
+	public void testEditBudgetItem() {
+		
+		dataAccessor.addCategory("food", null);
+		
+		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
+		
+		List<BudgetItem> list = dataAccessor.getBudgetItems();
+		
+		for(BudgetItem item : list) {
+			System.out.println("Category: " + item.getCategory().getName() + " Value: " + item.getValue());
+		}
+		
+		boolean condition1 = list.size() == 1;
+		boolean condition2 = list.get(0).getValue() == 2000.0;
+		
+		assertTrue(condition1 && condition2);
+	}
+	
+	public void testRemoveBudgetItems() {
+		
+		dataAccessor.addCategory("food", null);
+		
+		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
+		
+		List<BudgetItem> list = dataAccessor.getBudgetItems();
+		
+		for(BudgetItem item : list) {
+			System.out.println("Category: " + item.getCategory().getName() + " Value: " + item.getValue());
+		}
+		
+		boolean condition1 = list.size() == 1;
+		boolean condition2 = list.get(0).getValue() == 2000.0;
+		
+		assertTrue(condition1 && condition2);
+	}
 
 }
