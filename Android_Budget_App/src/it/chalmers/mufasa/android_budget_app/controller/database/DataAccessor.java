@@ -209,4 +209,16 @@ public class DataAccessor {
 
 	}
 	
+	public void removeCategory(Category category){
+		SQLiteDatabase db = new DatabaseOpenHelper(context)
+		.getWritableDatabase();
+db.execSQL("DELETE FROM categories WHERE id ==" + category.getId());
+	}
+	
+	public void editCategory(Category category, String newName){
+		SQLiteDatabase db = new DatabaseOpenHelper(context)
+		.getWritableDatabase();
+db.execSQL("UPDATE categories SET name = \"" + newName + "\" WHERE id == " + category.getId());
+	}
+	
 }
