@@ -24,4 +24,9 @@ public class BudgetItem {
 		return this.id;
 	}
 	
+	@Override
+	public String toString() {
+		return "Category: "+this.category.getName()+" Value: "+this.value;
+	}
+	
 }

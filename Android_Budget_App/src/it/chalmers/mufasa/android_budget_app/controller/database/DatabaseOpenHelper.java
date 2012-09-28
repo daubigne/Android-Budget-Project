@@ -20,6 +20,11 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 
 		db.execSQL("INSERT INTO accounts (id,name,balance) VALUES (1,\"My Account\",0)");
 		db.execSQL("INSERT INTO settings (currentAccountId) VALUES (1)");
+
+		db.execSQL("INSERT INTO categories (name) VALUES (\"Inkomster\")");
+		db.execSQL("INSERT INTO categories (name) VALUES (\"Utgifter\")");
+		db.execSQL("INSERT INTO budgetitems (categoryId,value) VALUES (1,9000)");
+		db.execSQL("INSERT INTO budgetitems (categoryId,value) VALUES (2,7000)");
 	}
 
 	@Override

@@ -9,5 +9,7 @@
     <string name="name">Name</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_budget_edit">BudgetEditActivity</string>
+    <string name="category">Category</string>
+    <string name="value">Value</string>
 
 </resources>
