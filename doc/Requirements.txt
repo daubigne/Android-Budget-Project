@@ -1,0 +1,108 @@
+﻿Requirements
+
+
+Overview
+
+
+With the Android Budget App the user is able to plan her economy by creating a budget which is divided into categories, view her account balance, view and add new transactions and view different graphs displaying the progress of the her economy and comparing her planned budget to real life expenses.
+                                                
+Functional requirements
+                                                
+1. View budget progress
+                                                
+Scenario:  Home screen
+Trigger: Starting the app 
+Precondition: The user has set up a budget beforehand, if not then the user will be prompted to do so.
+Basic path: The user starts the application. When the app launches, a number represting how much money the user has left until she has reached her budget.                                                   
+2. Add transaction
+
+
+Scenario: Home screen
+Trigger: Choosing to add transaction
+Precondition: None.
+Basic path: When choosing to add a transaction the user will fill in information about the transaction such as category and amount.
+Exceptional path: The application is unable to handle the input from the user. The user will be prompted to fill in the correct format.
+System state on completion: The transaction will be saved in the database and the amount will be added/removed from the users account balance.
+
+
+
+
+3. View transaction history
+
+
+Scenario: Home screen
+Trigger: Choosing to view transaction history
+Precondition: None
+
+
+
+
+Basic path: When the user chooses to view her transaction history she will be presented with a list containing all her transactions with the most recent on top. If the user hasn’t added any transactions none will be shown.
+
+
+4. Order transaction history by category
+
+
+Scenario: View transaction history
+Trigger: Choosing to order the transactions by category.
+Precondition: None
+Basic path: When the user chooses to order transactions by category the categories will be ordered alphabetically with it’s respective transactions in a “sub list”.
+
+
+5. View graph of spending over time
+
+
+Scenario: Home screen
+Trigger: Choosing to view graphs
+Precondition: None
+Basic path: When the user chooses to view graphs she will be presented with a graph show her expenses over time.
+
+
+6. Comparing budget to real life spending by graph
+
+
+Scenario: View graph of spending over time
+Trigger: Swipe the screen
+Precondition: The user must have set up a budget
+Basic path: When the user swipes the screen another graph will appear that will compare her expenses to her planned budget. This graph is divided into categories.
+
+
+7. View settings and options menu (aka “more”)
+
+
+Scenario: Home screen
+Trigger: Choosing to view settings and options menu
+Precondition: None
+Basic path: When the user chooses to view the settings and options menu she will be presented with a list containing different attributes of the application which she can manage such as categories and budget.
+
+
+8. Create a budget
+
+
+Scenario: View settings and options menu
+Trigger: Choosing to manage budget
+Precondition: None
+
+
+Basic path: When the user chooses to manage her budget she can her budget plan, set different budgets for different categories, set reccuring expenses, add new categories etc. If she doesnt have a budget one will be automatically created for her.
+Exceptional path: The application is unable to handle the input from the user. The user will be prompted to fill in the correct format for the specific input.
+System state on completion: The budget will be saved in the database.
+
+
+9. Change account balance (without adding a transaction)
+
+
+Scenario: View settings and options menu
+Trigger: Choosing to change account balance
+Precondition: None
+Basic path: When the user chooses change her account balance she will be prompted to type her new account balance.
+System state on completion: The account balance will be saved in the database.
+
+
+10. Manage categories
+
+
+Scenario: View settings and options menu
+Trigger: Choosing to manage category
+Precondition: None
+Basic path: When the user chooses to manage categories she will be able to choose to add, remove or edit existing categories.
