@@ -24,62 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="saveBalance"
-        android:text="@string/save" />
-
-    <TextView
-
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/transactions"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <LinearLayout
-        android:id="@+id/textLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-	        
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/fieldLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-	        
-	        <EditText
-	            android:id="@+id/transactionNameField"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:ems="10"
-	            android:inputType="number" />
-
-	        <Button
-	            android:id="@+id/saveTransaction"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:onClick="saveTransaction"
-	            android:text="@string/save" />
-
-	        <Button
-	            android:id="@+id/removeTransaction"
-	            style="?android:attr/buttonStyleSmall"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	           	android:onClick="removeTransaction"
-	            android:text="@string/remove" />
-	        
-    </LinearLayout>
-    
-    	<TextView
-	        android:id="@+id/transactionText"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/transactions" />
-
-    <ListView
-        android:id="@+id/transactionList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-    </ListView>
+        android:text="@string/save" /> 
 
 </LinearLayout>

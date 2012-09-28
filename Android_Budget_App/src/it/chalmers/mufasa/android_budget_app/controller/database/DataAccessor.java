@@ -73,7 +73,6 @@ public class DataAccessor {
 	public void setAccountBalance(Account account, double balance) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
-		
 		double currentBalance = account.getBalance();
 		    if(currentBalance != balance) {
 			db.execSQL("UPDATE accounts SET balance=" + balance

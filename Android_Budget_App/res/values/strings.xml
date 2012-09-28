@@ -8,5 +8,8 @@
     <string name="transactions">Transactions</string>
     <string name="name">Name</string>
     <string name="remove">Remove</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_transaction_list_acitvity">TransactionListAcitvity</string>
+    <string name="title_activity_transaction_list">TransactionListActivity</string>
 
 </resources>

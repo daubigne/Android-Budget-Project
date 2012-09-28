@@ -2,6 +2,7 @@ package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.MainController;
+import it.chalmers.mufasa.android_budget_app.controller.MainController;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.MainModel;
 import it.chalmers.mufasa.android_budget_app.model.ModelListener;
@@ -28,14 +29,10 @@ import java.util.List;
 
 public class MainActivity extends Activity implements PropertyChangeListener {
 
-	private TransactionListController controller;
+	private MainController controller;
 	private MainModel model;
 
 	private EditText balanceField;
-	private EditText transactionNameField;
-	private ListView listView;
-	private ArrayAdapter<String> listAdapter;
-	private ArrayList<String> transactionListString;
 
 
 	@Override
@@ -44,52 +41,11 @@ public class MainActivity extends Activity implements PropertyChangeListener {
 		setContentView(R.layout.activity_main);
 
 		balanceField = (EditText) findViewById(R.id.accountBalanceField);
-		transactionNameField = (EditText) findViewById(R.id.transactionNameField);
-		listView = (ListView) findViewById(R.id.transactionList);
 
 		this.model = new MainModel();
-		this.controller = new TransactionListController(this.getApplicationContext(),model);
+		this.controller = new MainController(this.getApplicationContext(),model);
 		this.model.addPropertyChangeListener(this);
 		
-		transactionListString = new ArrayList<String>();
-		controller.updateTransactionHistory();
-		listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, transactionListString);  
-		updateTransactionList();
-		
-		
-	}
-	
-	public void saveTransaction(View view) {
-		Category cat = new Category("CatFromSaveTransaction", 1, null);
-		//TODO: If nothing is written in the text field?
-		String amount;
-		try{
-			amount = this.transactionNameField.getText().toString();
-		} catch(NumberFormatException npe){
-			return;
-		}
-		
-		//TODO: This function should get more user input in the future.
-		controller.addTransaction(Double.parseDouble(amount), new Date(), "", cat, model.getAccount());
-		
-	}
-	
-	public void updateTransactionList(){
-		transactionListString.clear();
-		for (Transaction t : model.getTransactionHistory()) {
-			transactionListString.add(t.getAmount() + "");
-		}
-		listView.setAdapter(listAdapter);
-	}
-	
-	//TODO: Should receive a specific transaction to remove.
-	public void removeTransaction(View view){
-		List<Transaction> transactionList = controller.getTransactionHistory();
-		if(transactionList.isEmpty()){
-			System.out.println("Hej");
-			return;
-		}
-		controller.removeTransaction(controller.getTransactionHistory().get(0));
 	}
 
 	public void saveBalance(View view) {
@@ -101,8 +57,5 @@ public class MainActivity extends Activity implements PropertyChangeListener {
 	}
 
 	public void propertyChange(PropertyChangeEvent event) {
-		if(event.getPropertyName().equals("Transaction Updated")){
-			updateTransactionList();
-		}
 	}
 }
