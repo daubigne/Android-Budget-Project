@@ -49,9 +49,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 		db.execSQL("INSERT INTO categories (name,parentId) VALUES (\"Fritid\",2)");
 		db.execSQL("INSERT INTO budgetitems (categoryId,value) VALUES (7,630)");
 		
-		db.execSQL("INSERT INTO categories (name,parentId) VALUES (\"Fritid\",2)");
-		db.execSQL("INSERT INTO budgetitems (categoryId,value) VALUES (7,630)");
-		
 		db.execSQL("INSERT INTO categories (name,parentId) VALUES (\"Mobiltelefon\",2)");
 		db.execSQL("INSERT INTO budgetitems (categoryId,value) VALUES (8,180)");
 		
