@@ -46,16 +46,14 @@ public class MainActivity extends Activity implements PropertyChangeListener {
 		this.controller = new MainController(this.getApplicationContext(),model);
 		this.model.addPropertyChangeListener(this);
 		
+		this.balanceField.setText(Double.toString(model.getBalance()));
 	}
 
 	public void saveBalance(View view) {
 		controller.setBalance(Integer.parseInt(this.balanceField.getText().toString()));
 	}
 
-	public void onChange(MainModel model) {
-		this.balanceField.setText(Double.toString(model.getBalance()));
-	}
-
 	public void propertyChange(PropertyChangeEvent event) {
+		this.balanceField.setText(Double.toString(model.getBalance()));
 	}
 }
