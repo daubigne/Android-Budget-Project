@@ -7,5 +7,8 @@
     <string name="save">Save</string>
     <string name="transactions">Transactions</string>
     <string name="name">Name</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_mainanage_categoryy">MainanageCategoryyActivity</string>
+    <string name="title_activity_manage_category">ManageCategoryActivity</string>
 
 </resources>
