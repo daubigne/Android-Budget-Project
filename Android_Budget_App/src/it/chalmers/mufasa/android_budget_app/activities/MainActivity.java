@@ -2,20 +2,38 @@ package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.MainController;
+import it.chalmers.mufasa.android_budget_app.controller.MainController;
+import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.MainModel;
 import it.chalmers.mufasa.android_budget_app.model.ModelListener;
+import it.chalmers.mufasa.android_budget_app.model.Transaction;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
-public class MainActivity extends Activity implements ModelListener {
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-	MainController controller;
-	MainModel model;
+/**
+ * 
+ * A class that responds to user input.
+ */
 
-	EditText balanceField;
+public class MainActivity extends Activity implements PropertyChangeListener {
+
+	private MainController controller;
+	private MainModel model;
+
+	private EditText balanceField;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,21 +44,16 @@ public class MainActivity extends Activity implements ModelListener {
 
 		this.model = new MainModel();
 		this.controller = new MainController(this.getApplicationContext(),model);
-
-		this.model.addChangeListener(this);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
+		this.model.addPropertyChangeListener(this);
+		
+		this.balanceField.setText(Double.toString(model.getBalance()));
 	}
 
 	public void saveBalance(View view) {
 		controller.setBalance(Integer.parseInt(this.balanceField.getText().toString()));
 	}
 
-	public void onChange(MainModel model) {
+	public void propertyChange(PropertyChangeEvent event) {
 		this.balanceField.setText(Double.toString(model.getBalance()));
 	}
 }

@@ -20,6 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.BudgetEditActivity"
+            android:label="@string/title_activity_budget_edit" >
+        </activity>
+        <activity
+            android:name=".activities.TransactionListActivity"
+            android:label="@string/title_activity_transaction_list" >
+        </activity>
     </application>
 
 </manifest>
