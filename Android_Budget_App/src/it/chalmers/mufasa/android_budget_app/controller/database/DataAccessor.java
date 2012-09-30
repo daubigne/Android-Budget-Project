@@ -16,7 +16,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+/**
+ * Data Accessor Object to fetch and save data from databse.
+ * This is the only place where classes Account,BudgetItem,Category,Transaction should be fetched and saved from.
+ */
 public class DataAccessor {
 	private Context context;
 
