@@ -21,10 +21,16 @@ public class TransactionListModel {
 		pcs = new PropertyChangeSupport(this);
 	}
 
+	/**
+	 * Returns a list of transactions.
+	 */
 	public List<Transaction> getTransactionHistory() {
 		return transactionHistory;
 	}
 
+	/**
+	 * Replaces the transaction history with the given one.
+	 */
 	public void updateTransactionHistory(List<Transaction> transactions) {
 		transactionHistory.clear();
 		transactionHistory.addAll(transactions);

@@ -54,8 +54,12 @@ public class TransactionListActivity extends Activity implements
 
 	}
 
-	public void saveTransaction(View view) {
+	/**
+	 * Takes data from textfields and stores it as a trasnsaction.
+	 */
+	private void saveTransaction(View view) {
 		Category cat = new Category("CatFromSaveTransaction", 1, null);
+		
 		// TODO: If nothing is written in the text field?
 		String amount;
 		try {
@@ -63,14 +67,16 @@ public class TransactionListActivity extends Activity implements
 		} catch (NumberFormatException npe) {
 			return;
 		}
-
 		// TODO: This function should get more user input in the future.
 		controller.addTransaction(Double.parseDouble(amount), new Date(), "",
 				cat, model.getAccount());
 
 	}
-
-	public void updateTransactionList() {
+	
+	/**
+	 * Fetches all transaction from the database and set it to a list.
+	 */
+	private void updateTransactionList() {
 		transactionListString.clear();
 		for (Transaction t : model.getTransactionHistory()) {
 			transactionListString.add(t.getAmount() + "");
@@ -79,7 +85,10 @@ public class TransactionListActivity extends Activity implements
 	}
 
 	// TODO: Should receive a specific transaction to remove.
-	public void removeTransaction(View view) {
+	/**
+	 * Removes the first transaction in the transaction list.
+	 */
+	private void removeTransaction(View view) {
 		List<Transaction> transactionList = model.getTransactionHistory();
 		if (transactionList.isEmpty()) {
 			return;

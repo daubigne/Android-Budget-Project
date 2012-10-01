@@ -17,6 +17,8 @@ import android.content.Context;
  * @author: slurpo
  */
 public class TransactionListController {
+	
+	private static final int nrOfTransactionsInList = 100;
 
 	private TransactionListModel model;
 	private DataAccessor dataAccessor;
@@ -29,6 +31,9 @@ public class TransactionListController {
 
 	}
 
+	/**
+	 * Stores the given data as a transaction in the model and the database.
+	 */
 	public void addTransaction(Double amount, Date date, String name,
 			Category category, Account account) {
 		dataAccessor.addTransaction(amount, date, name, category, account);
@@ -36,18 +41,27 @@ public class TransactionListController {
 		updateTransactionHistory();
 	}
 
+	/**
+	 * Updates the account in the model.
+	 */
 	private void updateAccount() {
 		model.setAccount(dataAccessor.getAccount(dataAccessor.getSettings()
 				.getCurrentAccountId()));
 	}
 
+	/**
+	 * Updates the transaction history in the model.
+	 */
 	private void updateTransactionHistory() {
 		model.updateTransactionHistory(dataAccessor.getTransactions(
-				model.getAccount(), SortBy.DATE, SortByOrder.DESC, 0, 100));
+				model.getAccount(), SortBy.DATE, SortByOrder.DESC, 0, nrOfTransactionsInList));
 	}
 
-	public void removeTransaction(Transaction t) {
-		dataAccessor.removeTransaction(t);
+	/**
+	 * Removes the given transaction from the database and the model
+	 */
+	public void removeTransaction(Transaction transaction) {
+		dataAccessor.removeTransaction(transaction);
 		updateAccount();
 		updateTransactionHistory();
 	}
