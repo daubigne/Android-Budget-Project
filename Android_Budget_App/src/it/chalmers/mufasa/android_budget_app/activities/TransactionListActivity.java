@@ -7,21 +7,21 @@ import java.util.Date;
 import java.util.List;
 
 import it.chalmers.mufasa.android_budget_app.R;
-import it.chalmers.mufasa.android_budget_app.R.layout;
-import it.chalmers.mufasa.android_budget_app.R.menu;
 import it.chalmers.mufasa.android_budget_app.controller.TransactionListController;
 import it.chalmers.mufasa.android_budget_app.model.Category;
-import it.chalmers.mufasa.android_budget_app.model.MainModel;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.model.TransactionListModel;
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+/**
+ * A class for taking user input from the transaction list.
+ * @author slurpo
+ */
 public class TransactionListActivity extends Activity implements
 		PropertyChangeListener {
 

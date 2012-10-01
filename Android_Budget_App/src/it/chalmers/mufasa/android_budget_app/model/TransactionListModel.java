@@ -5,6 +5,11 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class representing a transaction list.
+ * @author slurpo
+ *
+ */
 public class TransactionListModel {
 	private Account account;
 	private ArrayList<Transaction> transactionHistory;

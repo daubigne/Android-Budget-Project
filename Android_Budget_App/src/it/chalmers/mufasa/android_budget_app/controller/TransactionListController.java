@@ -12,7 +12,10 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-
+/**
+ * A class for saving and updating the users transactions.
+ * @author: slurpo
+ */
 public class TransactionListController {
 
 	private TransactionListModel model;
