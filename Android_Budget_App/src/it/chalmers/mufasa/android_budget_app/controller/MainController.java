@@ -1,19 +1,10 @@
 package it.chalmers.mufasa.android_budget_app.controller;
 
 import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor;
-import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor.SortBy;
-import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor.SortByOrder;
-import it.chalmers.mufasa.android_budget_app.model.Account;
-import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.MainModel;
-import it.chalmers.mufasa.android_budget_app.model.Transaction;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 
 public class MainController {
 	
@@ -23,6 +14,7 @@ public class MainController {
 	public MainController(Context context, MainModel model) {
 		this.model = model;
 		this.dataAccessor = new DataAccessor(context);
+<<<<<<< HEAD
 		try {
 
 			model.setBalance(this.dataAccessor.getAccount(1).getBalance());
@@ -31,19 +23,16 @@ public class MainController {
 			model.setBalance(dataAccessor.getAccount(1).getBalance());
 
 		}
+=======
+		
+		model.setBalance(this.dataAccessor.getAccount(dataAccessor.getSettings().getCurrentAccountId()).getBalance());
+		
+>>>>>>> refs/heads/dev
 	}
 
 	public void setBalance(double balance) {
 		this.dataAccessor.setAccountBalance(dataAccessor.getAccount(1),balance);
 		model.setBalance(balance);
-	}
-	
-	public  ArrayList<Transaction> getTransactionHistory(){
-		return model.getTransactionHistory();
-	}
-	
-	public void addTransaction(Double amount, Date date, String name, Category category, Account account){
-		dataAccessor.addTransaction(amount, date, name, category, account);
 	}
 
 }
