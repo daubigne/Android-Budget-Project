@@ -1,11 +1,9 @@
 package it.chalmers.mufasa.android_budget_app.controller;
 
-import android.content.Context;
-import android.view.View;
 import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor;
 import it.chalmers.mufasa.android_budget_app.model.Category;
-import it.chalmers.mufasa.android_budget_app.model.MainModel;
 import it.chalmers.mufasa.android_budget_app.model.ManageCategoryModel;
+import android.content.Context;
 
 public class ManageCategoryController {
 	
@@ -15,19 +13,22 @@ public class ManageCategoryController {
 	public ManageCategoryController(Context context, ManageCategoryModel model) {
 		this.model = model;
 		this.dataAccessor = new DataAccessor(context);
+		model.setList(dataAccessor.getCategories());
 	}
-	
 	
 	public void addCategory(String name, Category parent) {
     	dataAccessor.addCategory(name, parent);
+    	model.setList(dataAccessor.getCategories());
     }
 	
 	public void removeCategory(Category category) {
     	dataAccessor.removeCategory(category);
+    	model.setList(dataAccessor.getCategories());
     }
 	
 	public void editCategory(Category category, String newName) {
     	dataAccessor.editCategory(category, newName);
+    	model.setList(dataAccessor.getCategories());
     }
 	
 	
