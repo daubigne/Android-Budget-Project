@@ -40,11 +40,19 @@
         android:layout_height="wrap_content"
         android:onClick="addBudgetItem"
         android:text="@string/save" />
-    
-    <ListView
-        android:id="@+id/budgetItemList"
+
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/budgetItemListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
