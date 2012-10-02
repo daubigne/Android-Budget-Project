@@ -10,6 +10,7 @@ import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import java.util.Date;
 
 import android.test.AndroidTestCase;
+import android.test.RenamingDelegatingContext;
 import junit.framework.TestCase;
 
 /**
@@ -30,9 +31,8 @@ public class TransactionTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		category1 = new Category("category1", 1, null);
-		account1 = new Account(1, "acccount1", 100.0);
 		transaction1 = new Transaction(1, 20.0, new Date(), "transaction1",
-				category1, account1);
+				category1);
 	}
 
 	public void testAmount() {
@@ -58,12 +58,6 @@ public class TransactionTest extends AndroidTestCase {
 	public void testCategory() {
 		if (!(transaction1.getCategory().equals(category1))) {
 			fail("Category not equal");
-		}
-	}
-
-	public void testAccount() {
-		if (!(transaction1.getAccount().equals(account1))) {
-			fail("Account not equal");
 		}
 	}
 }

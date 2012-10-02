@@ -1,5 +1,17 @@
 package it.chalmers.mufasa.android_budget_app.model;
 
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortBy;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortByOrder;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import android.content.Context;
+
 /*
  * A class representing a bank account.
  * 
@@ -11,12 +23,34 @@ public class Account {
 	private int id;
 	private String name;
 	private double balance;
+	private List<Category> categoryList;
+	private List<Transaction> transactionList;
+	private List<BudgetItem> budgetItemList;
+	private DataAccessor dataAccessor;
+	private int nbrOfTransactions;
 
-	public Account(int id, String name, double balance) {
+	private static Account instance = null;
+
+	private PropertyChangeSupport pcs;
+
+	private Account(int id, String name, Double balance, Context context) {
 		setId(id);
 		setName(name);
 		setBalance(balance);
+		dataAccessor = new DataAccessor(context, this);
+		categoryList = new ArrayList<Category>();
+		transactionList = new ArrayList<Transaction>();
+		budgetItemList = new ArrayList<BudgetItem>();
 
+		pcs = new PropertyChangeSupport(this);
+
+	}
+
+	public static Account getInstance(Context context) {
+		if (instance == null) {
+			instance = new Account(1, "account", 0.0, context);
+		}
+		return instance;
 	}
 
 	private void setId(int id) {
@@ -32,7 +66,7 @@ public class Account {
 	}
 
 	public double getBalance() {
-		return this.balance;
+		return dataAccessor.getAccountBalance();
 	}
 
 	public String getName() {
@@ -41,6 +75,68 @@ public class Account {
 
 	public int getId() {
 		return id;
+	}
+
+	public List<BudgetItem> getBudgetItems() {
+		updateBudgetItemList();
+		return budgetItemList;
+	}
+
+	private void updateBudgetItemList() {
+		budgetItemList.clear();
+		budgetItemList.addAll(dataAccessor.getBudgetItems());
+		pcs.firePropertyChange("BudgetItems Updated", null, null);
+	}
+
+	public void addBudgetItem(Category category, Double value) {
+		dataAccessor.addBudgetItem(category, value);
+	}
+
+	public void removeBudgetItem(BudgetItem budgetItem) {
+		dataAccessor.removeBudgetItem(budgetItem);
+	}
+
+	public List<Category> getCategories() {
+		updateCategoryList();
+		return categoryList;
+	}
+
+	private void updateCategoryList() {
+		categoryList.clear();
+		categoryList.addAll(dataAccessor.getCategories());
+		pcs.firePropertyChange("Categories Updated", null, null);
+
+	}
+
+	public void addCategory(String name, Category parent) {
+		dataAccessor.addCategory(name, parent);
+		updateCategoryList();
+	}
+
+	public void removeCategory(Category category) {
+		dataAccessor.removeCategory(category);
+	}
+
+	public List<Transaction> getTransactions(int nbrOfTransactions) {
+		this.nbrOfTransactions = nbrOfTransactions;
+		updateTransactionList();
+		return transactionList;
+	}
+
+	private void updateTransactionList() {
+		transactionList.clear();
+		transactionList.addAll(dataAccessor.getTransactions(this, SortBy.DATE,
+				SortByOrder.DESC, 0, nbrOfTransactions));
+		pcs.firePropertyChange("Transactions Updated", null, null);
+	}
+
+	public void addTransaction(double amount, Date date, String name,
+			Category category) {
+		dataAccessor.addTransaction(amount, date, name, category);
+	}
+
+	public void removeTransaction(Transaction transaction) {
+		dataAccessor.removeTransaction(transaction);
 	}
 
 	@Override
@@ -82,6 +178,14 @@ public class Account {
 			return false;
 		}
 		return true;
+	}
+
+	public void addPropertyChangeListener(PropertyChangeListener l) {
+		pcs.addPropertyChangeListener(l);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener l) {
+		pcs.removePropertyChangeListener(l);
 	}
 
 }
