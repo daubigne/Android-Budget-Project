@@ -33,10 +33,12 @@ public class ManageCategoryActivity extends Activity implements
 	private ManageCategoryModel model;
 	private ArrayAdapter<String> listAdapter;
 	private ListView listView;
-	private TextView categoryName;
+	
 	private List<String> listString;
 	
 	private EditText editTextCategoryName;
+	
+	private String categoryNameString;
 	
 	private Button editButton;
 	private Button incomeButton;
@@ -46,7 +48,7 @@ public class ManageCategoryActivity extends Activity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_manage_category);
-
+		
 		this.model = new ManageCategoryModel();
 		this.controller = new ManageCategoryController(
 				this.getApplicationContext(), model);
@@ -62,10 +64,11 @@ public class ManageCategoryActivity extends Activity implements
 		updateStringList();
 	}
 
-//	public void addCategory(View view) {
-//		editTextCategoryName= (EditText) findViewById(R.id.manageCategoryEditText);
-//		controller.addCategory(editTextCategoryName, this.getParentId());
-//	}
+	public void addCategory(View view) {
+		editTextCategoryName= (EditText) findViewById(R.id.manageCategoryEditText);
+		categoryNameString = editTextCategoryName.getText().toString();
+		controller.addCategory(categoryNameString, model.getCurrentCategory());
+	}
 	
 //
 //	public void removeCategory(View view) {
@@ -79,19 +82,13 @@ public class ManageCategoryActivity extends Activity implements
 	public void disableIncome(View view){
 		expenseButton.setEnabled(true);
 		incomeButton.setEnabled(false);
+		controller.setCurrentCategory(1);
 	}
 	public void disableExpense(View view){
 		incomeButton.setEnabled(true);
 		expenseButton.setEnabled(false);
+		controller.setCurrentCategory(2);
 	}
-	public int getParentId(){
-		if (incomeButton.isEnabled()){
-			return 1;
-		}
-		return 2;
-	}
-
-
 
 	public void updateStringList() {
 		listString.clear();

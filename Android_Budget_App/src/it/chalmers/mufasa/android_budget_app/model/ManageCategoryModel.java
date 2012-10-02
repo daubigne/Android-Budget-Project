@@ -6,8 +6,9 @@ import java.util.List;
 
 public class ManageCategoryModel {
 	
-	PropertyChangeSupport pcs;
-	List <Category> categoryList;
+	private PropertyChangeSupport pcs;
+	private List <Category> categoryList;
+	private Category currentCategory;
 	
 	public ManageCategoryModel(){
 		pcs = new PropertyChangeSupport(this);
@@ -20,6 +21,13 @@ public class ManageCategoryModel {
 	
 	public List<Category> getList(){
 		return categoryList;
+	}
+	
+	public Category getCurrentCategory(){
+		return currentCategory;
+	}
+	public void setCurrentCategory(Category category){
+		currentCategory = category;
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener) {

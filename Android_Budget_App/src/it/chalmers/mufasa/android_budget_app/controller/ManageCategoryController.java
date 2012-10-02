@@ -14,6 +14,11 @@ public class ManageCategoryController {
 		this.model = model;
 		this.dataAccessor = new DataAccessor(context);
 		model.setList(dataAccessor.getCategories());
+		model.setCurrentCategory(dataAccessor.getCategory(1));
+	}
+	
+	public void setCurrentCategory(int id){
+		model.setCurrentCategory(dataAccessor.getCategory(id));
 	}
 	
 	public void addCategory(String name, Category parent) {
