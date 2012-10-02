@@ -7,39 +7,11 @@
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/category" />
-
-    <EditText
-        android:id="@+id/categoryId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value" />
-
-    <EditText
-        android:id="@+id/value"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number" >
-
-        <requestFocus />
-    </EditText>
-
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="addBudgetItem"
-        android:text="@string/save" />
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:text="@string/your_budget"
+        android:textSize="24dp"
+        android:gravity="center" />
 
     <ScrollView
         android:id="@+id/scrollView1"

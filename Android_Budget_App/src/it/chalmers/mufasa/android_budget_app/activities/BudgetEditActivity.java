@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class BudgetEditActivity extends Activity implements PropertyChangeListener {
 
@@ -44,8 +45,8 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
         
         //Category cat = new Category("Mat",1,null);
         
-        categoryIdEditText = (EditText) findViewById(R.id.categoryId);
-        valueEditText = (EditText) findViewById(R.id.value);
+        //categoryIdEditText = (EditText) findViewById(R.id.categoryId);
+        //valueEditText = (EditText) findViewById(R.id.value);
         
         //listAdapter = new ArrayAdapter<BudgetItem>(this, R.layout.simplerow, model.getBudgetItems());
         
@@ -56,26 +57,51 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     }
     
     private void populateBudgetListView(List<BudgetItem> list) {
+    	LinearLayout budgetListLayout = (LinearLayout) findViewById(R.id.budgetItemListLayout);
+    	budgetListLayout.removeAllViews();
     	
-    	for(BudgetItem bi : list) {
-    		View v = this.getLayoutInflater().inflate(R.layout.budget_item_edit_row, null);
+    	
+    	if(this.isEditMode()) {
+    		for(BudgetItem bi : list) {
+	    		View v = this.getLayoutInflater().inflate(R.layout.budget_item_edit_row_edit, null);
+	    		
+	    		Button categoryButton = (Button) v.findViewById(R.id.budgetItemEditRowEditCategoryButton);
+	            categoryButton.setText(bi.getCategory().getName());
+	            
+	            EditText valueTextEdit = (EditText) v.findViewById(R.id.budgetItemEditRowEditValueTextEdit);
+	            valueTextEdit.setText(bi.getValue().toString());
+	            
+	            budgetListLayout.addView(v);
+	    	}
     		
-    		Button categoryButton = (Button) v.findViewById(R.id.budgetItemEditRowCategoryButton);
-            categoryButton.setText(bi.getCategory().getName());
-            
-            EditText valueTextEdit = (EditText) v.findViewById(R.id.budgetItemEditRowValueTextEdit);
-            valueTextEdit.setText(bi.getValue().toString());
-            
-            LinearLayout budgetListLayout = (LinearLayout) findViewById(R.id.budgetItemListLayout);
-            
-            budgetListLayout.addView(v);
+    		budgetListLayout.addView(this.getLayoutInflater().inflate(R.layout.budget_item_edit_row_addbutton, null));
+    	} else {
+    		for(BudgetItem bi : list) {
+    			View v = this.getLayoutInflater().inflate(R.layout.budget_item_edit_row, null);
+	    		
+	    		TextView categoryButton = (TextView) v.findViewById(R.id.budgetItemEditRowCategoryTextView);
+	            categoryButton.setText(bi.getCategory().getName());
+	            
+	            TextView valueTextEdit = (TextView) v.findViewById(R.id.budgetItemEditRowValueTextView);
+	            valueTextEdit.setText(bi.getValue().toString());
+	            
+	            budgetListLayout.addView(v);
+    		}
     	}
+    }
+    
+    private boolean isEditMode() {
+    	return true;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_budget_edit, menu);
         return true;
+    }
+    
+    public void addBudgetItemRow(View view) {
+    	controller.addBudgetItem(model.getCurrentMainCategory(), 0.0);
     }
     
     public void addBudgetItem(View view) {
@@ -96,8 +122,7 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
 
 	public void propertyChange(PropertyChangeEvent event) {
 		if(event.getPropertyName().equals("BudgetItemList")) {
-			listAdapter = new ArrayAdapter<BudgetItem>(this, R.layout.simplerow, model.getBudgetItems());
-			listView.setAdapter(listAdapter);
+			this.populateBudgetListView(model.getBudgetItems());
 		}
 	}
 }

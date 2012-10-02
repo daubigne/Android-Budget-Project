@@ -6,20 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/budgetItemEditRowCategoryButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".70" />
-
-    <EditText
-        android:id="@+id/budgetItemEditRowValueTextEdit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        android:layout_weight=".30" >
-
-    </EditText>
+    <TextView
+		android:id="@+id/budgetItemEditRowCategoryTextView"   
+		android:layout_width="0dp"
+	 	android:layout_height="wrap_content"
+	 	android:layout_weight=".70"
+	 	android:padding="10dp"
+	 	android:textSize="16sp" >  
+	</TextView>
+    <TextView
+		android:id="@+id/budgetItemEditRowValueTextView"   
+		android:layout_width="0dp"
+	 	android:layout_height="wrap_content"
+	 	android:layout_weight=".30"
+	 	android:padding="10dp"
+	 	android:textSize="16sp" >  
+	</TextView>
 
 </LinearLayout>

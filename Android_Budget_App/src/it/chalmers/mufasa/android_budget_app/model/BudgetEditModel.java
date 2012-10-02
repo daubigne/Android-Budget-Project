@@ -10,12 +10,22 @@ public class BudgetEditModel {
 	
 	PropertyChangeSupport pcs;
 	
+	Category currentMainCategory;
+	
 	public BudgetEditModel() {
 		this.pcs = new PropertyChangeSupport(this);
 	}
 	
 	public List<BudgetItem> getBudgetItems() {
 		return this.budgetItems;
+	}
+	
+	public void setCurrentMainCategory(Category cat) {
+		this.currentMainCategory = cat;
+	}
+	
+	public Category getCurrentMainCategory() {
+		return this.currentMainCategory;
 	}
 	
 	public void setBudgetItems(List<BudgetItem> budgetItems) {

@@ -20,6 +20,7 @@ public class BudgetEditController {
 	
 	private void initModel() {
 		model.setBudgetItems(dataAccessor.getBudgetItems());
+		model.setCurrentMainCategory(dataAccessor.getCategory(1));
 	}
 	
 	public void addBudgetItem(Category category, Double value) {
