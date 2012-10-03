@@ -15,5 +15,7 @@
     <string name="title_activity_transaction_list">TransactionListActivity</string>
     <string name="add_new_budget_item">Add new budget item</string>
     <string name="your_budget">Your Budget</string>
+    <string name="edit">Edit</string>
+    <string name="done">Done</string>
 
 </resources>

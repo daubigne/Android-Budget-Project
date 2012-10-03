@@ -13,6 +13,7 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -61,7 +62,7 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     	budgetListLayout.removeAllViews();
     	
     	
-    	if(this.isEditMode()) {
+    	if(model.isEditMode()) {
     		for(BudgetItem bi : list) {
 	    		View v = this.getLayoutInflater().inflate(R.layout.budget_item_edit_row_edit, null);
 	    		
@@ -89,10 +90,6 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     		}
     	}
     }
-    
-    private boolean isEditMode() {
-    	return true;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,10 +116,37 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     	
     	controller.addBudgetItem(cat, value);
     }
+    
+    public void enterEditMode(View view) {
+    	controller.setEditMode(true);
+    }
+    
+    public void exitEditMode(View view) {
+    	controller.setEditMode(false);
+    }
+    
+    public void setEditButtonBar() {
+    	if(model.isEditMode()) {
+    		View doneBar = this.findViewById(R.id.budgetItemEditDoneBar);
+    		doneBar.setVisibility(View.VISIBLE);
+    		View editBar = this.findViewById(R.id.budgetItemEditBar);
+    		editBar.setVisibility(View.GONE);
+    	} else {
+    		View doneBar = this.findViewById(R.id.budgetItemEditDoneBar);
+    		doneBar.setVisibility(View.GONE);
+    		View editBar = this.findViewById(R.id.budgetItemEditBar);
+    		editBar.setVisibility(View.VISIBLE);
+    	}
+    }
 
 	public void propertyChange(PropertyChangeEvent event) {
-		if(event.getPropertyName().equals("BudgetItemList")) {
+		if(event.getPropertyName().equals("updated_budgetitem_list")) {
 			this.populateBudgetListView(model.getBudgetItems());
+		}
+		
+		if(event.getPropertyName().equals("editmode")) {
+			this.populateBudgetListView(model.getBudgetItems());
+			this.setEditButtonBar();
 		}
 	}
 }

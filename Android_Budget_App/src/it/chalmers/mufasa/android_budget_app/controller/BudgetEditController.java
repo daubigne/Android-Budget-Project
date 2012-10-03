@@ -37,5 +37,9 @@ public class BudgetEditController {
 		dataAccessor.removeBudgetItem(item);
 		model.setBudgetItems(dataAccessor.getBudgetItems());
 	}
+	
+	public void setEditMode(boolean set) {
+		model.setEditMode(set);
+	}
 
 }

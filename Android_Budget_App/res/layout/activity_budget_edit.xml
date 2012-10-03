@@ -5,6 +5,35 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <FrameLayout
+        android:id="@+id/budgetItemEditBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#cccccc" >
+
+        <Button
+            android:id="@+id/budgetItemEditBarEditButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit"
+            android:onClick="enterEditMode" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/budgetItemEditDoneBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#cccccc"
+        android:visibility="gone" >
+
+        <Button
+            android:id="@+id/budgetItemEditBarEditDoneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/done"
+            android:onClick="exitEditMode" />
+    </FrameLayout>
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="fill_parent"
@@ -17,13 +46,12 @@
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+                
         <LinearLayout
             android:id="@+id/budgetItemListLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
         </LinearLayout>
     </ScrollView>
 

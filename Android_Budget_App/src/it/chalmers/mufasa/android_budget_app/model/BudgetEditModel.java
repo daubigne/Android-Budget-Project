@@ -12,6 +12,8 @@ public class BudgetEditModel {
 	
 	Category currentMainCategory;
 	
+	boolean editMode;
+	
 	public BudgetEditModel() {
 		this.pcs = new PropertyChangeSupport(this);
 	}
@@ -30,7 +32,7 @@ public class BudgetEditModel {
 	
 	public void setBudgetItems(List<BudgetItem> budgetItems) {
 		this.budgetItems = budgetItems;
-		pcs.firePropertyChange("BudgetItemList", null, null); 
+		pcs.firePropertyChange("updated_budgetitem_list", null, null); 
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -39,5 +41,14 @@ public class BudgetEditModel {
 	
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
+	}
+	
+	public void setEditMode(boolean set) {
+		this.editMode = set;
+		pcs.firePropertyChange("editmode", null, null); 
+	}
+	
+	public boolean isEditMode() {
+		return this.editMode;
 	}
 }
