@@ -42,6 +42,7 @@ public class AccountTest extends AndroidTestCase {
 	}
 
 	public void testTransactions() {
+		account1.setBalance(0);
 		Transaction transaction1 = new Transaction(1, 3.0, new Date(),
 				"transaction1", category1);
 		Transaction transaction2 = new Transaction(2, 5.0, new Date(),
@@ -61,6 +62,9 @@ public class AccountTest extends AndroidTestCase {
 		account1.removeTransaction(transaction3);
 		if(account1.getBalance() != 8.0){
 			fail("Balance isn't 8.0 it's " + account1.getBalance());
+		}
+		if(account1.getTransactions(100).size() != 2){
+			fail("The number of transaction isn't 2 it's " + account1.getTransactions(100).size());
 		}
 
 	}
