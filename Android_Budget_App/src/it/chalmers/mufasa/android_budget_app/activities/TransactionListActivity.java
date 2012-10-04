@@ -12,6 +12,7 @@ import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.model.TransactionListModel;
+import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -58,7 +59,7 @@ public class TransactionListActivity extends Activity implements
 	/**
 	 * Takes data from textfields and stores it as a trasnsaction.
 	 */
-	private void saveTransaction(View view) {
+	public void saveTransaction(View view) {
 		Category cat = new Category("CatFromSaveTransaction", 1, null);
 		
 		// TODO: If nothing is written in the text field?
@@ -70,8 +71,7 @@ public class TransactionListActivity extends Activity implements
 		}
 		// TODO: This function should get more user input in the future.
 		controller.addTransaction(Double.parseDouble(amount), new Date(), "",
-				cat, this.account);
-
+				cat);
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class TransactionListActivity extends Activity implements
 	 */
 	private void updateTransactionList() {
 		transactionListString.clear();
-		for (Transaction t : account.getTransactions(100)) {
+		for (Transaction t : account.getTransactions(Constants.NUMBER_OF_TRANSACTIONS)) {
 			transactionListString.add(t.getAmount() + "");
 		}
 		listView.setAdapter(listAdapter);
@@ -89,8 +89,8 @@ public class TransactionListActivity extends Activity implements
 	/**
 	 * Removes the first transaction in the transaction list.
 	 */
-	private void removeTransaction(View view) {
-		List<Transaction> transactionList = account.getTransactions(100);
+	public void removeTransaction(View view) {
+		List<Transaction> transactionList = account.getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
 		if (transactionList.isEmpty()) {
 			return;
 		}
@@ -98,7 +98,7 @@ public class TransactionListActivity extends Activity implements
 	}
 
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals("Transaction Updated")) {
+		if (event.getPropertyName().equals("Transactions Updated")) {
 			updateTransactionList();
 		}
 	}

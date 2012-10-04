@@ -14,11 +14,6 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activities.BudgetEditActivity"
@@ -27,6 +22,11 @@
         <activity
             android:name=".activities.TransactionListActivity"
             android:label="@string/title_activity_transaction_list" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

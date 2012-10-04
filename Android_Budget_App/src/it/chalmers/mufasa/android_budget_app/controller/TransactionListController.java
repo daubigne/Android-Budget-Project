@@ -12,14 +12,16 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+
 /**
  * A class for saving and updating the users transactions.
+ * 
  * @author: slurpo
  */
 public class TransactionListController {
-	
+
 	private Account account;
-	
+
 	public TransactionListController(Account account) {
 		this.account = account;
 
@@ -29,8 +31,8 @@ public class TransactionListController {
 	 * Stores the given data as a transaction in the model and the database.
 	 */
 	public void addTransaction(Double amount, Date date, String name,
-			Category category, Account account) {
-		
+			Category category) {
+
 		account.addTransaction(amount, date, name, category);
 	}
 
@@ -39,5 +41,9 @@ public class TransactionListController {
 	 */
 	public void removeTransaction(Transaction transaction) {
 		account.removeTransaction(transaction);
+	}
+	
+	public List<Transaction> getTransactions(int nbrOfTransactions){
+		return account.getTransactions(nbrOfTransactions);
 	}
 }

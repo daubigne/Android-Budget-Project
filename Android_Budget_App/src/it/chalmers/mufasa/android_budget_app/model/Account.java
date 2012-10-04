@@ -45,10 +45,10 @@ public class Account {
 			setName("account");
 			setBalance(0.0);
 			dataAccessor.addAccount(getName(),getBalance());
-			categoryList = new ArrayList<Category>();
-			transactionList = new ArrayList<Transaction>();
-			budgetItemList = new ArrayList<BudgetItem>();
 		}
+		categoryList = new ArrayList<Category>();
+		transactionList = new ArrayList<Transaction>();
+		budgetItemList = new ArrayList<BudgetItem>();
 		
 
 		pcs = new PropertyChangeSupport(this);
@@ -104,15 +104,16 @@ public class Account {
 	private void updateBudgetItemList() {
 		budgetItemList.clear();
 		budgetItemList.addAll(dataAccessor.getBudgetItems());
-		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
 
 	public void addBudgetItem(Category category, Double value) {
 		dataAccessor.addBudgetItem(category, value);
+		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
 
 	public void removeBudgetItem(BudgetItem budgetItem) {
 		dataAccessor.removeBudgetItem(budgetItem);
+		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
 
 	public List<Category> getCategories() {
@@ -134,29 +135,36 @@ public class Account {
 
 	public void removeCategory(Category category) {
 		dataAccessor.removeCategory(category);
+		updateCategoryList();
 	}
 
 	public List<Transaction> getTransactions(int nbrOfTransactions) {
+		transactionList.clear();
 		this.nbrOfTransactions = nbrOfTransactions;
 		updateTransactionList();
 		return transactionList;
 	}
 
 	private void updateTransactionList() {
-		transactionList.clear();
 		transactionList.addAll(dataAccessor.getTransactions(this, SortBy.DATE,
 				SortByOrder.DESC, 0, nbrOfTransactions));
-		pcs.firePropertyChange("Transactions Updated", null, null);
 	}
 
 	public void addTransaction(double amount, Date date, String name,
 			Category category) {
 		dataAccessor.addTransaction(amount, date, name, category);
-		setBalance(dataAccessor.getAccountBalance());
+		updateBalance();	
+		pcs.firePropertyChange("Transactions Updated", null, null);
+
 	}
 
 	public void removeTransaction(Transaction transaction) {
 		dataAccessor.removeTransaction(transaction);
+		updateBalance();
+		pcs.firePropertyChange("Transactions Updated", null, null);
+	}
+	
+	private void updateBalance(){
 		setBalance(dataAccessor.getAccountBalance());
 	}
 
