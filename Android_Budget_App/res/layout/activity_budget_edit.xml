@@ -5,6 +5,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/budgetEditIncomeSwitchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".50"
+            android:text="@string/income"
+            android:onClick="switchToIncome" />
+
+        <Button
+            android:id="@+id/budgetEditExpensesSwitchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".50"
+            android:text="@string/expenses"
+            android:onClick="switchToExpenses" />
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/budgetItemEditBar"
         android:layout_width="match_parent"

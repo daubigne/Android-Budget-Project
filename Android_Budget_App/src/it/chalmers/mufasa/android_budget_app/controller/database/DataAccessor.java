@@ -243,14 +243,23 @@ public class DataAccessor {
 	}
 	
 	public List<BudgetItem> getBudgetItems() {
-
+		return this.getBudgetItems(null);
+	}
+	
+	public List<BudgetItem> getBudgetItems(Category parent) {
+		
 		List<BudgetItem> budgetItemList = new ArrayList<BudgetItem>();
 		
 		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
 		
-		String[] columns = {"id","categoryId","value"};		
+		Cursor cursor;
 		
-		Cursor cursor = db.query("budgetitems", columns, null, null, null, null, null);
+		if(parent == null) {
+			String[] columns = {"id","categoryId","value"};		
+			cursor = db.query("budgetitems", columns, null, null, null, null, null);
+		} else {
+			cursor = db.rawQuery("SELECT budgetitems.id, budgetitems.categoryId, budgetitems.value, categories.parentId FROM budgetitems INNER JOIN categories ON budgetitems.categoryId==categories.id WHERE categories.parentId == "+parent.getId(), null);
+		}
 		
 		if(cursor.moveToFirst()) {
 			Category cat = this.getCategory(cursor.getInt(1));
@@ -283,6 +292,4 @@ public class DataAccessor {
 		db.update("budgetitems", values, "id == "+item.getId(), null);
 		
 	}
-	
-	
 }

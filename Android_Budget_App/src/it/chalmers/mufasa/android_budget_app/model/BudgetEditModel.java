@@ -24,6 +24,7 @@ public class BudgetEditModel {
 	
 	public void setCurrentMainCategory(Category cat) {
 		this.currentMainCategory = cat;
+		pcs.firePropertyChange("updated_current_category", null, null); 
 	}
 	
 	public Category getCurrentMainCategory() {
@@ -51,4 +52,5 @@ public class BudgetEditModel {
 	public boolean isEditMode() {
 		return this.editMode;
 	}
+	
 }

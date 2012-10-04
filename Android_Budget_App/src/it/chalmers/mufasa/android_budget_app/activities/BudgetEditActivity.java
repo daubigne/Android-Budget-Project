@@ -162,6 +162,14 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     	controller.setEditMode(false);
     }
     
+    public void switchToIncome(View view) {
+    	controller.switchToIncome();
+    }
+    
+    public void switchToExpenses(View view) {
+    	controller.switchToExpenses();
+    }
+    
     public void chooseCategory(View view) {
     	
     	//TODO Choose category via ChooseCategoryActivity
@@ -192,6 +200,16 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     		editBar.setVisibility(View.VISIBLE);
     	}
     }
+    
+    public void updateIncomeExpensesButtons() {
+    	if(model.getCurrentMainCategory().getId() == 2) {
+    		findViewById(R.id.budgetEditIncomeSwitchButton).setEnabled(true);
+        	findViewById(R.id.budgetEditExpensesSwitchButton).setEnabled(false);
+    	} else {
+    		findViewById(R.id.budgetEditIncomeSwitchButton).setEnabled(false);
+        	findViewById(R.id.budgetEditExpensesSwitchButton).setEnabled(true);
+    	}
+    }
 
 	public void propertyChange(PropertyChangeEvent event) {
 		if(event.getPropertyName().equals("updated_budgetitem_list")) {
@@ -201,6 +219,10 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
 		if(event.getPropertyName().equals("editmode")) {
 			this.populateBudgetListView(model.getBudgetItems());
 			this.setEditButtonBar();
+		}
+		
+		if(event.getPropertyName().equals("updated_current_category")) {
+			this.updateIncomeExpensesButtons();
 		}
 	}
 }

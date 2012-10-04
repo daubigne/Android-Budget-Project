@@ -17,5 +17,7 @@
     <string name="your_budget">Your Budget</string>
     <string name="edit">Edit</string>
     <string name="done">Done</string>
+    <string name="income">Income</string>
+    <string name="expenses">Expenses</string>
 
 </resources>

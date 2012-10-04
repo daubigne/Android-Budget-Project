@@ -22,39 +22,48 @@ public class BudgetEditController {
 	}
 	
 	private void initModel() {
-		model.setBudgetItems(dataAccessor.getBudgetItems());
 		model.setCurrentMainCategory(dataAccessor.getCategory(1));
+		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
 	}
 	
 	public void saveAllBudgetItems(List<BudgetItem> list) {
 		
-		for(BudgetItem item : dataAccessor.getBudgetItems()) {
+		for(BudgetItem item : dataAccessor.getBudgetItems(model.getCurrentMainCategory())) {
 			dataAccessor.removeBudgetItem(item);
 		}
 		
 		for(BudgetItem item : list) {
 			dataAccessor.addBudgetItem(item.getCategory(), item.getValue());
 		}
-		model.setBudgetItems(dataAccessor.getBudgetItems());
+		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
 	}
 	
 	public void addBudgetItem(Category category, Double value) {
 		dataAccessor.addBudgetItem(category, value);
-		model.setBudgetItems(dataAccessor.getBudgetItems());
+		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
 	}
 	
 	public void editBudgetItem(BudgetItem item, Double value) {
 		dataAccessor.editBudgetItem(item, value);
-		model.setBudgetItems(dataAccessor.getBudgetItems());
+		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
 	}
 	
 	public void removeBudgetItem(BudgetItem item) {
 		dataAccessor.removeBudgetItem(item);
-		model.setBudgetItems(dataAccessor.getBudgetItems());
+		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
 	}
 	
 	public void setEditMode(boolean set) {
 		model.setEditMode(set);
 	}
 
+	public void switchToIncome() {
+		model.setCurrentMainCategory(dataAccessor.getCategory(1));
+		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
+	}
+	
+	public void switchToExpenses() {
+		model.setCurrentMainCategory(dataAccessor.getCategory(2));
+		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
+	}
 }
