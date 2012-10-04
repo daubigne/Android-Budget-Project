@@ -4,23 +4,19 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
-import android.content.Context;
-
 public class BudgetEditModel {
 
 	Account account;
-	//List<BudgetItem> budgetItems;
+	List<BudgetItem> budgetItems;
 	
 	PropertyChangeSupport pcs;
 	
-	public BudgetEditModel(Context context) {
-		account = Account.getInstance(context);
+	public BudgetEditModel() {
 		this.pcs = new PropertyChangeSupport(this);
 	}
 	
 	public List<BudgetItem> getBudgetItems() {
-		//return this.budgetItems;
-		return account.getBudgetItems();
+		return this.budgetItems;
 	}
 	
 	public void setBudgetItems(List<BudgetItem> budgetItems) {
