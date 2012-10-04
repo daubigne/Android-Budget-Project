@@ -1,19 +1,16 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
 
-    <EditText
-        android:id="@+id/manageCategoryCategoryTextEdit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".30"
-        android:ems="10"
-        android:inputType="number" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-    </EditText>
+        <EditText
+            android:id="@+id/manageCategoryCategoryEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10" >
 
-</LinearLayout>
+            <requestFocus />
+        </EditText>
+
+    </LinearLayout>

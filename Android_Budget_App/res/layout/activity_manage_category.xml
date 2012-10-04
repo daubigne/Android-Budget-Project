@@ -6,21 +6,32 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="63dp" >
+        android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/manageCategoryButtonIncome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.88"
-            android:text="Income" />
+            android:text="Income" 
+            android:onClick="disableIncome"/>
 
         <Button
             android:id="@+id/manageCategoryButtonExpense"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:text="Expense" />
+            android:enabled="false"
+            android:text="Expense"
+            android:onClick="disableExpense" />
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/manageCategoryButtonEditSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit"
+        android:onClick="toggleEditSave" />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -28,8 +39,10 @@
         android:layout_height="match_parent" >
 
         <LinearLayout
+            android:id="@+id/manageCategoryLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>
 

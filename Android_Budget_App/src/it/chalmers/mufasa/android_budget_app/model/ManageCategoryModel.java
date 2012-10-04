@@ -9,6 +9,7 @@ public class ManageCategoryModel {
 	private PropertyChangeSupport pcs;
 	private List <Category> categoryList;
 	private Category currentCategory;
+	private boolean editMode;
 	
 	public ManageCategoryModel(){
 		pcs = new PropertyChangeSupport(this);
@@ -19,7 +20,7 @@ public class ManageCategoryModel {
 		pcs.firePropertyChange("categoryList", null, null);
 	}
 	
-	public List<Category> getList(){
+	public List<Category> getCategoryList(){
 		return categoryList;
 	}
 	
@@ -37,5 +38,14 @@ public class ManageCategoryModel {
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
-	
+	public boolean isEditMode(){
+		return editMode;
+		
+	}
+	public void setEditMode(boolean b){
+		pcs.firePropertyChange("EditSaveMode", null, null);
+		editMode=b;
+		System.out.println("fan");
+	}	
 }
+

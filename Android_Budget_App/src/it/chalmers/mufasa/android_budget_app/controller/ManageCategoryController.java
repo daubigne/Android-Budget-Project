@@ -15,6 +15,7 @@ public class ManageCategoryController {
 		this.dataAccessor = new DataAccessor(context);
 		model.setList(dataAccessor.getCategories());
 		model.setCurrentCategory(dataAccessor.getCategory(1));
+		model.setEditMode(false);
 	}
 	
 	public void setCurrentCategory(int id){
@@ -35,6 +36,10 @@ public class ManageCategoryController {
     	dataAccessor.editCategory(category, newName);
     	model.setList(dataAccessor.getCategories());
     }
+	
+	public void setEditMode(boolean b){
+		model.setEditMode(b);
+	}
 	
 	
 }
