@@ -8,7 +8,7 @@ public class ManageCategoryModel {
 	
 	private PropertyChangeSupport pcs;
 	private List <Category> categoryList;
-	private Category currentCategory;
+	private Category currentParentCategory;
 	private boolean editMode;
 	
 	public ManageCategoryModel(){
@@ -24,11 +24,12 @@ public class ManageCategoryModel {
 		return categoryList;
 	}
 	
-	public Category getCurrentCategory(){
-		return currentCategory;
+	public Category getCurrentParentCategory(){
+		return currentParentCategory;
 	}
-	public void setCurrentCategory(Category category){
-		currentCategory = category;
+	public void setCurrentParentCategory(Category category){
+		currentParentCategory = category;
+		pcs.firePropertyChange("categoryList", null, null);
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -45,7 +46,6 @@ public class ManageCategoryModel {
 	public void setEditMode(boolean b){
 		pcs.firePropertyChange("EditSaveMode", null, null);
 		editMode=b;
-		System.out.println("fan");
 	}	
 }
 

@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.88"
             android:text="Income" 
-            android:onClick="disableIncome"/>
+            android:onClick="toggleIncomeExpense"/>
 
         <Button
             android:id="@+id/manageCategoryButtonExpense"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:text="Expense"
-            android:onClick="disableExpense" />
+            android:onClick="toggleIncomeExpense" />
 
     </LinearLayout>
 

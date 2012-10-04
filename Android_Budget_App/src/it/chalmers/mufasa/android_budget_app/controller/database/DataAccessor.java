@@ -193,7 +193,11 @@ public class DataAccessor {
 	}
 
 	public List<Category> getCategories() {
-
+		return this.getCategories(null);
+	}
+	
+	public List<Category> getCategories(Category parent){
+		
 		List<Category> list = new ArrayList<Category>();
 
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
@@ -204,18 +208,22 @@ public class DataAccessor {
 				null);
 
 		if (cursor.moveToFirst()) {
-			Category category = new Category(cursor.getString(0),
-					cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+			Category category = new Category(cursor.getString(0),cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+			
 			list.add(category);
-
+			
 			while (cursor.moveToNext()) {
 				category = new Category(cursor.getString(0), cursor.getInt(1),
 						this.getCategory(cursor.getInt(2)));
-				list.add(category);
+				
+				
+					list.add(category);
+				
+				
 			}
 		}
 
-		return list;
+		return list;	
 	}
 
 	public Category getCategory(int id) {
