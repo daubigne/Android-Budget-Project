@@ -258,7 +258,7 @@ public class DataAccessor {
 			String[] columns = {"id","categoryId","value"};		
 			cursor = db.query("budgetitems", columns, null, null, null, null, null);
 		} else {
-			cursor = db.rawQuery("SELECT budgetitems.id, budgetitems.categoryId, budgetitems.value, categories.parentId FROM budgetitems INNER JOIN categories ON budgetitems.categoryId==categories.id WHERE categories.parentId == "+parent.getId(), null);
+			cursor = db.rawQuery("SELECT budgetitems.id, budgetitems.categoryId, budgetitems.value, categories.parentId FROM budgetitems INNER JOIN categories ON budgetitems.categoryId==categories.id WHERE categories.id == "+parent.getId()+" OR categories.parentId == "+parent.getId(), null);
 		}
 		
 		if(cursor.moveToFirst()) {
