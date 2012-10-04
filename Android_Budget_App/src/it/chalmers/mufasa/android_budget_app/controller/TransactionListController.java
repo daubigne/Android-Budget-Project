@@ -37,12 +37,16 @@ public class TransactionListController {
 	}
 
 	/**
-	 * Removes the given transaction from the database and the model
+	 * Removes the given transaction.
 	 */
 	public void removeTransaction(Transaction transaction) {
 		account.removeTransaction(transaction);
 	}
 	
+	/**
+	 * Returns a list of transactions.
+	 * @param nbrOfTransactions. The number of transactions to be retrieved.
+	 */
 	public List<Transaction> getTransactions(int nbrOfTransactions){
 		return account.getTransactions(nbrOfTransactions);
 	}

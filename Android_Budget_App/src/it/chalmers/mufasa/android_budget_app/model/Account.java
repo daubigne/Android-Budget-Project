@@ -13,8 +13,9 @@ import java.util.List;
 
 import android.content.Context;
 
-/*
- * A class representing a bank account.
+/**
+ * A class that holds almost all data that user has stored in the app. This
+ * class keeps the database updated This is a singleton class.
  * 
  * @author Slurpo
  */
@@ -27,6 +28,7 @@ public class Account {
 	private List<Transaction> transactionList;
 	private List<BudgetItem> budgetItemList;
 	private DataAccessor dataAccessor;
+	// The number of transactions that is to be retrieved from the database.
 	private int nbrOfTransactions;
 
 	private static Account instance = null;
@@ -35,26 +37,31 @@ public class Account {
 
 	private Account(Context context) {
 		dataAccessor = new DataAccessor(context);
+
+		// If the database has an account the retrieves the data from that one.
 		if (dataAccessor.accountExists()) {
 			setId(dataAccessor.getAccountId());
 			setName(dataAccessor.getAccountName());
 			setBalance(dataAccessor.getAccountBalance());
-			
+
+			// If it doesn't a new account is stored in the database.
 		} else {
 			setId(Constants.ACCOUNT_ID);
 			setName("account");
 			setBalance(0.0);
-			dataAccessor.addAccount(getName(),getBalance());
+			dataAccessor.addAccount(getName(), getBalance());
 		}
 		categoryList = new ArrayList<Category>();
 		transactionList = new ArrayList<Transaction>();
 		budgetItemList = new ArrayList<BudgetItem>();
-		
 
 		pcs = new PropertyChangeSupport(this);
 
 	}
 
+	/**
+	 * Returns the only instance of this class.
+	 */
 	public static Account getInstance(Context context) {
 		if (instance == null) {
 			instance = new Account(context);
@@ -77,6 +84,9 @@ public class Account {
 		}
 	}
 
+	/**
+	 * Sets balance to the given amount.
+	 */
 	public void setBalance(double balance) {
 		this.balance = balance;
 		if (dataAccessor.accountExists()) {
@@ -84,18 +94,30 @@ public class Account {
 		}
 	}
 
+	/**
+	 * Returns current balance.
+	 */
 	public double getBalance() {
 		return this.balance;
 	}
 
+	/**
+	 * Returns the name of the account.
+	 */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * Returns the id of the account.
+	 */
 	public int getId() {
 		return this.id;
 	}
 
+	/**
+	 * Returns the budget item that the user have saved.
+	 */
 	public List<BudgetItem> getBudgetItems() {
 		updateBudgetItemList();
 		return budgetItemList;
@@ -106,16 +128,25 @@ public class Account {
 		budgetItemList.addAll(dataAccessor.getBudgetItems());
 	}
 
+	/**
+	 * Stores a budget item in the list of budget items.
+	 */
 	public void addBudgetItem(Category category, Double value) {
 		dataAccessor.addBudgetItem(category, value);
 		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
 
+	/**
+	 * Removes the given budget item from the list of budget items.
+	 */
 	public void removeBudgetItem(BudgetItem budgetItem) {
 		dataAccessor.removeBudgetItem(budgetItem);
 		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
 
+	/**
+	 * Returns the categories that the user have saved.
+	 */
 	public List<Category> getCategories() {
 		updateCategoryList();
 		return categoryList;
@@ -128,43 +159,58 @@ public class Account {
 
 	}
 
+	/**
+	 * Adds a category to the list of categories.
+	 */
 	public void addCategory(String name, Category parent) {
 		dataAccessor.addCategory(name, parent);
 		updateCategoryList();
 	}
 
+	/**
+	 * Removes the given category from the list of categories.
+	 */
 	public void removeCategory(Category category) {
 		dataAccessor.removeCategory(category);
 		updateCategoryList();
 	}
 
+	/**
+	 * Returns the transactions that the users have saved.
+	 */
 	public List<Transaction> getTransactions(int nbrOfTransactions) {
-		transactionList.clear();
 		this.nbrOfTransactions = nbrOfTransactions;
 		updateTransactionList();
 		return transactionList;
 	}
 
 	private void updateTransactionList() {
+		transactionList.clear();
 		transactionList.addAll(dataAccessor.getTransactions(this, SortBy.DATE,
 				SortByOrder.DESC, 0, nbrOfTransactions));
 	}
 
+	/**
+	 * Adds a transaction to the list of transactions.
+	 */
 	public void addTransaction(double amount, Date date, String name,
 			Category category) {
 		dataAccessor.addTransaction(amount, date, name, category);
-		updateBalance();	
+		updateBalance();
 		pcs.firePropertyChange("Transactions Updated", null, null);
 
 	}
 
+	/**
+	 * Removes the given transaction from the list of transactions.
+	 */
 	public void removeTransaction(Transaction transaction) {
 		dataAccessor.removeTransaction(transaction);
 		updateBalance();
 		pcs.firePropertyChange("Transactions Updated", null, null);
 	}
-	
-	private void updateBalance(){
+
+	private void updateBalance() {
 		setBalance(dataAccessor.getAccountBalance());
 	}
 

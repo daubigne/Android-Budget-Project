@@ -20,8 +20,6 @@ import android.test.RenamingDelegatingContext;
  */
 public class TransactionListControllerTest extends AndroidTestCase {
 
-	private int listSize = 0;
-
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -47,7 +45,6 @@ public class TransactionListControllerTest extends AndroidTestCase {
 		if (list.size() != 2) {
 			fail("Size != 2 is " + list.size());
 		}
-		listSize = list.size();
 	}
 	
 	public void testRemoveTransactions() {
@@ -74,11 +71,9 @@ public class TransactionListControllerTest extends AndroidTestCase {
 
 
 		List<Transaction> list = controller.getTransactions(100);
-		System.out.println(listSize);
 		
 		if (list.size() != 3) {
 			fail("Size != 3 is " + list.size());
 		}
-		listSize = list.size();
 	}
 }
