@@ -8,12 +8,12 @@ import it.chalmers.mufasa.android_budget_app.model.Category;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -66,11 +66,17 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     		for(BudgetItem bi : list) {
 	    		View v = this.getLayoutInflater().inflate(R.layout.budget_item_edit_row_edit, null);
 	    		
+	    		v.setTag(bi);
+	    		
 	    		Button categoryButton = (Button) v.findViewById(R.id.budgetItemEditRowEditCategoryButton);
 	            categoryButton.setText(bi.getCategory().getName());
+	            categoryButton.setTag(bi.getCategory()); //Stores the budgetitem object in the button so it can be accessed in onClick events.
 	            
 	            EditText valueTextEdit = (EditText) v.findViewById(R.id.budgetItemEditRowEditValueTextEdit);
 	            valueTextEdit.setText(bi.getValue().toString());
+	            
+	            Button removeButton = (Button) v.findViewById(R.id.budgetItemEditRowEditRemoveButton);
+	            removeButton.setTag(v);
 	            
 	            budgetListLayout.addView(v);
 	    	}
@@ -100,7 +106,7 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     public void addBudgetItemRow(View view) {
     	controller.addBudgetItem(model.getCurrentMainCategory(), 0.0);
     }
-    
+    /*
     public void addBudgetItem(View view) {
     	//int categoryId = Integer.parseInt(this.categoryIdEditText.getText().toString());
     	double value = Double.parseDouble(this.valueEditText.getText().toString());
@@ -116,13 +122,61 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     	
     	controller.addBudgetItem(cat, value);
     }
+    */
     
     public void enterEditMode(View view) {
     	controller.setEditMode(true);
     }
     
     public void exitEditMode(View view) {
+    	
+    	List<BudgetItem> budgetItemList = new ArrayList<BudgetItem>();
+    	
+    	LinearLayout budgetListLayout = (LinearLayout) findViewById(R.id.budgetItemListLayout);
+    	for(int i=0; i<budgetListLayout.getChildCount(); i++) {
+    		if(budgetListLayout.getChildAt(i) instanceof LinearLayout && budgetListLayout.getChildAt(i).getVisibility() != View.GONE) {
+	    		LinearLayout v = (LinearLayout)budgetListLayout.getChildAt(i);
+	    		
+	    		if(v.getTag() instanceof BudgetItem) {
+	    			
+	    			BudgetItem budgetItem = (BudgetItem) v.getTag();
+	    			
+		    		Button categoryButton = (Button)v.findViewById(R.id.budgetItemEditRowEditCategoryButton);
+		    		EditText valueText = (EditText)v.findViewById(R.id.budgetItemEditRowEditValueTextEdit);
+	    			
+		    		Category category = (Category)categoryButton.getTag();
+		    		Double value = Double.parseDouble(valueText.getText().toString());
+		    		
+	    			//budgetItem.setCategory(category);
+	    			//budgetItem.setValue(value);
+	    			
+	    			//rfnoneed
+	    			budgetItemList.add(new BudgetItem(budgetItem.getId(),category,value));
+	    		}
+    		}
+    	}
+    	
+    	//rfnoneed
+    	controller.saveAllBudgetItems(budgetItemList);
+    	
     	controller.setEditMode(false);
+    }
+    
+    public void chooseCategory(View view) {
+    	
+    	//TODO Choose category via ChooseCategoryActivity
+    	if(view.getTag() instanceof Category) {
+    		Category category = (Category) view.getTag();
+    		System.out.println("Choose category... current category:" + category);
+    	}
+    }
+    
+    public void removeItem(View view) {
+    	
+    	if(view.getTag() instanceof LinearLayout) {
+    		LinearLayout v = (LinearLayout) view.getTag();
+    		v.setVisibility(View.GONE);
+    	}
     }
     
     public void setEditButtonBar() {

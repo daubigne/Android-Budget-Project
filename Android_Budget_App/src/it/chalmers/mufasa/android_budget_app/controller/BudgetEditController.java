@@ -4,6 +4,9 @@ import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor;
 import it.chalmers.mufasa.android_budget_app.model.BudgetEditModel;
 import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
+
+import java.util.List;
+
 import android.content.Context;
 
 public class BudgetEditController {
@@ -21,6 +24,18 @@ public class BudgetEditController {
 	private void initModel() {
 		model.setBudgetItems(dataAccessor.getBudgetItems());
 		model.setCurrentMainCategory(dataAccessor.getCategory(1));
+	}
+	
+	public void saveAllBudgetItems(List<BudgetItem> list) {
+		
+		for(BudgetItem item : dataAccessor.getBudgetItems()) {
+			dataAccessor.removeBudgetItem(item);
+		}
+		
+		for(BudgetItem item : list) {
+			dataAccessor.addBudgetItem(item.getCategory(), item.getValue());
+		}
+		model.setBudgetItems(dataAccessor.getBudgetItems());
 	}
 	
 	public void addBudgetItem(Category category, Double value) {
