@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 /**
  * 
  * @author daubigne
@@ -14,10 +15,22 @@ import android.view.ViewGroup;
  *
  */
 public class TypicalFragment extends Fragment{
+	
+	String str;
+	
+	public TypicalFragment(String str) {
+		this.str = str;
+	}
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.typical_fragment, container, false);
+		View v = inflater.inflate(R.layout.typical_fragment, container, false);
+		
+		TextView tv = (TextView)v.findViewById(R.id.textView1);
+		tv.setText(str);
+		
+		return v;
 	}
 	
 	//can implement onCreate() etc in the fragment.

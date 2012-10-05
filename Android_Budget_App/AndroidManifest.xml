@@ -16,7 +16,7 @@
             android:label="@string/title_activity_main" >
         </activity>
         <activity
-            android:name=".activities.HomeScreenHostActivity"
+            android:name=".activities.HostActivity"
             android:label="@string/title_activity_home_screen_host" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
