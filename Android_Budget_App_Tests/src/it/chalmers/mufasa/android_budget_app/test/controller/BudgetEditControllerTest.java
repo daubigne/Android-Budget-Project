@@ -1,6 +1,3 @@
-/**
- * 
- */
 package it.chalmers.mufasa.android_budget_app.test.controller;
 
 import it.chalmers.mufasa.android_budget_app.controller.BudgetEditController;
