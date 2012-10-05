@@ -119,13 +119,17 @@ public class Account {
 	 * Returns the budget item that the user have saved.
 	 */
 	public List<BudgetItem> getBudgetItems() {
-		updateBudgetItemList();
+		return getBudgetItems(null);
+	}
+	
+	public List<BudgetItem> getBudgetItems(Category parent) {
+		updateBudgetItemList(parent);
 		return budgetItemList;
 	}
 
-	private void updateBudgetItemList() {
+	private void updateBudgetItemList(Category parent) {
 		budgetItemList.clear();
-		budgetItemList.addAll(dataAccessor.getBudgetItems());
+		budgetItemList.addAll(dataAccessor.getBudgetItems(parent));
 	}
 
 	/**
@@ -150,6 +154,10 @@ public class Account {
 	public List<Category> getCategories() {
 		updateCategoryList();
 		return categoryList;
+	}
+	
+	public Category getCategory(int id) {
+		return dataAccessor.getCategory(id);
 	}
 
 	private void updateCategoryList() {

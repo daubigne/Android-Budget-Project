@@ -6,50 +6,24 @@ import it.chalmers.mufasa.android_budget_app.model.Category;
 
 import java.util.List;
 
-import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
-import android.content.Context;
-
 public class BudgetEditController {
 	
-	DataAccessor dataAccessor;
 	BudgetEditModel model;
 	
-	public BudgetEditController(Context context, BudgetEditModel model) {
+	public BudgetEditController(BudgetEditModel model) {
 		this.model = model;
-		
-		initModel();
 	}
 	
-	private void initModel() {
-		model.setCurrentMainCategory(dataAccessor.getCategory(1));
-		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
+	public void newBudgetItem() {
+		model.newBudgetItem();
+	}
+	
+	public void removeBudgetItem(BudgetItem bi) {
+		model.removeBudgetItem(bi);
 	}
 	
 	public void saveAllBudgetItems(List<BudgetItem> list) {
-		
-		for(BudgetItem item : dataAccessor.getBudgetItems(model.getCurrentMainCategory())) {
-			dataAccessor.removeBudgetItem(item);
-		}
-		
-		for(BudgetItem item : list) {
-			dataAccessor.addBudgetItem(item.getCategory(), item.getValue());
-		}
-		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
-	}
-	
-	public void addBudgetItem(Category category, Double value) {
-		dataAccessor.addBudgetItem(category, value);
-		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
-	}
-	
-	public void editBudgetItem(BudgetItem item, Double value) {
-		dataAccessor.editBudgetItem(item, value);
-		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
-	}
-	
-	public void removeBudgetItem(BudgetItem item) {
-		dataAccessor.removeBudgetItem(item);
-		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
+		model.replaceBudgetItems(list);
 	}
 	
 	public void setEditMode(boolean set) {
@@ -57,12 +31,10 @@ public class BudgetEditController {
 	}
 
 	public void switchToIncome() {
-		model.setCurrentMainCategory(dataAccessor.getCategory(1));
-		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
+		model.setCurrentMainCategory(1);
 	}
 	
 	public void switchToExpenses() {
-		model.setCurrentMainCategory(dataAccessor.getCategory(2));
-		model.setBudgetItems(dataAccessor.getBudgetItems(model.getCurrentMainCategory()));
+		model.setCurrentMainCategory(2);
 	}
 }

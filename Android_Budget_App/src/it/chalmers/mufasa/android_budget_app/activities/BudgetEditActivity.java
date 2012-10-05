@@ -36,12 +36,12 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_edit);
         
-        this.model = new BudgetEditModel();
-        this.controller = new BudgetEditController(this.getApplicationContext(), model);
+        this.model = new BudgetEditModel(this.getApplicationContext());
+        this.controller = new BudgetEditController(model);
         
         model.addPropertyChangeListener(this);
         
-        this.populateBudgetListView(model.getBudgetItems());
+        controller.switchToIncome();
     }
     
     private void populateBudgetListView(List<BudgetItem> list) {
@@ -63,7 +63,7 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
 	            valueTextEdit.setText(bi.getValue().toString());
 	            
 	            Button removeButton = (Button) v.findViewById(R.id.budgetItemEditRowEditRemoveButton);
-	            removeButton.setTag(v);
+	            removeButton.setTag(bi);
 	            
 	            budgetListLayout.addView(v);
 	    	}
@@ -91,7 +91,7 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     }
     
     public void addBudgetItemRow(View view) {
-    	controller.addBudgetItem(model.getCurrentMainCategory(), 0.0);
+    	controller.newBudgetItem();
     }
     
     public void enterEditMode(View view) {
@@ -151,9 +151,9 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     
     public void removeItem(View view) {
     	
-    	if(view.getTag() instanceof LinearLayout) {
-    		LinearLayout v = (LinearLayout) view.getTag();
-    		v.setVisibility(View.GONE);
+    	if(view.getTag() instanceof BudgetItem) {
+    		BudgetItem bi = (BudgetItem) view.getTag();
+    		controller.removeBudgetItem(bi);
     	}
     }
     
@@ -182,17 +182,26 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     }
 
 	public void propertyChange(PropertyChangeEvent event) {
-		if(event.getPropertyName().equals("updated_budgetitem_list")) {
+		if(event.getPropertyName().equals("replaced_budgetitem_list")) {
 			this.populateBudgetListView(model.getBudgetItems());
 		}
 		
-		if(event.getPropertyName().equals("editmode")) {
+		if(event.getPropertyName().equals("changed_editmode")) {
 			this.populateBudgetListView(model.getBudgetItems());
 			this.setEditButtonBar();
 		}
 		
 		if(event.getPropertyName().equals("updated_current_category")) {
 			this.updateIncomeExpensesButtons();
+			this.populateBudgetListView(model.getBudgetItems());
+		}
+		
+		if(event.getPropertyName().equals("new_budgetitem")) {
+			this.populateBudgetListView(model.getBudgetItems());
+		}
+		
+		if(event.getPropertyName().equals("removed_budgetitem")) {
+			this.populateBudgetListView(model.getBudgetItems());
 		}
 	}
 }
