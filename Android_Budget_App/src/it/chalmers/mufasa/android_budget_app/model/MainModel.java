@@ -13,7 +13,7 @@ public class MainModel{
 	private PropertyChangeSupport pcs;
 	
 	public MainModel() {
-		account = new Account(1, "placeholder", balance);
+		//account = new Account(1, "placeholder", balance);
 		this.balance = 0;
 		transactionHistory = new ArrayList<Transaction>();
 		

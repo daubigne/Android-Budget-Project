@@ -1,4 +1,4 @@
-package it.chalmers.mufasa.android_budget_app.controller.database;
+package it.chalmers.mufasa.android_budget_app.model.database;
 
 import android.content.ContentValues;
 import android.content.Context;

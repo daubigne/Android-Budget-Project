@@ -10,6 +10,7 @@ import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;

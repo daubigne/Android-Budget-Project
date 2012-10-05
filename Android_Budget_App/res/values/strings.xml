@@ -8,6 +8,10 @@
     <string name="transactions">Transactions</string>
     <string name="name">Name</string>
     <string name="title_activity_manage_category">ManageCategoryActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_temporaryactivity">Temporaryactivity</string>
+    <string name="title_activity_home_screen_host">HomeScreenHostActivity</string>
+    <string name="switchsucceded">SwitchSucceded</string>
     <string name="title_activity_budget_edit">BudgetEditActivity</string>
     <string name="category">Category</string>
     <string name="value">Value</string>

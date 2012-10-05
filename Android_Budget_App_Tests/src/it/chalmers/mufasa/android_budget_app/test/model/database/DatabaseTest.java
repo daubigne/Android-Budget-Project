@@ -1,13 +1,13 @@
-package it.chalmers.mufasa.android_budget_app.test.controller.database;
+package it.chalmers.mufasa.android_budget_app.test.model.database;
 
 
-import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor;
-import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor.SortBy;
-import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor.SortByOrder;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortBy;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortByOrder;
 
 import java.util.Date;
 import java.util.List;
@@ -15,18 +15,18 @@ import java.util.List;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
-public class DatabaseTest extends AndroidTestCase {
-	
-	DataAccessor dataAccessor;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "_test"); //This will start with fresh userdata
-		
-		dataAccessor = new DataAccessor(context);
-	}
-
+//public class DatabaseTest extends AndroidTestCase {
+//	
+//	DataAccessor dataAccessor;
+//
+//	protected void setUp() throws Exception {
+//		super.setUp();
+//		
+//		RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "_test"); //This will start with fresh userdata
+//		
+//		dataAccessor = new DataAccessor(context);
+//	}
+//
 //	public void testAddAccount() {
 //		
 //		double balance = 10.0;
@@ -54,7 +54,7 @@ public class DatabaseTest extends AndroidTestCase {
 //			fail("Could not add and get two first categories. Size:"+catList.size());
 //		}
 //	}
-	
+//	
 //	public void testAddSubCategories() {
 //		
 //		dataAccessor.addCategory("1", null);
@@ -96,7 +96,7 @@ public class DatabaseTest extends AndroidTestCase {
 //			fail("Could not add or get subcategories. Size:"+catList.size());
 //		}
 //	}
-	
+//	
 //	public void testAddTransactions() {
 //		dataAccessor.addAccount("My Account",0);
 //		dataAccessor.addCategory("category", null);
@@ -125,7 +125,7 @@ public class DatabaseTest extends AndroidTestCase {
 //		}
 //		
 //	}
-	
+//	
 //	public void testRemoveTransactions() {
 //		dataAccessor.addAccount("My Account",0);
 //		dataAccessor.addCategory("category", null);
@@ -158,85 +158,60 @@ public class DatabaseTest extends AndroidTestCase {
 //			fail("Balance != 100 is " + account.getBalance());
 //		}		
 //	}
-
-	public void testRemoveCategory(){
-		Category category;
-		dataAccessor.addCategory("herpaderp", null);
-		
-		category = dataAccessor.getCategory(1);
-		System.out.println(category.getName());
-		
-		dataAccessor.removeCategory(category);
-		if(dataAccessor.getCategory(category.getId())!=null){
-			fail("Could not remove category: "+category.getName());
-		}
-	}
-	
-	public void testEditCategory(){
-		Category category;
-		
-		dataAccessor.addCategory("herpaderp", null);
-		category = dataAccessor.getCategory(1);
-		dataAccessor.editCategory(category, "derpaherp");
-		category = dataAccessor.getCategory(1);
-		
-		if(!category.getName().equals("derpaherp")){
-			fail("Could not rename category: "+category.getName());
-		}
-	}
-	
-	public void testAddBudgetItems() {
-		
-		dataAccessor.addCategory("food", null);
-		
-		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
-		
-		List<BudgetItem> list = dataAccessor.getBudgetItems();
-		
-		for(BudgetItem item : list) {
-			System.out.println("Category: " + item.getCategory().getName() + " Value: " + item.getValue());
-		}
-		
-		boolean condition1 = list.size() == 1;
-		boolean condition2 = list.get(0).getValue() == 2000.0;
-		
-		assertTrue(condition1 && condition2);
-	}
-	
-	public void testEditBudgetItem() {
-		
-		dataAccessor.addCategory("food", null);
-		
-		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
-		
-		List<BudgetItem> list = dataAccessor.getBudgetItems();
-		
-		for(BudgetItem item : list) {
-			System.out.println("Category: " + item.getCategory().getName() + " Value: " + item.getValue());
-		}
-		
-		boolean condition1 = list.size() == 1;
-		boolean condition2 = list.get(0).getValue() == 2000.0;
-		
-		assertTrue(condition1 && condition2);
-	}
-	
-	public void testRemoveBudgetItems() {
-		
-		dataAccessor.addCategory("food", null);
-		
-		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
-		
-		List<BudgetItem> list = dataAccessor.getBudgetItems();
-		
-		for(BudgetItem item : list) {
-			System.out.println("Category: " + item.getCategory().getName() + " Value: " + item.getValue());
-		}
-		
-		boolean condition1 = list.size() == 1;
-		boolean condition2 = list.get(0).getValue() == 2000.0;
-		
-		assertTrue(condition1 && condition2);
-	}
-
-}
+//	
+//	
+//	public void testAddBudgetItems() {
+//		
+//		dataAccessor.addCategory("food", null);
+//		
+//		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
+//		
+//		List<BudgetItem> list = dataAccessor.getBudgetItems();
+//		
+//		for(BudgetItem item : list) {
+//			System.out.println("Category: " + item.getCategory().getName() + " Value: " + item.getValue());
+//		}
+//		
+//		boolean condition1 = list.size() == 1;
+//		boolean condition2 = list.get(0).getValue() == 2000.0;
+//		
+//		assertTrue(condition1 && condition2);
+//	}
+//	
+//	public void testEditBudgetItem() {
+//		
+//		dataAccessor.addCategory("food", null);
+//		
+//		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
+//		
+//		List<BudgetItem> list = dataAccessor.getBudgetItems();
+//		
+//		for(BudgetItem item : list) {
+//			System.out.println("Category: " + item.getCategory().getName() + " Value: " + item.getValue());
+//		}
+//		
+//		boolean condition1 = list.size() == 1;
+//		boolean condition2 = list.get(0).getValue() == 2000.0;
+//		
+//		assertTrue(condition1 && condition2);
+//	}
+//	
+//	public void testRemoveBudgetItems() {
+//		
+//		dataAccessor.addCategory("food", null);
+//		
+//		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
+//		
+//		List<BudgetItem> list = dataAccessor.getBudgetItems();
+//		
+//		for(BudgetItem item : list) {
+//			System.out.println("Category: " + item.getCategory().getName() + " Value: " + item.getValue());
+//		}
+//		
+//		boolean condition1 = list.size() == 1;
+//		boolean condition2 = list.get(0).getValue() == 2000.0;
+//		
+//		assertTrue(condition1 && condition2);
+//	}
+//
+//}

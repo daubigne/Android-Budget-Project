@@ -4,7 +4,7 @@
     android:versionName="0.0.1" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="15" />
 
     <application
@@ -14,11 +14,16 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_activity_main" >
-
         </activity>
         <activity
             android:name=".activities.ManageCategoryActivity"
             android:label="@string/title_activity_manage_category" >
+
+        </activity>
+        <activity
+            android:name=".activities.HostActivity"
+            android:label="@string/title_activity_home_screen_host" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

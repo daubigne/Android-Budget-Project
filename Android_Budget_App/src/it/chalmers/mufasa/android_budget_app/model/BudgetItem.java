@@ -2,9 +2,9 @@ package it.chalmers.mufasa.android_budget_app.model;
 
 public class BudgetItem {
 
-	int id;
-	Category category;
-	Double value;
+	private int id;
+	private Category category;
+	private Double value;
 	
 	public BudgetItem(int id, Category category, Double value) {
 		this.id = id;

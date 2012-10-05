@@ -4,6 +4,7 @@ import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
+import it.chalmers.mufasa.android_budget_app.model.database.DatabaseOpenHelper;
 import it.chalmers.mufasa.android_budget_app.settings.Settings;
 
 import java.text.SimpleDateFormat;
@@ -38,44 +39,44 @@ public class DataAccessor {
 		DESC, ASC
 	}
 
-	public List<Account> getAccounts() {
-
-		List<Account> accountList = new ArrayList<Account>();
-
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-		String[] arr = { "id", "name", "balance" };
-		Cursor cursor = db.query("accounts", arr, null, null, null, null, null);
-
-		if (cursor.moveToFirst()) {
-			accountList.add(new Account(cursor.getInt(0), cursor.getString(1),
-					cursor.getDouble(2)));
-
-			while (cursor.moveToNext()) {
-				accountList.add(new Account(cursor.getInt(0), cursor
-						.getString(1), cursor.getDouble(2)));
-			}
-		}
-
-		return accountList;
-
-	}
-
-	public Account getAccount(int accountID) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-		String[] arr = { "id", "name", "balance" };
-		Cursor cursor = db.query("accounts", arr, "id == " + accountID, null,
-				null, null, null);
-
-		if (cursor.moveToFirst()) {
-			return new Account(cursor.getInt(0), cursor.getString(1),
-					cursor.getDouble(2));
-		} else {
-			throw new IllegalArgumentException("Account ID " + accountID
-					+ " does not exist");
-		}
-	}
+//	public List<Account> getAccounts() {
+//
+//		List<Account> accountList = new ArrayList<Account>();
+//
+//		SQLiteDatabase db = new DatabaseOpenHelper(context)
+//				.getWritableDatabase();
+//		String[] arr = { "id", "name", "balance" };
+//		Cursor cursor = db.query("accounts", arr, null, null, null, null, null);
+//
+//		if (cursor.moveToFirst()) {
+//			accountList.add(new Account(cursor.getInt(0), cursor.getString(1),
+//					cursor.getDouble(2)));
+//
+//			while (cursor.moveToNext()) {
+//				accountList.add(new Account(cursor.getInt(0), cursor
+//						.getString(1), cursor.getDouble(2)));
+//			}
+//		}
+//
+//		return accountList;
+//
+//	}
+//
+//	public Account getAccount(int accountID) {
+//		SQLiteDatabase db = new DatabaseOpenHelper(context)
+//				.getWritableDatabase();
+//		String[] arr = { "id", "name", "balance" };
+//		Cursor cursor = db.query("accounts", arr, "id == " + accountID, null,
+//				null, null, null);
+//
+//		if (cursor.moveToFirst()) {
+//			return new Account(cursor.getInt(0), cursor.getString(1),
+//					cursor.getDouble(2));
+//		} else {
+//			throw new IllegalArgumentException("Account ID " + accountID
+//					+ " does not exist");
+//		}
+//	}
 
 	public void addAccount(String name, double balance) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
@@ -124,73 +125,73 @@ public class DataAccessor {
 
 	}
 
-	public void removeTransaction(Transaction transaction) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-		db.execSQL("DELETE FROM transactions WHERE id ==" + transaction.getId());
-		this.setAccountBalance(transaction.getAccount(), transaction
-				.getAccount().getBalance() - transaction.getAmount());
-	}
-
-	public List<Transaction> getTransactions(Account account, SortBy sortBy,
-			SortByOrder sortByOrder, int start, int count) {
-
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-		List<Transaction> transactions = new ArrayList<Transaction>();
-		String sortByTemp = "date";
-		String sortByOrderTemp = "desc";
-
-		// A switch method to decide what identifier to sort transactions by
-		switch (sortBy) {
-		case NAME:
-			sortByTemp = "name";
-			break;
-		case DATE:
-			sortByTemp = "date";
-			break;
-		case CATEGORY:
-			sortByTemp = "category";
-			break;
-		}
-
-		// A switch method to decide how to order the transactions
-		switch (sortByOrder) {
-		case ASC:
-			sortByOrderTemp = "ASC";
-			break;
-		case DESC:
-			sortByOrderTemp = "DESC";
-			break;
-		}
-
-		String[] arr = { "name", "date", "id", "value" };
-
-		Cursor cursor = db.query("transactions", arr,
-				"accountId == " + account.getId(), null, null, null, sortByTemp
-						+ " " + sortByOrderTemp);
-
-		if (cursor.moveToPosition(start)) {
-			for (int i = start; i < Math.min(start + count, cursor.getCount()); i++) {
-				//String dateString = cursor.getString(1);
-				//String[] list = dateString.split("-");
-				// Date date = new Date(Integer.parseInt(list[0]),
-				// Integer.parseInt(list[1]), Integer.parseInt(list[2]));
-				//TODO
-				Date date = new Date(10000);
-
-				// Creates a new transaction with the selected data from the
-				// database and adds the transaction to the list
-				
-				Category category = new Category("untitled category",1,null);
-				Transaction transaction = new Transaction(cursor.getInt(2), (cursor.getInt(3)), date, cursor.getString(2), category, account);
-				transactions.add(transaction);
-				cursor.moveToNext();
-			}
-		}
-
-		return transactions;
-	}
+//	public void removeTransaction(Transaction transaction) {
+//		SQLiteDatabase db = new DatabaseOpenHelper(context)
+//				.getWritableDatabase();
+//		db.execSQL("DELETE FROM transactions WHERE id ==" + transaction.getId());
+//		this.setAccountBalance(transaction.getAccount(), transaction
+//				.getAccount().getBalance() - transaction.getAmount());
+//	}
+//
+//	public List<Transaction> getTransactions(Account account, SortBy sortBy,
+//			SortByOrder sortByOrder, int start, int count) {
+//
+//		SQLiteDatabase db = new DatabaseOpenHelper(context)
+//				.getWritableDatabase();
+//		List<Transaction> transactions = new ArrayList<Transaction>();
+//		String sortByTemp = "date";
+//		String sortByOrderTemp = "desc";
+//
+//		// A switch method to decide what identifier to sort transactions by
+//		switch (sortBy) {
+//		case NAME:
+//			sortByTemp = "name";
+//			break;
+//		case DATE:
+//			sortByTemp = "date";
+//			break;
+//		case CATEGORY:
+//			sortByTemp = "category";
+//			break;
+//		}
+//
+//		// A switch method to decide how to order the transactions
+//		switch (sortByOrder) {
+//		case ASC:
+//			sortByOrderTemp = "ASC";
+//			break;
+//		case DESC:
+//			sortByOrderTemp = "DESC";
+//			break;
+//		}
+//
+//		String[] arr = { "name", "date", "id", "value" };
+//
+//		Cursor cursor = db.query("transactions", arr,
+//				"accountId == " + account.getId(), null, null, null, sortByTemp
+//						+ " " + sortByOrderTemp);
+//
+//		if (cursor.moveToPosition(start)) {
+//			for (int i = start; i < Math.min(start + count, cursor.getCount()); i++) {
+//				//String dateString = cursor.getString(1);
+//				//String[] list = dateString.split("-");
+//				// Date date = new Date(Integer.parseInt(list[0]),
+//				// Integer.parseInt(list[1]), Integer.parseInt(list[2]));
+//				//TODO
+//				Date date = new Date(10000);
+//
+//				// Creates a new transaction with the selected data from the
+//				// database and adds the transaction to the list
+//				
+//				Category category = new Category("untitled category",1,null);
+//				Transaction transaction = new Transaction(cursor.getInt(2), (cursor.getInt(3)), date, cursor.getString(2), category, account);
+//				transactions.add(transaction);
+//				cursor.moveToNext();
+//			}
+//		}
+//
+//		return transactions;
+//	}
 
 	public List<Category> getCategories() {
 		return this.getCategories(null);
