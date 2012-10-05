@@ -15,16 +15,14 @@ public class Transaction {
 	private Date date;
 	private String name;
 	private Category category;
-	private Account account;
 	private int id;
 
 	public Transaction(int id, double amount, Date date, String name,
-			Category category, Account account) {
+			Category category) {
 		setAmount(amount);
 		setDate(date);
 		setName(name);
 		setCategory(category);
-		setAccount(account);
 		setId(id);
 
 	}
@@ -43,10 +41,6 @@ public class Transaction {
 
 	private void setCategory(Category category) {
 		this.category = category;
-	}
-
-	private void setAccount(Account account) {
-		this.account = account;
 	}
 
 	private void setId(int id) {
@@ -70,12 +64,7 @@ public class Transaction {
 		Category temp = this.category;
 		return temp;
 	}
-
-	public Account getAccount() {
-		Account temp = this.account;
-		return temp;
-	}
-
+	
 	public int getId() {
 		return id;
 	}
@@ -89,7 +78,6 @@ public class Transaction {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((account == null) ? 0 : account.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(amount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -118,13 +106,6 @@ public class Transaction {
 			return false;
 		}
 		Transaction other = (Transaction) obj;
-		if (account == null) {
-			if (other.account != null) {
-				return false;
-			}
-		} else if (!account.equals(other.account)) {
-			return false;
-		}
 		if (Double.doubleToLongBits(amount) != Double
 				.doubleToLongBits(other.amount)) {
 			return false;

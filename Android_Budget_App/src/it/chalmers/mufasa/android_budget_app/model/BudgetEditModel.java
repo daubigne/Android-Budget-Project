@@ -6,6 +6,7 @@ import java.util.List;
 
 public class BudgetEditModel {
 
+	Account account;
 	List<BudgetItem> budgetItems;
 	
 	PropertyChangeSupport pcs;

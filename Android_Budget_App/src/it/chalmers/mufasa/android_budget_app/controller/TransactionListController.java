@@ -1,33 +1,29 @@
 package it.chalmers.mufasa.android_budget_app.controller;
 
-import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor;
-import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor.SortBy;
-import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor.SortByOrder;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.model.TransactionListModel;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortBy;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortByOrder;
 
 import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+
 /**
  * A class for saving and updating the users transactions.
+ * 
  * @author: slurpo
  */
 public class TransactionListController {
-	
-	private static final int nrOfTransactionsInList = 100;
 
-	private TransactionListModel model;
-	private DataAccessor dataAccessor;
+	private Account account;
 
-	public TransactionListController(Context context, TransactionListModel model) {
-		this.model = model;
-		this.dataAccessor = new DataAccessor(context);
-		updateAccount();
-		updateTransactionHistory();
+	public TransactionListController(Account account) {
+		this.account = account;
 
 	}
 
@@ -35,34 +31,23 @@ public class TransactionListController {
 	 * Stores the given data as a transaction in the model and the database.
 	 */
 	public void addTransaction(Double amount, Date date, String name,
-			Category category, Account account) {
-		dataAccessor.addTransaction(amount, date, name, category, account);
-		updateAccount();
-		updateTransactionHistory();
+			Category category) {
+
+		account.addTransaction(amount, date, name, category);
 	}
 
 	/**
-	 * Updates the account in the model.
-	 */
-	private void updateAccount() {
-		model.setAccount(dataAccessor.getAccount(dataAccessor.getSettings()
-				.getCurrentAccountId()));
-	}
-
-	/**
-	 * Updates the transaction history in the model.
-	 */
-	private void updateTransactionHistory() {
-		model.updateTransactionHistory(dataAccessor.getTransactions(
-				model.getAccount(), SortBy.DATE, SortByOrder.DESC, 0, nrOfTransactionsInList));
-	}
-
-	/**
-	 * Removes the given transaction from the database and the model
+	 * Removes the given transaction.
 	 */
 	public void removeTransaction(Transaction transaction) {
-		dataAccessor.removeTransaction(transaction);
-		updateAccount();
-		updateTransactionHistory();
+		account.removeTransaction(transaction);
+	}
+	
+	/**
+	 * Returns a list of transactions.
+	 * @param nbrOfTransactions. The number of transactions to be retrieved.
+	 */
+	public List<Transaction> getTransactions(int nbrOfTransactions){
+		return account.getTransactions(nbrOfTransactions);
 	}
 }

@@ -8,9 +8,11 @@ import java.util.List;
 
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.TransactionListController;
+import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.model.TransactionListModel;
+import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -27,6 +29,7 @@ public class TransactionListActivity extends Activity implements
 
 	private TransactionListController controller;
 	private TransactionListModel model;
+	private Account account;
 
 	private EditText transactionNameField;
 	private ListView listView;
@@ -41,10 +44,9 @@ public class TransactionListActivity extends Activity implements
 		transactionNameField = (EditText) findViewById(R.id.transactionNameField);
 		listView = (ListView) findViewById(R.id.transactionList);
 
-		this.model = new TransactionListModel();
-		this.controller = new TransactionListController(
-				this.getApplicationContext(), model);
-		this.model.addPropertyChangeListener(this);
+		this.account = Account.getInstance(this.getApplicationContext());
+		this.controller = new TransactionListController(this.account);
+		this.account.addPropertyChangeListener(this);
 
 		transactionListString = new ArrayList<String>();
 		//controller.updateTransactionHistory();
@@ -57,7 +59,7 @@ public class TransactionListActivity extends Activity implements
 	/**
 	 * Takes data from textfields and stores it as a trasnsaction.
 	 */
-	private void saveTransaction(View view) {
+	public void saveTransaction(View view) {
 		Category cat = new Category("CatFromSaveTransaction", 1, null);
 		
 		// TODO: If nothing is written in the text field?
@@ -69,8 +71,7 @@ public class TransactionListActivity extends Activity implements
 		}
 		// TODO: This function should get more user input in the future.
 		controller.addTransaction(Double.parseDouble(amount), new Date(), "",
-				cat, model.getAccount());
-
+				cat);
 	}
 	
 	/**
@@ -78,7 +79,7 @@ public class TransactionListActivity extends Activity implements
 	 */
 	private void updateTransactionList() {
 		transactionListString.clear();
-		for (Transaction t : model.getTransactionHistory()) {
+		for (Transaction t : account.getTransactions(Constants.NUMBER_OF_TRANSACTIONS)) {
 			transactionListString.add(t.getAmount() + "");
 		}
 		listView.setAdapter(listAdapter);
@@ -88,16 +89,16 @@ public class TransactionListActivity extends Activity implements
 	/**
 	 * Removes the first transaction in the transaction list.
 	 */
-	private void removeTransaction(View view) {
-		List<Transaction> transactionList = model.getTransactionHistory();
+	public void removeTransaction(View view) {
+		List<Transaction> transactionList = account.getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
 		if (transactionList.isEmpty()) {
 			return;
 		}
-		controller.removeTransaction(model.getTransactionHistory().get(0));
+		controller.removeTransaction(account.getTransactions(1).get(0));
 	}
 
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals("Transaction Updated")) {
+		if (event.getPropertyName().equals("Transactions Updated")) {
 			updateTransactionList();
 		}
 	}
