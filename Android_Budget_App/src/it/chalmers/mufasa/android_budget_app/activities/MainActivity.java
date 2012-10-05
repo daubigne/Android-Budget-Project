@@ -7,6 +7,7 @@ import it.chalmers.mufasa.android_budget_app.model.MainModel;
 import it.chalmers.mufasa.android_budget_app.model.ModelListener;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
@@ -21,7 +22,7 @@ import java.util.Date;
  * A class that responds to user input.
  */
 
-public class MainActivity extends Activity implements ModelListener {
+public class MainActivity extends FragmentActivity implements ModelListener {
 
 	private MainController controller;
 	private MainModel model;

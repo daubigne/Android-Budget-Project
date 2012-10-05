@@ -7,5 +7,9 @@
     <string name="save">Save</string>
     <string name="transactions">Transactions</string>
     <string name="name">Name</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_temporaryactivity">Temporaryactivity</string>
+    <string name="title_activity_home_screen_host">HomeScreenHostActivity</string>
+    <string name="switchsucceded">SwitchSucceded</string>
 
 </resources>
