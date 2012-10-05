@@ -202,26 +202,28 @@ public class DataAccessor {
 
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
-		String[] arr = { "name", "id", "parentId" };
+		String[] arr = { "name", "id", "parentId" };//use more?
 
-		Cursor cursor = db.query("categories", arr, null, null, null, null,
-				null);
 
-		if (cursor.moveToFirst()) {
-			Category category = new Category(cursor.getString(0),cursor.getInt(1), this.getCategory(cursor.getInt(2)));
-			
-			list.add(category);
-			
-			while (cursor.moveToNext()) {
-				category = new Category(cursor.getString(0), cursor.getInt(1),
-						this.getCategory(cursor.getInt(2)));
+		Cursor cursor;
+		if(parent == null) {
 				
-				
-					list.add(category);
-				
-				
-			}
+			cursor = db.query("categories", arr, null, null, null, null, null);
+		} else {
+			cursor = db.rawQuery("SELECT name, id, parentId FROM categories WHERE parentId == "+parent.getId(),null);
 		}
+		Category category;
+		if(cursor.moveToFirst()) {
+			category = new Category(cursor.getString(0),cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+			list.add(category);
+			while(cursor.moveToNext()) {
+	
+			category = new Category(cursor.getString(0),cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+			list.add(category);
+			}
+		
+		}
+		
 
 		return list;	
 	}
