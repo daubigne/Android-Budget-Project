@@ -36,7 +36,7 @@ public class HostActivity extends Activity {
 		// fill the app,
 		// upon completion;remove the empty constructor
 		Tab tab1 = theBar.newTab().setText("Home").setTabListener(new HostTabListener(new TypicalFragment("First tab")));
-		Tab tab2 = theBar.newTab().setText("Transactions").setTabListener(new HostTabListener(new TypicalFragment("Second tab")));
+		Tab tab2 = theBar.newTab().setText("Transactions").setTabListener(new HostTabListener(new TransactionFragment()));
 		Tab tab3 = theBar.newTab().setText("Categories").setTabListener(new HostTabListener(new TypicalFragment("Thrid tab")));
 		Tab tab4 = theBar.newTab().setText("Budget").setTabListener(new HostTabListener(new BudgetEditFragment()));
 		Tab tab5 = theBar.newTab().setText("Options").setTabListener(new HostTabListener(new TypicalFragment("Fifth tab")));

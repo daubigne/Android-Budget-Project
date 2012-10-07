@@ -197,6 +197,7 @@ public class Account {
 		transactionList.addAll(dataAccessor.getTransactions(this, SortBy.DATE,
 				SortByOrder.DESC, 0, nbrOfTransactions));
 	}
+	
 
 	/**
 	 * Adds a transaction to the list of transactions.
