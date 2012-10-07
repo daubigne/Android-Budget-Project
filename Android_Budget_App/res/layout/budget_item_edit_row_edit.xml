@@ -10,8 +10,7 @@
         android:id="@+id/budgetItemEditRowEditCategoryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".60"
-        android:onClick="chooseCategory" />
+        android:layout_weight=".60" />
 
     <EditText
         android:id="@+id/budgetItemEditRowEditValueTextEdit"
@@ -26,7 +25,6 @@
         android:id="@+id/budgetItemEditRowEditRemoveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".10"
-        android:onClick="removeItem" />
+        android:layout_weight=".10" />
 
 </LinearLayout>

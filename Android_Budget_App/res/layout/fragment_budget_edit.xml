@@ -14,16 +14,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
-            android:text="@string/income"
-            android:onClick="switchToIncome" />
+            android:text="@string/income" />
 
         <Button
             android:id="@+id/budgetEditExpensesSwitchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
-            android:text="@string/expenses"
-            android:onClick="switchToExpenses" />
+            android:text="@string/expenses" />
 
     </LinearLayout>
 
@@ -37,8 +35,7 @@
             android:id="@+id/budgetItemEditBarEditButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit"
-            android:onClick="enterEditMode" />
+            android:text="@string/edit" />
     </FrameLayout>
 
     <FrameLayout
@@ -52,8 +49,7 @@
             android:id="@+id/budgetItemEditBarEditDoneButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/done"
-            android:onClick="exitEditMode" />
+            android:text="@string/done" />
     </FrameLayout>
 
     <TextView
