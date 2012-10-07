@@ -8,6 +8,7 @@ import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import it.chalmers.mufasa.android_budget_app.settings.Settings;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -333,26 +334,31 @@ public class DataAccessor {
 	}
 
 	public List<BudgetItem> getBudgetItems() {
+		return this.getBudgetItems(null);
+	}
+
+	public List<BudgetItem> getBudgetItems(Category parent) {
 
 		List<BudgetItem> budgetItemList = new ArrayList<BudgetItem>();
 
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
 
-		String[] columns = { "id", "categoryId", "value" };
+		Cursor cursor;
 
-		Cursor cursor = db.query("budgetitems", columns, null, null, null,
-				null, null);
+		if(parent == null) {
+			String[] columns = {"id","categoryId","value"};		
+			cursor = db.query("budgetitems", columns, null, null, null, null, null);
+		} else {
+			cursor = db.rawQuery("SELECT budgetitems.id, budgetitems.categoryId, budgetitems.value, categories.parentId FROM budgetitems INNER JOIN categories ON budgetitems.categoryId==categories.id WHERE categories.id == "+parent.getId()+" OR categories.parentId == "+parent.getId(), null);
+		}
 
-		if (cursor.moveToFirst()) {
+		if(cursor.moveToFirst()) {
 			Category cat = this.getCategory(cursor.getInt(1));
-			BudgetItem item = new BudgetItem(cursor.getInt(0), cat,
-					cursor.getDouble(2));
+			BudgetItem item = new BudgetItem(cursor.getInt(0),cat,cursor.getDouble(2));
 			budgetItemList.add(item);
-			while (cursor.moveToNext()) {
+			while(cursor.moveToNext()) {
 				cat = this.getCategory(cursor.getInt(1));
-				item = new BudgetItem(cursor.getInt(0), cat,
-						cursor.getDouble(2));
+				item = new BudgetItem(cursor.getInt(0),cat,cursor.getDouble(2));
 				budgetItemList.add(item);
 			}
 		}

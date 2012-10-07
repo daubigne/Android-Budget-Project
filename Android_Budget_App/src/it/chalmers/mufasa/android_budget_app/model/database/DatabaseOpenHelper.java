@@ -1,6 +1,7 @@
 package it.chalmers.mufasa.android_budget_app.model.database;
 
-import android.content.ContentValues;
+import java.util.Collection;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -20,6 +21,15 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 		db.execSQL("CREATE TABLE budgetitems ( id INTEGER PRIMARY KEY, categoryId INTEGER, value FLOAT NOT NULL);");
 
 		this.insertDefaultValues(db);
+		
+		/*
+		//Do not insert default values if just testing...
+		String[] list = db.getPath().split("/");
+		if(list[list.length-1].substring(0, 5).equals("_test")) {
+			return;
+		}
+		*/
+		//this.insertDefaultBudget(db);
 	}
 	
 	private void insertDefaultValues(SQLiteDatabase db) {
@@ -31,7 +41,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 		//Values from average student between 18-30 years in sweden. Data from konsumentverket.se
 		db.execSQL("INSERT INTO categories (name) VALUES (\"Inkomster\")"); //id = 1
 		db.execSQL("INSERT INTO categories (name) VALUES (\"Utgifter\")"); //id = 2
-		
+
 		//Income
 		db.execSQL("INSERT INTO categories (name,parentId) VALUES (\"Studiemedel\",1)");
 		db.execSQL("INSERT INTO budgetitems (categoryId,value) VALUES (3,8920)");

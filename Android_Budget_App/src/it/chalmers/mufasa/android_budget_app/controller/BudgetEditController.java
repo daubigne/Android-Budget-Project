@@ -1,28 +1,40 @@
 package it.chalmers.mufasa.android_budget_app.controller;
 
 import it.chalmers.mufasa.android_budget_app.model.BudgetEditModel;
+import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
-import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
-import android.content.Context;
+
+import java.util.List;
 
 public class BudgetEditController {
 	
-	DataAccessor dataAccessor;
 	BudgetEditModel model;
 	
-	public BudgetEditController(Context context, BudgetEditModel model) {
+	public BudgetEditController(BudgetEditModel model) {
 		this.model = model;
-		
-		initModel();
 	}
 	
-	private void initModel() {
-		model.setBudgetItems(dataAccessor.getBudgetItems());
+	public void newBudgetItem() {
+		model.newBudgetItem();
 	}
 	
-	public void addBudgetItem(Category category, Double value) {
-		dataAccessor.addBudgetItem(category, value);
-		model.setBudgetItems(dataAccessor.getBudgetItems());
+	public void removeBudgetItem(BudgetItem bi) {
+		model.removeBudgetItem(bi);
+	}
+	
+	public void saveAllBudgetItems(List<BudgetItem> list) {
+		model.replaceBudgetItems(list);
+	}
+	
+	public void setEditMode(boolean set) {
+		model.setEditMode(set);
 	}
 
+	public void switchToIncome() {
+		model.setCurrentMainCategory(1);
+	}
+	
+	public void switchToExpenses() {
+		model.setCurrentMainCategory(2);
+	}
 }
