@@ -1,0 +1,19 @@
+Student Budget App v0.1 Release Notes
+========================
+Released on Oct 8, 2012
+
+Requirements
+--------------------
+Smartphone with Android 1.4 or higher
+
+Added features
+--------------------
+* Manage your budget by entering predicted income and expenses.
+* Divide your budget in predefined subcategories.
+* Add transactions to keep track of your real income and expenses.
+
+Known limitations
+--------------------
+* Adding transactions do not work.
+* Can not choose category for budget items.
+* Only two of five tabs have interactive content.
