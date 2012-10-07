@@ -143,6 +143,13 @@ public class Account {
 		dataAccessor.removeBudgetItem(budgetItem);
 		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
+	
+	/**
+	 * Returns a single saved category.
+	 */
+	public Category getCategory(int id) {
+		return dataAccessor.getCategory(id);
+	}
 
 	/**
 	 * Returns the categories that the user have saved.
@@ -221,5 +228,7 @@ public class Account {
 	public void removePropertyChangeListener(PropertyChangeListener l) {
 		pcs.removePropertyChangeListener(l);
 	}
+
+
 
 }

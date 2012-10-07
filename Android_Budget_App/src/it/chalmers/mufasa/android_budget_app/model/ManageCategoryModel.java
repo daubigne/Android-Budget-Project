@@ -4,6 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
+import android.content.Context;
+
 /**
  * version 1
  * 
@@ -13,31 +15,48 @@ import java.util.List;
 
 public class ManageCategoryModel {
 
+	private Account account;
 	private PropertyChangeSupport pcs;
 	private List<Category> categoryList;
 	private Category currentParentCategory;
-	private boolean editMode;
+	private boolean editMode = false;
 
-	public ManageCategoryModel() {
+	public ManageCategoryModel(Context context) {
 		pcs = new PropertyChangeSupport(this);
-	}
-
-	public void setList(List<Category> categoryList) {
-		this.categoryList = categoryList;
-		pcs.firePropertyChange("categoryList", null, null);
+		this.account = Account.getInstance(context);
+		this.setCurrentParentCategory(account.getCategory(2));
 	}
 
 	public List<Category> getCategoryList() {
-		return categoryList;
+		return account.getCategories();
+	}
+
+	public void addCategory(String name, Category parent) {
+		account.addCategory(name, parent);
+		pcs.firePropertyChange("added_category", null, null);
+	}
+
+	public void removeCategory(Category category) {
+		account.removeCategory(category);
+		pcs.firePropertyChange("removed_category", null, null);
+	}
+
+	public void editCategory(Category category, String newName) {
+		// account.editCategory();
+		pcs.firePropertyChange("edited_category", null, null);
 	}
 
 	public Category getCurrentParentCategory() {
 		return currentParentCategory;
 	}
 
+	public void setCurrentParentCategory(int id) {
+		this.setCurrentParentCategory(account.getCategory(id));
+	}
+
 	public void setCurrentParentCategory(Category category) {
 		currentParentCategory = category;
-		pcs.firePropertyChange("categoryList", null, null);
+		pcs.firePropertyChange("changed_parent_category", null, null);
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -50,11 +69,12 @@ public class ManageCategoryModel {
 
 	public boolean isEditMode() {
 		return editMode;
-
 	}
 
-	public void setEditMode(boolean b) {
-		editMode = b;
-		pcs.firePropertyChange("EditSaveMode", null, null);
+	public void setEditMode(boolean set) {
+		if (this.editMode != set) {
+			this.editMode = set;
+			pcs.firePropertyChange("changed_editmode", null, null);
+		}
 	}
 }

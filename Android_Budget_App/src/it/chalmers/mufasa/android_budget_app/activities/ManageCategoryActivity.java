@@ -43,9 +43,8 @@ public class ManageCategoryActivity extends Activity implements
 		incomeButton = (Button) findViewById(R.id.manageCategoryButtonIncome);
 		editSaveButton = (Button) findViewById(R.id.manageCategoryButtonEditSave);
 
-		this.model = new ManageCategoryModel();
-		this.controller = new ManageCategoryController(
-				this.getApplicationContext(), model);
+		this.model = new ManageCategoryModel(this.getApplicationContext());
+		this.controller = new ManageCategoryController(model);
 		model.addPropertyChangeListener(this);
 
 		this.populateCategoryListView(model.getCategoryList());
@@ -139,10 +138,10 @@ public class ManageCategoryActivity extends Activity implements
 	 * Listens for property changes from the model.
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
-		if (event.getPropertyName().equals("categoryList")) {
+//		if (event.getPropertyName().equals("categoryList")) {
+//			populateCategoryListView(model.getCategoryList());
+//		} else if (event.getPropertyName().equals("EditSaveMode")) {
 			populateCategoryListView(model.getCategoryList());
-		} else if (event.getPropertyName().equals("EditSaveMode")) {
-			populateCategoryListView(model.getCategoryList());
-		}
+		
 	}
 }
