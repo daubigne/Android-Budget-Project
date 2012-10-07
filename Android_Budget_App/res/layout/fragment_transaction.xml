@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+    
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transactions"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentTop="true" />
+
+    <EditText
+        android:id="@+id/transactionNameField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:layout_below="@id/textView2" />
+
+    <Button
+        android:id="@+id/saveTransaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save" 
+        android:layout_toRightOf="@id/transactionNameField"/>
+
+    <ListView
+        android:id="@+id/transactionList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/transactionNameField">
+    </ListView>
+    
+    <Button
+        android:id="@+id/removeTransaction"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remove" 
+        android:layout_below="@id/transactionList"/>
+
+</RelativeLayout>
