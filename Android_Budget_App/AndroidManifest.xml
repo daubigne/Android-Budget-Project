@@ -18,10 +18,6 @@
         <activity
             android:name=".activities.HostActivity"
             android:label="@string/title_activity_home_screen_host" >
-        </activity>
-        <activity
-            android:name=".activities.BudgetEditActivity"
-            android:label="@string/title_activity_budget_edit" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

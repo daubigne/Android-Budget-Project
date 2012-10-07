@@ -11,10 +11,12 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -26,32 +28,44 @@ import android.widget.TextView;
  * @author Simon
  *
  */
-public class BudgetEditActivity extends Activity implements PropertyChangeListener {
+public class BudgetEditFragment extends Fragment implements PropertyChangeListener {
 
 	private BudgetEditController controller;
 	private BudgetEditModel model;
 	
+	LayoutInflater inflater;
+	private View view;
+	
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_budget_edit);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+    	this.inflater = inflater;
+    	this.view = inflater.inflate(R.layout.fragment_budget_edit, container, false);
         
-        this.model = new BudgetEditModel(this.getApplicationContext());
+        this.model = new BudgetEditModel(this.getActivity());
         this.controller = new BudgetEditController(model);
         
         model.addPropertyChangeListener(this);
         
         controller.switchToIncome();
+        
+        this.setupOnClickListeners();
+        
+        return view;
+    }
+    
+    private void setupOnClickListeners() {
+    	//TODO set onClick events by code instead of in the xml. Because of android silly structure.
     }
     
     private void populateBudgetListView(List<BudgetItem> list) {
-    	LinearLayout budgetListLayout = (LinearLayout) findViewById(R.id.budgetItemListLayout);
+    	LinearLayout budgetListLayout = (LinearLayout) view.findViewById(R.id.budgetItemListLayout);
     	budgetListLayout.removeAllViews();
     	
     	
     	if(model.isEditMode()) {
     		for(BudgetItem bi : list) {
-	    		View v = this.getLayoutInflater().inflate(R.layout.budget_item_edit_row_edit, null);
+	    		View v = inflater.inflate(R.layout.budget_item_edit_row_edit, null);
 	    		
 	    		v.setTag(bi);
 	    		
@@ -68,10 +82,10 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
 	            budgetListLayout.addView(v);
 	    	}
     		
-    		budgetListLayout.addView(this.getLayoutInflater().inflate(R.layout.budget_item_edit_row_addbutton, null));
+    		budgetListLayout.addView(inflater.inflate(R.layout.budget_item_edit_row_addbutton, null));
     	} else {
     		for(BudgetItem bi : list) {
-    			View v = this.getLayoutInflater().inflate(R.layout.budget_item_edit_row, null);
+    			View v = inflater.inflate(R.layout.budget_item_edit_row, null);
 	    		
 	    		TextView categoryButton = (TextView) v.findViewById(R.id.budgetItemEditRowCategoryTextView);
 	            categoryButton.setText(bi.getCategory().getName());
@@ -82,12 +96,6 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
 	            budgetListLayout.addView(v);
     		}
     	}
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_budget_edit, menu);
-        return true;
     }
     
     public void addBudgetItemRow(View view) {
@@ -102,7 +110,7 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     	
     	List<BudgetItem> budgetItemList = new ArrayList<BudgetItem>();
     	
-    	LinearLayout budgetListLayout = (LinearLayout) findViewById(R.id.budgetItemListLayout);
+    	LinearLayout budgetListLayout = (LinearLayout) view.findViewById(R.id.budgetItemListLayout);
     	for(int i=0; i<budgetListLayout.getChildCount(); i++) {
     		if(budgetListLayout.getChildAt(i) instanceof LinearLayout && budgetListLayout.getChildAt(i).getVisibility() != View.GONE) {
 	    		LinearLayout v = (LinearLayout)budgetListLayout.getChildAt(i);
@@ -159,25 +167,25 @@ public class BudgetEditActivity extends Activity implements PropertyChangeListen
     
     public void setEditButtonBar() {
     	if(model.isEditMode()) {
-    		View doneBar = this.findViewById(R.id.budgetItemEditDoneBar);
+    		View doneBar = view.findViewById(R.id.budgetItemEditDoneBar);
     		doneBar.setVisibility(View.VISIBLE);
-    		View editBar = this.findViewById(R.id.budgetItemEditBar);
+    		View editBar = view.findViewById(R.id.budgetItemEditBar);
     		editBar.setVisibility(View.GONE);
     	} else {
-    		View doneBar = this.findViewById(R.id.budgetItemEditDoneBar);
+    		View doneBar = view.findViewById(R.id.budgetItemEditDoneBar);
     		doneBar.setVisibility(View.GONE);
-    		View editBar = this.findViewById(R.id.budgetItemEditBar);
+    		View editBar = view.findViewById(R.id.budgetItemEditBar);
     		editBar.setVisibility(View.VISIBLE);
     	}
     }
     
     public void updateIncomeExpensesButtons() {
     	if(model.getCurrentMainCategory().getId() == 2) {
-    		findViewById(R.id.budgetEditIncomeSwitchButton).setEnabled(true);
-        	findViewById(R.id.budgetEditExpensesSwitchButton).setEnabled(false);
+    		view.findViewById(R.id.budgetEditIncomeSwitchButton).setEnabled(true);
+    		view.findViewById(R.id.budgetEditExpensesSwitchButton).setEnabled(false);
     	} else {
-    		findViewById(R.id.budgetEditIncomeSwitchButton).setEnabled(false);
-        	findViewById(R.id.budgetEditExpensesSwitchButton).setEnabled(true);
+    		view.findViewById(R.id.budgetEditIncomeSwitchButton).setEnabled(false);
+    		view.findViewById(R.id.budgetEditExpensesSwitchButton).setEnabled(true);
     	}
     }
 
