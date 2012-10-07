@@ -1,9 +1,7 @@
 package it.chalmers.mufasa.android_budget_app.controller;
 
-import it.chalmers.mufasa.android_budget_app.controller.database.DataAccessor;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.ManageCategoryModel;
-import android.content.Context;
 
 /**
  * version 1

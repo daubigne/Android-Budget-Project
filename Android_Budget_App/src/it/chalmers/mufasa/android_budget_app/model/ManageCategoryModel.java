@@ -17,7 +17,6 @@ public class ManageCategoryModel {
 
 	private Account account;
 	private PropertyChangeSupport pcs;
-	private List<Category> categoryList;
 	private Category currentParentCategory;
 	private boolean editMode = false;
 
@@ -42,7 +41,7 @@ public class ManageCategoryModel {
 	}
 
 	public void editCategory(Category category, String newName) {
-		// account.editCategory();
+		account.editCategory(category, newName);
 		pcs.firePropertyChange("edited_category", null, null);
 	}
 

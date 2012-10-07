@@ -175,6 +175,15 @@ public class Account {
 	}
 
 	/**
+	 * Renames a category in the list of categories.
+	 */
+	public void editCategory(Category category, String newName) {
+		dataAccessor.editCategory(category, newName);
+		updateCategoryList();
+	}
+	
+	
+	/**
 	 * Removes the given category from the list of categories.
 	 */
 	public void removeCategory(Category category) {
@@ -228,6 +237,8 @@ public class Account {
 	public void removePropertyChangeListener(PropertyChangeListener l) {
 		pcs.removePropertyChangeListener(l);
 	}
+
+	
 
 
 
