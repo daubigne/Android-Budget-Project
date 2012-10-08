@@ -238,6 +238,11 @@ public class Account {
 		pcs.removePropertyChangeListener(l);
 	}
 
+	public List<Category> getCategories(Category currentParentCategory) {
+		categoryList = dataAccessor.getCategories(currentParentCategory);
+		return categoryList;
+	}
+
 	
 
 

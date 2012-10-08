@@ -27,7 +27,7 @@ public class ManageCategoryModel {
 	}
 
 	public List<Category> getCategoryList() {
-		return account.getCategories();
+		return account.getCategories(currentParentCategory);
 	}
 
 	public void addCategory(String name, Category parent) {
