@@ -6,6 +6,13 @@ import it.chalmers.mufasa.android_budget_app.model.Category;
 
 import java.util.List;
 
+/**
+ * Controller for BudgetEditFragment. Calls appropriate methods in BudgetEditModel.
+ * 
+ * @author simphax <sim.nilsson@gmail.com>
+ *
+ */
+
 public class BudgetEditController {
 	
 	BudgetEditModel model;

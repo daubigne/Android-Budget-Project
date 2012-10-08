@@ -6,6 +6,13 @@ import java.util.List;
 
 import android.content.Context;
 
+/**
+ * Model to represent the state of BudgetEditFragment.
+ * Calls appropriate methods in Account to store BudgetItems in database.
+ * 
+ * @author simphax <sim.nilsson@gmail.com>
+ *
+ */
 public class BudgetEditModel {
 
 	Account account;
