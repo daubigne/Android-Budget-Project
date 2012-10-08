@@ -1,5 +1,5 @@
  /*
-  * Copyright © 2012-2015 Mufasa developer unit
+  * Copyright © 2012 Mufasa developer unit
   *
   * This file is part of Mufasa Budget.
   *
