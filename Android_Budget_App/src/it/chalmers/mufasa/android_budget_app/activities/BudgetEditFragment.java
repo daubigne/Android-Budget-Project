@@ -26,7 +26,7 @@ import android.widget.TextView;
 /**
  * Activity for managing the users current budget. Includes adding, editing and removing budgetitem rows.
  * 
- * @author Simon
+ * @author simphax <sim.nilsson@gmail.com>
  * 
  */
 public class BudgetEditFragment extends Fragment implements PropertyChangeListener {
