@@ -12,8 +12,7 @@ public class MainController {
 	private DataAccessor dataAccessor;
 
 	public MainController(Context context, MainModel model) {
-		this.model = model;		
-		
+		this.model = model;
 	}
 
 	public void setBalance(double balance) {

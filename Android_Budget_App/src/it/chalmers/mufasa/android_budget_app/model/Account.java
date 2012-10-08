@@ -147,6 +147,13 @@ public class Account {
 		dataAccessor.removeBudgetItem(budgetItem);
 		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
+	
+	/**
+	 * Returns a single saved category.
+	 */
+	public Category getCategory(int id) {
+		return dataAccessor.getCategory(id);
+	}
 
 	/**
 	 * Returns the categories that the user have saved.
@@ -154,10 +161,6 @@ public class Account {
 	public List<Category> getCategories() {
 		updateCategoryList();
 		return categoryList;
-	}
-	
-	public Category getCategory(int id) {
-		return dataAccessor.getCategory(id);
 	}
 
 	private void updateCategoryList() {
@@ -175,6 +178,15 @@ public class Account {
 		updateCategoryList();
 	}
 
+	/**
+	 * Renames a category in the list of categories.
+	 */
+	public void editCategory(Category category, String newName) {
+		dataAccessor.editCategory(category, newName);
+		updateCategoryList();
+	}
+	
+	
 	/**
 	 * Removes the given category from the list of categories.
 	 */
@@ -230,5 +242,14 @@ public class Account {
 	public void removePropertyChangeListener(PropertyChangeListener l) {
 		pcs.removePropertyChangeListener(l);
 	}
+
+	public List<Category> getCategories(Category currentParentCategory) {
+		categoryList = dataAccessor.getCategories(currentParentCategory);
+		return categoryList;
+	}
+
+	
+
+
 
 }
