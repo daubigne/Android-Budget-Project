@@ -87,7 +87,8 @@ public class ManageCategoryFragment extends Fragment implements
 
 		addButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				EditText editTextname = (EditText) v
+				System.out.println("trying to add category");
+				EditText editTextname = (EditText) addView
 						.findViewById(R.id.manageCategoryEditTextAdd);
 				String nameString = editTextname.getText().toString();
 				ManageCategoryFragment.this.addCategory(nameString);
@@ -131,8 +132,7 @@ public class ManageCategoryFragment extends Fragment implements
 				categoryListLayout.addView(v);
 			}
 
-			categoryListLayout.addView(inflater.inflate(
-					R.layout.manage_categories_add_category, null));
+			categoryListLayout.addView(addView);
 		} else {
 			for (Category cat : list) {
 				View v = inflater.inflate(R.layout.category_list_row, null);
@@ -197,11 +197,16 @@ public class ManageCategoryFragment extends Fragment implements
 	 * a method that listens for property changes from the model.
 	 */
 	public void propertyChange(PropertyChangeEvent event) {
-		// if (event.getPropertyName().equals("categoryList")) {
-		// populateCategoryListView(model.getCategoryList());
-		// } else if (event.getPropertyName().equals("EditSaveMode")) {
-		populateCategoryListView(model.getCategoryList());
-
+		if (event.getPropertyName().equals("added_category")) {
+			populateCategoryListView(model.getCategoryList());
+		} else if (event.getPropertyName().equals("removed_category")) {
+			populateCategoryListView(model.getCategoryList());
+		} else if (event.getPropertyName().equals("edited_category")) {
+			populateCategoryListView(model.getCategoryList());
+		} else if (event.getPropertyName().equals("changed_parent_category")) {
+			populateCategoryListView(model.getCategoryList());
+		} else if (event.getPropertyName().equals("changed_editmode")) {
+			populateCategoryListView(model.getCategoryList());
+		}
 	}
 }
-
