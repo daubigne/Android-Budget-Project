@@ -28,41 +28,28 @@ import com.jjoe64.graphview.LineGraphView;
  * @author Simon
  * 
  */
-public class GraphViewFragment extends Fragment implements PropertyChangeListener {
-
-	private BudgetEditController controller;
-	private BudgetEditModel model;
+public class AccountBalanceGraphViewFragment extends Fragment{
 
 	private LayoutInflater inflater;
 	private View view;
-	private ViewFlow viewFlow;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		this.inflater = inflater;
 		
-		this.view = inflater.inflate(R.layout.graph_title_layout, null);
-
-		this.viewFlow = (ViewFlow) view.findViewById(R.id.viewflow);
-		GraphViewAdapter adapter = new GraphViewAdapter(inflater.getContext());
-		viewFlow.setAdapter(adapter);
-
-		TitleFlowIndicator indicator = (TitleFlowIndicator) view
-				.findViewById(R.id.viewflowindic);
-		indicator.setTitleProvider(adapter);
-
-		viewFlow.setFlowIndicator(indicator);
+		GraphViewSeries exampleSeries = new GraphViewSeries(new GraphViewData[] {  
+			      new GraphViewData(1, 2.0d)  
+			      , new GraphViewData(2, 1.5d)  
+			      , new GraphViewData(3, 2.5d)  
+			      , new GraphViewData(4, 1.0d)  
+			});  
+		GraphView graphView = new LineGraphView(inflater.getContext(), "GraphViewDemo");
 		
-//		layout.addView(graphView);
+		graphView.addSeries(exampleSeries);
 		
-//		this.view = layout;
+		this.view = graphView;
 		
 		return this.view;
-	}
-
-	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
-		
 	}
 }
