@@ -111,18 +111,18 @@ public class ManageCategoryFragment extends Fragment implements
 			for (Category cat : list) {
 				View v = this.inflater.inflate(R.layout.category_list_row_edit,
 						null);
-				v.setTag(cat);
+
 				EditText categoryEditText = (EditText) v
 						.findViewById(R.id.manageCategoryCategoryEditText);
 				categoryEditText.setText(cat.getName());
 
 				Button removeButton = (Button) v
 						.findViewById(R.id.manageActivityButtonRemove);
-
+				removeButton.setTag(cat);
 				removeButton.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						if (v.getTag() instanceof Category) {
-							Category category = (Category) view.getTag();
+							Category category = (Category) v.getTag();
 							ManageCategoryFragment.this
 									.removeCategory(category);
 						}
