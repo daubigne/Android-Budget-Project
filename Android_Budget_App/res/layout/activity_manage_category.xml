@@ -13,16 +13,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.88"
-            android:text="Income" 
-            android:onClick="toggleIncomeExpense"/>
+            android:text="Income" />
 
         <Button
             android:id="@+id/manageCategoryButtonExpense"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="Expense"
-            android:onClick="toggleIncomeExpense" />
+            android:text="Expense"/>
 
     </LinearLayout>
 
@@ -30,8 +28,7 @@
         android:id="@+id/manageCategoryButtonEditSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit"
-        android:onClick="toggleEditSave" />
+        android:text="Edit" />
 
     <ScrollView
         android:id="@+id/scrollView1"

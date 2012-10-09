@@ -18,7 +18,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Add new"
-        android:onClick="addCategory" />
+        android:text="Add new" />
 
 </LinearLayout>
