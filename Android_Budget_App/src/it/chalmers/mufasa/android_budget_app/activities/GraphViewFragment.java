@@ -8,19 +8,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.taptwo.android.widget.TitleFlowIndicator;
-import org.taptwo.android.widget.ViewFlow;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GraphView.GraphViewData;
-import com.jjoe64.graphview.GraphViewSeries;
-import com.jjoe64.graphview.LineGraphView;
 
 /**
  * Activity for managing the users current budget. Includes adding, editing and removing budgetitem rows.
@@ -35,7 +29,7 @@ public class GraphViewFragment extends Fragment implements PropertyChangeListene
 
 	private LayoutInflater inflater;
 	private View view;
-	private ViewFlow viewFlow;
+	private ViewPager viewPager;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,8 +38,8 @@ public class GraphViewFragment extends Fragment implements PropertyChangeListene
 		
 		this.view = inflater.inflate(R.layout.graph_title_layout, null);
 
-		this.viewFlow = (ViewFlow) view.findViewById(R.id.viewflow);
-		GraphViewAdapter adapter = new GraphViewAdapter(inflater.getContext());
+		this.viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+		GraphViewAdapter adapter = new GraphViewAdapter(inflater.getContext(),this.getFragmentManager());
 		viewFlow.setAdapter(adapter);
 
 		TitleFlowIndicator indicator = (TitleFlowIndicator) view
