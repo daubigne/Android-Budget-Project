@@ -1,21 +1,14 @@
 package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
-import it.chalmers.mufasa.android_budget_app.controller.BudgetEditController;
-import it.chalmers.mufasa.android_budget_app.model.BudgetEditModel;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import org.taptwo.android.widget.TitleFlowIndicator;
-import org.taptwo.android.widget.ViewFlow;
-
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
@@ -44,9 +37,10 @@ public class AccountBalanceGraphViewFragment extends Fragment{
 			      , new GraphViewData(3, 2.5d)  
 			      , new GraphViewData(4, 1.0d)  
 			});  
-		GraphView graphView = new LineGraphView(inflater.getContext(), "GraphViewDemo");
 		
+		GraphView graphView = new LineGraphView(inflater.getContext(), "GraphViewDemo");
 		graphView.addSeries(exampleSeries);
+		graphView.setMinimumHeight(500);
 		
 		this.view = graphView;
 		
