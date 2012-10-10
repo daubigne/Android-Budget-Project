@@ -4,5 +4,4 @@
         android:id="@+id/budgetItemEditRowAddButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@+string/add_new_budget_item"
-        android:onClick="addBudgetItemRow" />
+        android:text="@string/add_new_budget_item" />

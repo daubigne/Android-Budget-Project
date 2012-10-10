@@ -1,3 +1,21 @@
+ /*
+  * Copyright © 2012 Mufasa developer unit
+  *
+  * This file is part of Mufasa Budget.
+  *
+  *	Mufasa Budget is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * Mufasa Budget is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package it.chalmers.mufasa.android_budget_app.model;
 
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
@@ -119,13 +137,17 @@ public class Account {
 	 * Returns the budget item that the user have saved.
 	 */
 	public List<BudgetItem> getBudgetItems() {
-		updateBudgetItemList();
+		return getBudgetItems(null);
+	}
+	
+	public List<BudgetItem> getBudgetItems(Category parent) {
+		updateBudgetItemList(parent);
 		return budgetItemList;
 	}
 
-	private void updateBudgetItemList() {
+	private void updateBudgetItemList(Category parent) {
 		budgetItemList.clear();
-		budgetItemList.addAll(dataAccessor.getBudgetItems());
+		budgetItemList.addAll(dataAccessor.getBudgetItems(parent));
 	}
 
 	/**
@@ -205,6 +227,7 @@ public class Account {
 		transactionList.addAll(dataAccessor.getTransactions(this, SortBy.DATE,
 				SortByOrder.DESC, 0, nbrOfTransactions));
 	}
+	
 
 	/**
 	 * Adds a transaction to the list of transactions.

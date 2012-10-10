@@ -1,6 +1,25 @@
+ /*
+  * Copyright © 2012 Mufasa developer unit
+  *
+  * This file is part of Mufasa Budget.
+  *
+  *	Mufasa Budget is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * Mufasa Budget is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package it.chalmers.mufasa.android_budget_app.model.database;
 
-import android.content.ContentValues;
+import java.util.Collection;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -20,6 +39,15 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 		db.execSQL("CREATE TABLE budgetitems ( id INTEGER PRIMARY KEY, categoryId INTEGER, value FLOAT NOT NULL);");
 
 		this.insertDefaultValues(db);
+		
+		/*
+		//Do not insert default values if just testing...
+		String[] list = db.getPath().split("/");
+		if(list[list.length-1].substring(0, 5).equals("_test")) {
+			return;
+		}
+		*/
+		//this.insertDefaultBudget(db);
 	}
 	
 	private void insertDefaultValues(SQLiteDatabase db) {
@@ -31,7 +59,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 		//Values from average student between 18-30 years in sweden. Data from konsumentverket.se
 		db.execSQL("INSERT INTO categories (name) VALUES (\"Inkomster\")"); //id = 1
 		db.execSQL("INSERT INTO categories (name) VALUES (\"Utgifter\")"); //id = 2
-		
+
 		//Income
 		db.execSQL("INSERT INTO categories (name,parentId) VALUES (\"Studiemedel\",1)");
 		db.execSQL("INSERT INTO budgetitems (categoryId,value) VALUES (3,8920)");
