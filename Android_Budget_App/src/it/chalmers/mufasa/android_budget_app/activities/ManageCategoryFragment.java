@@ -43,7 +43,7 @@ public class ManageCategoryFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		this.inflater = inflater;
-		this.view = inflater.inflate(R.layout.activity_manage_category,
+		this.view = inflater.inflate(R.layout.fragment_manage_category,
 				container, false);
 		this.addView = inflater.inflate(
 				R.layout.manage_categories_add_category, container, false);
@@ -104,7 +104,7 @@ public class ManageCategoryFragment extends Fragment implements
 	 */
 	private void populateCategoryListView(List<Category> list) {
 		LinearLayout categoryListLayout = (LinearLayout) view
-				.findViewById(R.id.manageCategoryLayout);
+				.findViewById(R.id.manageCategoryListLayout);
 		categoryListLayout.removeAllViews();
 
 		if (model.isEditMode()) {
@@ -115,10 +115,11 @@ public class ManageCategoryFragment extends Fragment implements
 				EditText categoryEditText = (EditText) v
 						.findViewById(R.id.manageCategoryCategoryEditText);
 				categoryEditText.setText(cat.getName());
-
+				
 				Button removeButton = (Button) v
 						.findViewById(R.id.manageActivityButtonRemove);
 				removeButton.setTag(cat);
+				v.setTag(cat);
 				removeButton.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						if (v.getTag() instanceof Category) {
@@ -163,6 +164,15 @@ public class ManageCategoryFragment extends Fragment implements
 	public void removeCategory(Category category) {
 		controller.removeCategory(category);
 	}
+	
+	/**
+	 * a method to edit a category
+	 * 
+	 * @param category
+	 */
+	public void editCategory(Category category, String newName) {
+		controller.editCategory(category, newName);
+	}
 
 	/**
 	 * a method to switch between income and expenses in the shown list
@@ -184,9 +194,32 @@ public class ManageCategoryFragment extends Fragment implements
 	 */
 	public void toggleEditSave() {
 		if (model.isEditMode()) {
-			controller.setEditMode(false);
-
+			
+			System.out.println("entering toggleEditSave");
+			
+			LinearLayout editCategoryLayout = (LinearLayout) this.view
+					.findViewById(R.id.manageCategoryListLayout);
+			
+			for (int i = 0; i < editCategoryLayout.getChildCount(); i++) {
+				
+				System.out.println("entering for loop: " + editCategoryLayout.getChildCount());
+				
+				if (editCategoryLayout.getChildAt(i) instanceof LinearLayout) {
+					
+					LinearLayout editCategoryRowLayout = (LinearLayout) editCategoryLayout.getChildAt(i);
+					System.out.println(editCategoryRowLayout.getChildCount());
+					EditText editText = (EditText)editCategoryRowLayout.findViewById(R.id.manageCategoryCategoryEditText);
+					
+					if (editCategoryRowLayout.getTag() instanceof Category) {
+					Category category = (Category) editCategoryRowLayout.getTag();
+					this.editCategory(category, editText.getText().toString());
+					}
+					
+					
+				}
+			}
 			editSaveButton.setText(R.string.edit);
+			controller.setEditMode(false);
 		} else {
 			controller.setEditMode(true);
 			editSaveButton.setText(R.string.save);
