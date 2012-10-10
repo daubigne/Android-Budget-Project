@@ -92,6 +92,7 @@ public class ManageCategoryFragment extends Fragment implements
 						.findViewById(R.id.manageCategoryEditTextAdd);
 				String nameString = editTextname.getText().toString();
 				ManageCategoryFragment.this.addCategory(nameString);
+				editTextname.setText("");
 			}
 		});
 	}
