@@ -8,12 +8,8 @@ import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import it.chalmers.mufasa.android_budget_app.settings.Settings;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -29,7 +25,7 @@ public class DataAccessor {
 
 	public DataAccessor(Context context) {
 		this.context = context;
-		//this.addAccount(account.getName(), account.getBalance());
+		// this.addAccount(account.getName(), account.getBalance());
 	}
 
 	public enum SortBy {
@@ -61,32 +57,28 @@ public class DataAccessor {
 	 * }
 	 */
 
-	/*public Account getAccount(int accountID) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-		String[] arr = { "id", "name", "balance" };
-		Cursor cursor = db.query("accounts", arr, "id == " + accountID, null,
-				null, null, null);
+	/*
+	 * public Account getAccount(int accountID) { SQLiteDatabase db = new
+	 * DatabaseOpenHelper(context) .getWritableDatabase(); String[] arr = {
+	 * "id", "name", "balance" }; Cursor cursor = db.query("accounts", arr,
+	 * "id == " + accountID, null, null, null, null);
+	 * 
+	 * if (cursor.moveToFirst()) { return new Account(cursor.getInt(0),
+	 * cursor.getString(1), cursor.getDouble(2)); } else { throw new
+	 * IllegalArgumentException("Account ID " + accountID + " does not exist");
+	 * } }
+	 */
 
-		if (cursor.moveToFirst()) {
-			return new Account(cursor.getInt(0), cursor.getString(1),
-					cursor.getDouble(2));
-		} else {
-			throw new IllegalArgumentException("Account ID " + accountID
-					+ " does not exist");
-		}
-	}*/
-	
 	public boolean accountExists() {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
-		//TODO Account ID????
-		Cursor cursor = db.query("accounts", arr, "id == " + 1, null,
-				null, null, null);
+		// TODO Account ID????
+		Cursor cursor = db.query("accounts", arr, "id == " + 1, null, null,
+				null, null);
 
 		return cursor.moveToFirst();
-		
+
 	}
 
 	public void addAccount(String name, double balance) {
@@ -121,8 +113,8 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
-		Cursor cursor = db.query("accounts", arr, "id == " + Constants.ACCOUNT_ID,
-				null, null, null, null);
+		Cursor cursor = db.query("accounts", arr, "id == "
+				+ Constants.ACCOUNT_ID, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
 			return cursor.getDouble(2);
@@ -138,8 +130,8 @@ public class DataAccessor {
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
 
-		Cursor cursor = db.query("accounts", arr, "id == " + Constants.ACCOUNT_ID,
-				null, null, null, null);
+		Cursor cursor = db.query("accounts", arr, "id == "
+				+ Constants.ACCOUNT_ID, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
 			return cursor.getString(1);
@@ -152,8 +144,8 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
-		Cursor cursor = db.query("accounts", arr, "id == " + Constants.ACCOUNT_ID,
-				null, null, null, null);
+		Cursor cursor = db.query("accounts", arr, "id == "
+				+ Constants.ACCOUNT_ID, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
 			return cursor.getInt(0);
@@ -179,9 +171,14 @@ public class DataAccessor {
 				+ date.getMonth()
 				+ "-"
 				+ date.getDay()
-				+ "\"" + ", " + amount + ", " + category.getId() + ")");
-		
-		this.setAccountBalance(getAccountBalance() + amount, Constants.ACCOUNT_ID);
+				+ "\""
+				+ ", "
+				+ amount
+				+ ", "
+				+ category.getId() + ")");
+
+		this.setAccountBalance(getAccountBalance() + amount,
+				Constants.ACCOUNT_ID);
 
 	}
 
@@ -189,8 +186,8 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		db.execSQL("DELETE FROM transactions WHERE id ==" + transaction.getId());
-		this.setAccountBalance(getAccountBalance()
-				- transaction.getAmount(), Constants.ACCOUNT_ID);
+		this.setAccountBalance(getAccountBalance() - transaction.getAmount(),
+				Constants.ACCOUNT_ID);
 	}
 
 	public List<Transaction> getTransactions(Account account, SortBy sortBy,
@@ -222,7 +219,7 @@ public class DataAccessor {
 			break;
 		}
 
-		String[] arr = { "name", "date", "id", "value" };
+		String[] arr = { "name", "date", "id", "value", "categoryId" };
 
 		Cursor cursor = db.query("transactions", arr,
 				"accountId == " + account.getId(), null, null, null, sortByTemp
@@ -236,9 +233,10 @@ public class DataAccessor {
 				// Integer.parseInt(list[1]), Integer.parseInt(list[2]));
 				Date date = new Date(10000);
 
-				Category category = new Category("untitled category", 1, null);
+				Category category = getCategory(cursor.getInt(4));
 				Transaction transaction = new Transaction(cursor.getInt(2),
-						(cursor.getInt(3)), date, cursor.getString(2), category);
+						(cursor.getDouble(3)), date, cursor.getString(0),
+						category);
 				transactions.add(transaction);
 
 				cursor.moveToNext();
@@ -247,6 +245,80 @@ public class DataAccessor {
 
 		return transactions;
 	}
+	
+	public List<Transaction> getTransactions(Account account, SortBy sortBy,
+			SortByOrder sortByOrder, int start, int count, Category parent) {
+
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+
+		SQLiteDatabase db = new DatabaseOpenHelper(context)
+				.getWritableDatabase();
+
+		Cursor cursor;
+		
+		String sortByTemp = "date";
+		String sortByOrderTemp = "desc";
+
+		switch (sortBy) {
+		case NAME:
+			sortByTemp = "name";
+			break;
+		case DATE:
+			sortByTemp = "date";
+			break;
+		case CATEGORY:
+			sortByTemp = "category";
+			break;
+		}
+		switch (sortByOrder) {
+		case ASC:
+			sortByOrderTemp = "ASC";
+			break;
+		case DESC:
+			sortByOrderTemp = "DESC";
+			break;
+		}
+
+		if (parent == null) {
+			String[] arr = { "name", "date", "id", "value", "categoryId" };
+
+			cursor = db.query("transactions", arr,
+					"accountId == " + account.getId(), null, null, null, sortByTemp
+							+ " " + sortByOrderTemp);
+		} else {
+			cursor = db
+					.rawQuery(
+							"SELECT transactions.id, transactions.categoryId, transactions.value, categories.parentId FROM transactions INNER JOIN categories ON transactions.categoryId==categories.id WHERE categories.id == "
+									+ parent.getId()
+									+ " OR categories.parentId == "
+									+ parent.getId(), null);
+		}
+		
+		
+
+		int counter = 0;
+		
+		if (cursor.moveToFirst()) {
+			Category cat = this.getCategory(cursor.getInt(1));
+			Date date = new Date();
+			Transaction transaction = new Transaction(cursor.getInt(2),
+					(cursor.getDouble(3)), date, cursor.getString(0),
+					cat);
+			transactionList.add(transaction);
+			counter++;
+			while (cursor.moveToNext() && counter <= count) {
+				cat = this.getCategory(cursor.getInt(1));
+				transaction = new Transaction(cursor.getInt(2),
+						(cursor.getDouble(3)), date, cursor.getString(0),
+						cat);
+				transactionList.add(transaction);
+				counter++;
+			}
+		}
+
+		return transactionList;
+	}
+	
 
 	public List<Category> getCategories() {
 
@@ -341,24 +413,33 @@ public class DataAccessor {
 
 		List<BudgetItem> budgetItemList = new ArrayList<BudgetItem>();
 
-		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		SQLiteDatabase db = new DatabaseOpenHelper(context)
+				.getWritableDatabase();
 
 		Cursor cursor;
 
-		if(parent == null) {
-			String[] columns = {"id","categoryId","value"};		
-			cursor = db.query("budgetitems", columns, null, null, null, null, null);
+		if (parent == null) {
+			String[] columns = { "id", "categoryId", "value" };
+			cursor = db.query("budgetitems", columns, null, null, null, null,
+					null);
 		} else {
-			cursor = db.rawQuery("SELECT budgetitems.id, budgetitems.categoryId, budgetitems.value, categories.parentId FROM budgetitems INNER JOIN categories ON budgetitems.categoryId==categories.id WHERE categories.id == "+parent.getId()+" OR categories.parentId == "+parent.getId(), null);
+			cursor = db
+					.rawQuery(
+							"SELECT budgetitems.id, budgetitems.categoryId, budgetitems.value, categories.parentId FROM budgetitems INNER JOIN categories ON budgetitems.categoryId==categories.id WHERE categories.id == "
+									+ parent.getId()
+									+ " OR categories.parentId == "
+									+ parent.getId(), null);
 		}
 
-		if(cursor.moveToFirst()) {
+		if (cursor.moveToFirst()) {
 			Category cat = this.getCategory(cursor.getInt(1));
-			BudgetItem item = new BudgetItem(cursor.getInt(0),cat,cursor.getDouble(2));
+			BudgetItem item = new BudgetItem(cursor.getInt(0), cat,
+					cursor.getDouble(2));
 			budgetItemList.add(item);
-			while(cursor.moveToNext()) {
+			while (cursor.moveToNext()) {
 				cat = this.getCategory(cursor.getInt(1));
-				item = new BudgetItem(cursor.getInt(0),cat,cursor.getDouble(2));
+				item = new BudgetItem(cursor.getInt(0), cat,
+						cursor.getDouble(2));
 				budgetItemList.add(item);
 			}
 		}

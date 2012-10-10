@@ -1,7 +1,5 @@
 package it.chalmers.mufasa.android_budget_app.model.database;
 
-import java.util.Collection;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;

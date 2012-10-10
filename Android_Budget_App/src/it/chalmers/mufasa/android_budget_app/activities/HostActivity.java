@@ -1,15 +1,14 @@
 package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.Toast;
 
 /**
  * @Author : daubigne
@@ -36,7 +35,7 @@ public class HostActivity extends Activity {
 		// fill the app,
 		// upon completion;remove the empty constructor
 		Tab tab1 = theBar.newTab().setText("Home").setTabListener(new HostTabListener(new TypicalFragment("First tab")));
-		Tab tab2 = theBar.newTab().setText("Transactions").setTabListener(new HostTabListener(new TransactionFragment()));
+		Tab tab2 = theBar.newTab().setText("Transactions").setTabListener(new HostTabListener(new TransactionListFragment()));
 		Tab tab3 = theBar.newTab().setText("Categories").setTabListener(new HostTabListener(new TypicalFragment("Thrid tab")));
 		Tab tab4 = theBar.newTab().setText("Budget").setTabListener(new HostTabListener(new BudgetEditFragment()));
 		Tab tab5 = theBar.newTab().setText("Options").setTabListener(new HostTabListener(new TypicalFragment("Fifth tab")));
@@ -77,5 +76,23 @@ public class HostActivity extends Activity {
 			ft.remove(fragment);
 		}
 
+	}
+	
+	public void switchToAddTransactionFragment(){
+		Fragment addTransactionFragment = new AddTransactionFragment();
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction transaction = fm.beginTransaction();
+		transaction.replace(R.id.fragment_container,
+				addTransactionFragment);
+		transaction.commit();
+	}
+	
+	public void switchToTransactionListFragment(){
+		Fragment transactionListFragment = new TransactionListFragment();
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction transaction = fm.beginTransaction();
+		transaction.replace(R.id.fragment_container,
+				transactionListFragment);
+		transaction.commit();
 	}
 }

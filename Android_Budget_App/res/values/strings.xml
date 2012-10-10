@@ -23,5 +23,11 @@
     <string name="done">Done</string>
     <string name="income">Income</string>
     <string name="expenses">Expenses</string>
+    <string name="your_transactions">Your Transactions</string>
+    <string name="date">Date</string>
+    <string name="amount">Amount</string>
+    <string name="add">Add</string>
+    <string name="addTransaction">Add New Transaction</string>
+    
 
 </resources>

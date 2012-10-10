@@ -2,8 +2,6 @@ package it.chalmers.mufasa.android_budget_app.controller;
 
 import it.chalmers.mufasa.android_budget_app.model.BudgetEditModel;
 import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
-import it.chalmers.mufasa.android_budget_app.model.Category;
-
 import java.util.List;
 
 public class BudgetEditController {

@@ -186,16 +186,16 @@ public class Account {
 	/**
 	 * Returns the transactions that the users have saved.
 	 */
-	public List<Transaction> getTransactions(int nbrOfTransactions) {
+	public List<Transaction> getTransactions(int nbrOfTransactions, Category parent) {
 		this.nbrOfTransactions = nbrOfTransactions;
-		updateTransactionList();
+		updateTransactionList(parent);
 		return transactionList;
 	}
 
-	private void updateTransactionList() {
+	private void updateTransactionList(Category parent) {
 		transactionList.clear();
 		transactionList.addAll(dataAccessor.getTransactions(this, SortBy.DATE,
-				SortByOrder.DESC, 0, nbrOfTransactions));
+				SortByOrder.DESC, 0, nbrOfTransactions, parent));
 	}
 	
 
