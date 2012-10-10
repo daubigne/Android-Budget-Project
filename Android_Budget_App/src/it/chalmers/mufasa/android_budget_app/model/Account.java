@@ -1,3 +1,21 @@
+ /*
+  * Copyright © 2012 Mufasa developer unit
+  *
+  * This file is part of Mufasa Budget.
+  *
+  *	Mufasa Budget is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * Mufasa Budget is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package it.chalmers.mufasa.android_budget_app.model;
 
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
@@ -147,6 +165,13 @@ public class Account {
 		dataAccessor.removeBudgetItem(budgetItem);
 		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
+	
+	/**
+	 * Returns a single saved category.
+	 */
+	public Category getCategory(int id) {
+		return dataAccessor.getCategory(id);
+	}
 
 	/**
 	 * Returns the categories that the user have saved.
@@ -154,10 +179,6 @@ public class Account {
 	public List<Category> getCategories() {
 		updateCategoryList();
 		return categoryList;
-	}
-	
-	public Category getCategory(int id) {
-		return dataAccessor.getCategory(id);
 	}
 
 	private void updateCategoryList() {
@@ -175,6 +196,15 @@ public class Account {
 		updateCategoryList();
 	}
 
+	/**
+	 * Renames a category in the list of categories.
+	 */
+	public void editCategory(Category category, String newName) {
+		dataAccessor.editCategory(category, newName);
+		updateCategoryList();
+	}
+	
+	
 	/**
 	 * Removes the given category from the list of categories.
 	 */
@@ -230,5 +260,14 @@ public class Account {
 	public void removePropertyChangeListener(PropertyChangeListener l) {
 		pcs.removePropertyChangeListener(l);
 	}
+
+	public List<Category> getCategories(Category currentParentCategory) {
+		categoryList = dataAccessor.getCategories(currentParentCategory);
+		return categoryList;
+	}
+
+	
+
+
 
 }

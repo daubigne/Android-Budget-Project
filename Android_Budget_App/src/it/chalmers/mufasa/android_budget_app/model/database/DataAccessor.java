@@ -1,5 +1,24 @@
+ /*
+  * Copyright © 2012 Mufasa developer unit
+  *
+  * This file is part of Mufasa Budget.
+  *
+  *	Mufasa Budget is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * Mufasa Budget is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package it.chalmers.mufasa.android_budget_app.model.database;
 
+import it.chalmers.mufasa.android_budget_app.model.database.DatabaseOpenHelper;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
@@ -322,25 +341,39 @@ public class DataAccessor {
 
 	public List<Category> getCategories() {
 
+		return this.getCategories(null);
+
+	}
+
+	public List<Category> getCategories(Category parent) {
+
 		List<Category> list = new ArrayList<Category>();
 
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
-		String[] arr = { "name", "id", "parentId" };
+		String[] arr = { "name", "id", "parentId" };// use more?
 
-		Cursor cursor = db.query("categories", arr, null, null, null, null,
-				null);
+		Cursor cursor;
+		if (parent == null) {
 
+			cursor = db.query("categories", arr, null, null, null, null, null);
+		} else {
+			cursor = db.rawQuery(
+					"SELECT name, id, parentId FROM categories WHERE parentId == "
+							+ parent.getId(), null);
+		}
+		Category category;
 		if (cursor.moveToFirst()) {
-			Category category = new Category(cursor.getString(0),
-					cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+			category = new Category(cursor.getString(0), cursor.getInt(1),
+					this.getCategory(cursor.getInt(2)));
 			list.add(category);
-
 			while (cursor.moveToNext()) {
+
 				category = new Category(cursor.getString(0), cursor.getInt(1),
 						this.getCategory(cursor.getInt(2)));
 				list.add(category);
 			}
+
 		}
 
 		return list;
@@ -479,5 +512,4 @@ public class DataAccessor {
 		db.execSQL("UPDATE categories SET name = \"" + newName
 				+ "\" WHERE id == " + category.getId());
 	}
-
 }
