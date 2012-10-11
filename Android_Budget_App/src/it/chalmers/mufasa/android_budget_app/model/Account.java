@@ -224,7 +224,7 @@ public class Account {
 
 	private void updateTransactionList(Category parent) {
 		transactionList.clear();
-		transactionList.addAll(dataAccessor.getTransactions(this, SortBy.DATE,
+		transactionList.addAll(dataAccessor.getTransactions(SortBy.DATE,
 				SortByOrder.DESC, 0, nbrOfTransactions, parent));
 	}
 	
