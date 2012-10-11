@@ -1,6 +1,7 @@
 package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
+import it.chalmers.mufasa.android_budget_app.model.GraphViewModel;
 
 import java.util.ArrayList;
 
@@ -17,13 +18,15 @@ import android.widget.ListView;
 public class GraphViewAdapter extends BaseAdapter implements TitleProvider {
 
 	private LayoutInflater inflater;
+	private GraphViewModel model;
 
-	public GraphViewAdapter(Context context) {
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	public GraphViewAdapter(Context context, GraphViewModel model) {
+		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.model = model;
 	}
 	
 	public int getCount() {
-		return 2;
+		return 5;
 	}
 
 	public Object getItem(int position) {
@@ -40,7 +43,7 @@ public class GraphViewAdapter extends BaseAdapter implements TitleProvider {
 			View view = inflater.inflate(R.layout.graph_list, null);
 			ListView listView = (ListView) view.findViewById(R.id.graphListView);
 			
-			listView.setAdapter(new GraphListAdapter(inflater.getContext(),new ArrayList<Object>()));
+			listView.setAdapter(new GraphListAdapter(inflater.getContext(), model.getAccountBalanceListForGraph(position)));
 			
 			convertView = view;
 			

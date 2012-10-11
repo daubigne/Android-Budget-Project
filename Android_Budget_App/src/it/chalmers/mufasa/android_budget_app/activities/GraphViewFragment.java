@@ -1,8 +1,8 @@
 package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
-import it.chalmers.mufasa.android_budget_app.controller.BudgetEditController;
-import it.chalmers.mufasa.android_budget_app.model.BudgetEditModel;
+import it.chalmers.mufasa.android_budget_app.controller.GraphViewController;
+import it.chalmers.mufasa.android_budget_app.model.GraphViewModel;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -15,12 +15,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GraphView.GraphViewData;
-import com.jjoe64.graphview.GraphViewSeries;
-import com.jjoe64.graphview.LineGraphView;
 
 /**
  * Activity for managing the users current budget. Includes adding, editing and removing budgetitem rows.
@@ -30,8 +24,8 @@ import com.jjoe64.graphview.LineGraphView;
  */
 public class GraphViewFragment extends Fragment implements PropertyChangeListener {
 
-	private BudgetEditController controller;
-	private BudgetEditModel model;
+	private GraphViewController controller;
+	private GraphViewModel model;
 
 	private LayoutInflater inflater;
 	private View view;
@@ -42,10 +36,13 @@ public class GraphViewFragment extends Fragment implements PropertyChangeListene
 		
 		this.inflater = inflater;
 		
+		this.model = new GraphViewModel(inflater.getContext());
+		this.controller = new GraphViewController(model);
+		
 		this.view = inflater.inflate(R.layout.graph_title_layout, null);
 
 		this.viewFlow = (ViewFlow) view.findViewById(R.id.viewflow);
-		GraphViewAdapter adapter = new GraphViewAdapter(inflater.getContext());
+		GraphViewAdapter adapter = new GraphViewAdapter(inflater.getContext(),this.model);
 		viewFlow.setAdapter(adapter);
 
 		TitleFlowIndicator indicator = (TitleFlowIndicator) view
