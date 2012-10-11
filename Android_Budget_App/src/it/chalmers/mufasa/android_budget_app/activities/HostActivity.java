@@ -53,7 +53,7 @@ public class HostActivity extends Activity {
 		// TODO : Replace the empty constructor with fragments that are going to
 		// fill the app,
 		// upon completion;remove the empty constructor
-		Tab tab1 = theBar.newTab().setText("Home").setTabListener(new HostTabListener(new TypicalFragment("First tab")));
+		Tab tab1 = theBar.newTab().setText("Home").setTabListener(new HostTabListener(new HomescreenFragment()));
 		Tab tab2 = theBar.newTab().setText("Transactions").setTabListener(new HostTabListener(new TransactionFragment()));
 		Tab tab3 = theBar.newTab().setText("Categories").setTabListener(new HostTabListener(new ManageCategoryFragment()));
 		Tab tab4 = theBar.newTab().setText("Budget").setTabListener(new HostTabListener(new BudgetEditFragment()));
