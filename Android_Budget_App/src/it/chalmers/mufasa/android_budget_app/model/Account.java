@@ -227,6 +227,12 @@ public class Account {
 		return transactionList;
 	}
 	
+	public List<Transaction> getTransactions(SortBy sortBy,
+			SortByOrder sortByOrder, Category parent,
+			Date from, Date to) {
+		return dataAccessor.getTransactions(sortBy, sortByOrder, 0, 10000, parent, from, to);
+	}
+	
 	public double getTransactionsSum(Date from, Date to, Category parent) {
 		
 		double sum = 0.0;
