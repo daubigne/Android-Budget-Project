@@ -18,7 +18,6 @@
   */
 package it.chalmers.mufasa.android_budget_app.model.database;
 
-import it.chalmers.mufasa.android_budget_app.model.database.DatabaseOpenHelper;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
@@ -26,12 +25,13 @@ import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import it.chalmers.mufasa.android_budget_app.settings.Settings;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -181,6 +181,9 @@ public class DataAccessor {
 			Category category) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		db.execSQL("INSERT INTO transactions (accountId, name, date, value, categoryId ) VALUES ( "
 				+ Constants.ACCOUNT_ID
 				+ ", "
@@ -189,11 +192,7 @@ public class DataAccessor {
 				+ "\""
 				+ ", "
 				+ "\""
-				+ date.getYear()
-				+ "-"
-				+ date.getMonth()
-				+ "-"
-				+ date.getDay()
+				+ dateFormat.format(date)
 				+ "\""
 				+ ", "
 				+ amount
@@ -447,5 +446,34 @@ public class DataAccessor {
 			return cursor.getDouble(0);
 		}
 		return 0.0;
+	}
+	
+	public List<Transaction> getTransactions(Date from, Date to, Category parent) {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		List<Transaction> list = new ArrayList<Transaction>();
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		Cursor cursor;
+		
+		if(parent == null) {
+			cursor = db.rawQuery("SELECT transactions.id, transactions.value, transactions.date, transactions.name, transactions.categoryId FROM transactions WHERE transactions.date BETWEEN '"+dateFormat.format(from)+"' AND '"+dateFormat.format(to)+"'", null);
+		} else {
+			cursor = db.rawQuery("SELECT transactions.id, transactions.value, transactions.date, transactions.name, transactions.categoryId FROM transactions INNER JOIN categories ON transactions.categoryId == categories.id WHERE transactions.date BETWEEN '"+dateFormat.format(from)+"' AND '"+dateFormat.format(to)+"' AND (categories.parentId == "+parent.getId()+" OR transactions.categoryId == "+parent.getId()+")", null);
+		}
+		
+		try {		
+		if(cursor.moveToFirst()) {
+				list.add(new Transaction(cursor.getInt(0),cursor.getDouble(1),dateFormat.parse(cursor.getString(2)),cursor.getString(3),this.getCategory(cursor.getInt(4))));
+			while(cursor.moveToNext()) {
+				list.add(new Transaction(cursor.getInt(0),cursor.getDouble(1),dateFormat.parse(cursor.getString(2)),cursor.getString(3),this.getCategory(cursor.getInt(4))));
+			}
+		}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

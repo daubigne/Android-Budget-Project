@@ -19,16 +19,11 @@
 package it.chalmers.mufasa.android_budget_app.test.model.database;
 
 
-import it.chalmers.mufasa.android_budget_app.model.Account;
-import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
-import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
-import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortBy;
-import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortByOrder;
 
 import java.util.Date;
-import java.util.List;
+import java.util.GregorianCalendar;
 
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
@@ -235,5 +230,17 @@ public class DatabaseTest extends AndroidTestCase {
 	
 	public void testGetBudgetItemsSum() {
 		fail(String.valueOf(dataAccessor.getBudgetItemsSum(dataAccessor.getCategory(2))));
+	}
+	
+	public void testGetTransactionsByDates() {
+		for(int i=0; i<20; i++) {
+			dataAccessor.addTransaction(200.0*i, (new GregorianCalendar()).getTime(), "Mat"+i, dataAccessor.getCategory(2));
+		}
+		
+		System.out.println("Test");
+		
+		for(Transaction transaction : dataAccessor.getTransactions((new GregorianCalendar(2012,0,1)).getTime(), (new GregorianCalendar(2012,11,30)).getTime(), null)) {
+			System.out.println(transaction.toString());
+		}
 	}
 }
