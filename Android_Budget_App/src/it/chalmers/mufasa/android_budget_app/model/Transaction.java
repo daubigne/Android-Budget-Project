@@ -18,7 +18,10 @@
   */
 package it.chalmers.mufasa.android_budget_app.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * version 1
@@ -85,6 +88,13 @@ public class Transaction {
 	
 	public int getId() {
 		return id;
+	}
+	
+	@Override
+	public String toString() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		return "Transaction: id="+id+" date="+dateFormat.format(this.date)+" amount="+amount+" category="+category.toString(); 
 	}
 
 	/*

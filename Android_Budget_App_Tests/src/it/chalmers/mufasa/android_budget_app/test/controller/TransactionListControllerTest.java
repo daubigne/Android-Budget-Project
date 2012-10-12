@@ -21,7 +21,7 @@ package it.chalmers.mufasa.android_budget_app.test.controller;
 import java.util.Date;
 import java.util.List;
 
-import it.chalmers.mufasa.android_budget_app.controller.TransactionListController;
+import it.chalmers.mufasa.android_budget_app.controller.TransactionController;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
@@ -45,7 +45,7 @@ public class TransactionListControllerTest extends AndroidTestCase {
 				getContext(), "_test"); // This will start with fresh userdata
 
 		Account account = Account.getInstance(context);
-		TransactionListController controller = new TransactionListController(account);
+		TransactionController controller = new TransactionController(account);
 		
 		Category cat = new Category("CatFromTransactionListControllerTest", 1,
 				null);
@@ -69,7 +69,7 @@ public class TransactionListControllerTest extends AndroidTestCase {
 				getContext(), "_test"); // This will start with fresh userdata
 
 		Account account = Account.getInstance(context);
-		TransactionListController controller = new TransactionListController(account);
+		TransactionController controller = new TransactionController(account);
 
 
 		Category cat = new Category("CatFromTransactionListControllerTest", 1,
