@@ -495,7 +495,7 @@ public class DatabaseTest extends AndroidTestCase {
 		
 		System.out.println("Test");
 		
-		for(Transaction transaction : dataAccessor.getTransactions((new GregorianCalendar(2012,0,1)).getTime(), (new GregorianCalendar(2012,11,30)).getTime(), null)) {
+		for(Transaction transaction : dataAccessor.getTransactions(SortBy.DATE,SortByOrder.DESC,0,100,null,(new GregorianCalendar(2012,0,1)).getTime(), (new GregorianCalendar(2012,11,30)).getTime())) {
 			System.out.println(transaction.toString());
 		}
 	}
