@@ -19,6 +19,7 @@
 package it.chalmers.mufasa.android_budget_app.model;
 
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.AccountDay;
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortBy;
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortByOrder;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
@@ -118,6 +119,10 @@ public class Account {
 	public double getBalance() {
 		return this.balance;
 	}
+	
+	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
+		return dataAccessor.getAccountBalanceForEachDay(from);
+	}
 
 	/**
 	 * Returns the name of the account.
@@ -131,10 +136,6 @@ public class Account {
 	 */
 	public int getId() {
 		return this.id;
-	}
-	
-	public double getBalanceAtDate(Date time) {
-		return 100.0;
 	}
 
 	/**

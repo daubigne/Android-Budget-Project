@@ -1,13 +1,18 @@
 package it.chalmers.mufasa.android_budget_app.model;
 
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.AccountDay;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 
 public class GraphViewModel {
 
@@ -28,10 +33,13 @@ public class GraphViewModel {
 	
 	public List<Double> getAccountBalanceListForGraph(int number) {
 		
-		Date from = new Date(2012,10,1);
-		Date to = new Date(2012,10,31);
+		Calendar calendar = new GregorianCalendar();		
+		calendar.set(2012, 8, 1);		
+		Date from = calendar.getTime();		
+		calendar.set(2012, 10, 30);		
+		Date to = calendar.getTime();
 		
-		return getAccountBalanceOverPeriod(from,to);
+		return getAccountBalanceForEachDay(from,to);
 	}
 
 	/**
@@ -44,35 +52,15 @@ public class GraphViewModel {
 	 *            to date
 	 * @return 
 	 */
-	public List<Double> getAccountBalanceOverPeriod(Date from, Date to) {
+	public List<Double> getAccountBalanceForEachDay(Date from, Date to) {
 
 		List<Double> accountBalances = new ArrayList<Double>();
 		
-//		Double currentBalance = account.getBalance();
-
-		//Gets array of Dates for each day between from and to
-		List<Date> dates = new ArrayList<Date>();
-		long interval = 24*1000 * 60 * 60; //1 day
-		long endTime = to.getTime() ;
-		long curTime = from.getTime();
-		while (curTime <= endTime) {
-		    dates.add(new Date(curTime));
-		    curTime += interval;
+		for(AccountDay accountDay : account.getAccountBalanceForEachDay(from)) {
+			if(accountDay.getDay().getTime() >= from.getTime() && accountDay.getDay().getTime() <= from.getTime()) {
+				accountBalances.add(accountDay.getValue());
+			}
 		}
-
-		Double temp = 0.0;
-		for(Date day : dates) {
-			System.out.println("Get balance for day"+DateFormat.format("YY/MM/DD HH:MM", day));
-			accountBalances.add(account.getBalanceAtDate(day));
-		}
-		
-//		for (Date day : dates) { //Loop backwards since we only know the current balance.
-//			for (Transaction transaction : account.getTransactions(day,day,null)) {
-//				if(transaction.getCategory().getId() == 1) { //Income
-//					
-//				}
-//			}
-//		}
 		
 		return accountBalances;
 	}

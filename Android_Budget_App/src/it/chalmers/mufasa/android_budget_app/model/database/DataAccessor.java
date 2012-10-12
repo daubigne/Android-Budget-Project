@@ -29,8 +29,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -131,7 +135,7 @@ public class DataAccessor {
 
 	}
 
-	public Double getAccountBalance() {
+	public double getAccountBalance() {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
@@ -142,9 +146,89 @@ public class DataAccessor {
 			Double balance = cursor.getDouble(2);
 			return balance;
 		} else {
-			return null;
+			return 0.0;
 		}
 
+	}
+
+	public class AccountDay {
+
+		Date day;
+		Double value;
+
+		public AccountDay(Date day, Double value) {
+			this.day = day;
+			this.value = value;
+		}
+
+		public Date getDay() {
+			return this.day;
+		}
+
+		public Double getValue() {
+			return this.value;
+		}
+	}
+
+	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
+
+		List<AccountDay> accountBalances = new ArrayList<AccountDay>();
+
+		double currentBalance = getAccountBalance();
+
+		Calendar cal = new GregorianCalendar();
+
+		List<Transaction> allTransactions = this.getTransactions(SortBy.DATE,
+				SortByOrder.DESC, 0, 1000000, null, from, cal.getTime());
+
+		if (allTransactions.size() > 0) {
+			Date to = cal.getTime();
+
+			List<Date> dates = new ArrayList<Date>();
+			long interval = 24 * 1000 * 60 * 60; // 1 day
+			long endTime = to.getTime();
+			long curTime = from.getTime();
+			while (curTime <= endTime) {
+				dates.add(new Date(curTime));
+				curTime += interval;
+			}
+
+			int i = allTransactions.size() - 1;
+			if (dates.size() > 0) {
+				for (int j = dates.size() - 1; j > 0; j--) {// Loop days
+															// backwards
+
+					// Loop through all transactions which time is between this
+					// day and the day before
+					while (allTransactions.get(i).getDate().getTime() >= dates
+							.get(j).getTime()
+							&& (dates.get(j + 1) == null || allTransactions
+									.get(i).getDate().getTime() <= dates.get(
+									j + 1).getTime())) {
+						Transaction transaction = allTransactions.get(i);
+						if (transaction.getCategory().getId() == Constants.INCOME_ID
+								|| (transaction.getCategory().getParent() != null && transaction
+										.getCategory().getParent().getId() == Constants.INCOME_ID)) {
+							currentBalance -= transaction.getAmount(); // Substract
+																		// previous
+																		// incomes
+						} else if (transaction.getCategory().getId() == Constants.EXPENSE_ID
+								|| (transaction.getCategory().getParent() != null && transaction
+										.getCategory().getParent().getId() == Constants.EXPENSE_ID)) {
+							currentBalance += transaction.getAmount(); // Add
+																		// previous
+																		// expenses
+						}
+
+						accountBalances.add(new AccountDay(dates.get(j),
+								currentBalance));
+
+						i--;
+					}
+				}
+			}
+		}
+		return accountBalances;
 	}
 
 	public String getAccountName() {
@@ -371,7 +455,8 @@ public class DataAccessor {
 									+ sortByOrderTemp
 									+ " LIMIT "
 									+ start
-									+ ", " + (count - start), null);
+									+ ", "
+									+ (count - start), null);
 		}
 
 		if (cursor.moveToFirst()) {
@@ -441,8 +526,7 @@ public class DataAccessor {
 									+ sortByOrderTemp
 									+ " LIMIT "
 									+ start
-									+ ", "
-									+ (count - start), null);
+									+ ", " + (count - start), null);
 		} else {
 			cursor = db
 					.rawQuery(
