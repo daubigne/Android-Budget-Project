@@ -63,9 +63,7 @@ public class GraphViewModel {
 		Double temp = 0.0;
 		for(Date day : dates) {
 			System.out.println("Get balance for day"+DateFormat.format("YY/MM/DD HH:MM", day));
-			//TODO account.getBalanceAtDate(day);
-			accountBalances.add(10000.0-temp);
-			temp = temp + 100.0;
+			accountBalances.add(account.getBalanceAtDate(day));
 		}
 		
 //		for (Date day : dates) { //Loop backwards since we only know the current balance.

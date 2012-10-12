@@ -132,6 +132,10 @@ public class Account {
 	public int getId() {
 		return this.id;
 	}
+	
+	public double getBalanceAtDate(Date time) {
+		return 100.0;
+	}
 
 	/**
 	 * Returns the budget item that the user have saved.
@@ -265,9 +269,5 @@ public class Account {
 		categoryList = dataAccessor.getCategories(currentParentCategory);
 		return categoryList;
 	}
-
-	
-
-
 
 }
