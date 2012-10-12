@@ -145,10 +145,15 @@ public class Account {
 		return budgetItemList;
 	}
 
+	public Double getBudgetItemsSum(int categoryId) {
+		return dataAccessor.getBudgetItemsSum(dataAccessor.getCategory(categoryId));
+	}
+	
 	private void updateBudgetItemList(Category parent) {
 		budgetItemList.clear();
 		budgetItemList.addAll(dataAccessor.getBudgetItems(parent));
 	}
+	
 
 	/**
 	 * Stores a budget item in the list of budget items.
@@ -221,6 +226,16 @@ public class Account {
 		updateTransactionList(parent);
 		return transactionList;
 	}
+	
+	public double getTransactionsSum(Date from, Date to, Category parent) {
+		
+		double sum = 0.0;
+		
+		for(Transaction transaction : dataAccessor.getTransactions(SortBy.DATE, SortByOrder.DESC, 0, 10000, parent, from, to)) {
+			sum += transaction.getAmount();
+		}
+		return sum;
+	}
 
 	private void updateTransactionList(Category parent) {
 		transactionList.clear();
@@ -265,9 +280,5 @@ public class Account {
 		categoryList = dataAccessor.getCategories(currentParentCategory);
 		return categoryList;
 	}
-
-	
-
-
 
 }
