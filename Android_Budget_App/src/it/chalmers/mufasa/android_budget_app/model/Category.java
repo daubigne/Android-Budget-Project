@@ -28,6 +28,7 @@ package it.chalmers.mufasa.android_budget_app.model;
 public class Category {
 	private String name;
 	private int id;
+	//This category's id has to be either Constants.EXPENSE_ID or Consntants.INCOME_ID
 	private Category parent;
 
 	public Category(String name, int id, Category parent) {

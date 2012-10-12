@@ -1,21 +1,21 @@
- /*
-  * Copyright © 2012 Mufasa developer unit
-  *
-  * This file is part of Mufasa Budget.
-  *
-  *	Mufasa Budget is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-  *
-  * Mufasa Budget is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
-  */
+/*
+ * Copyright © 2012 Mufasa developer unit
+ *
+ * This file is part of Mufasa Budget.
+ *
+ *	Mufasa Budget is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mufasa Budget is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.chalmers.mufasa.android_budget_app.model.database;
 
 import it.chalmers.mufasa.android_budget_app.model.Account;
@@ -30,7 +30,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -130,6 +129,8 @@ public class DataAccessor {
 
 		db.update("accounts", values, "id == " + account.getId(), null);
 
+		
+
 	}
 
 	public Double getAccountBalance() {
@@ -140,12 +141,12 @@ public class DataAccessor {
 				+ Constants.ACCOUNT_ID, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			return cursor.getDouble(2);
+			Double balance = cursor.getDouble(2);
+			return balance;
 		} else {
-			// throw new
-			// IllegalArgumentException("Could not access account balance");
 			return null;
 		}
+
 	}
 
 	public String getAccountName() {
@@ -157,8 +158,13 @@ public class DataAccessor {
 				+ Constants.ACCOUNT_ID, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			return cursor.getString(1);
+			String name = cursor.getString(1);
+			
+			
+			return name;
 		} else {
+			
+			
 			throw new IllegalArgumentException("Could not access account name");
 		}
 	}
@@ -171,8 +177,13 @@ public class DataAccessor {
 				+ Constants.ACCOUNT_ID, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			return cursor.getInt(0);
+			int id = cursor.getInt(0);
+			
+			
+			return id;
 		} else {
+			
+			
 			throw new IllegalArgumentException("Could not access account ID");
 		}
 	}
@@ -198,21 +209,67 @@ public class DataAccessor {
 				+ amount
 				+ ", "
 				+ category.getId() + ")");
+		
+		if(category.getParent() != null) {
+			if(category.getParent().getId() == Constants.INCOME_ID ){
+				this.setAccountBalance(getAccountBalance() + amount,
+						Constants.ACCOUNT_ID);
+			} else if (category.getParent().getId() == Constants.EXPENSE_ID) {
+				this.setAccountBalance(getAccountBalance() - amount,
+						Constants.ACCOUNT_ID);
+			}
+		} else if(category.getId() == Constants.INCOME_ID){
+			this.setAccountBalance(getAccountBalance() + amount,
+					Constants.ACCOUNT_ID);
+		} else if(category.getId() == Constants.EXPENSE_ID){
+			this.setAccountBalance(getAccountBalance() - amount,
+					Constants.ACCOUNT_ID);
+		} else {
+			throw new IllegalArgumentException("This category or parent category id must be "
+					+ "Constant.EXPENSE_ID or Constant.ACCOUNT_ID");
+		}
 
-		this.setAccountBalance(getAccountBalance() + amount,
-				Constants.ACCOUNT_ID);
+		
+		
 
 	}
 
 	public void removeTransaction(Transaction transaction) {
+		Category category = transaction.getCategory();
+		double amount = transaction.getAmount();
+
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		db.execSQL("DELETE FROM transactions WHERE id ==" + transaction.getId());
-		this.setAccountBalance(getAccountBalance() - transaction.getAmount(),
-				Constants.ACCOUNT_ID);
+		
+//		this.setAccountBalance(getAccountBalance() - amount,
+//				Constants.ACCOUNT_ID);
+		if(category == null){
+			System.out.println("category Šr null");
+		}
+		
+		if(category.getParent() != null) {
+			if(category.getParent().getId() == Constants.INCOME_ID ){
+				this.setAccountBalance(getAccountBalance() + amount,
+						Constants.ACCOUNT_ID);
+			} else if (category.getParent().getId() == Constants.EXPENSE_ID) {
+				this.setAccountBalance(getAccountBalance() - amount,
+						Constants.ACCOUNT_ID);
+			}
+		} else if(category.getId() == Constants.INCOME_ID){
+			this.setAccountBalance(getAccountBalance() + amount,
+					Constants.ACCOUNT_ID);
+		} else if(category.getId() == Constants.EXPENSE_ID){
+			this.setAccountBalance(getAccountBalance() - amount,
+					Constants.ACCOUNT_ID);
+		} else {
+			throw new IllegalArgumentException("This category or parent category id must be "
+					+ "Constant.EXPENSE_ID or Constant.ACCOUNT_ID");
+		}
+		
 	}
 
-	public List<Transaction> getTransactions(Account account, SortBy sortBy,
+	public List<Transaction> getTransactions(SortBy sortBy,
 			SortByOrder sortByOrder, int start, int count) {
 
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
@@ -241,11 +298,11 @@ public class DataAccessor {
 			break;
 		}
 
-		String[] arr = { "name", "date", "id", "value" };
+		String[] arr = { "name", "date", "id", "value", "categoryId" };
 
-		Cursor cursor = db.query("transactions", arr,
-				"accountId == " + account.getId(), null, null, null, sortByTemp
-						+ " " + sortByOrderTemp);
+		Cursor cursor = db.query("transactions", arr, "accountId == "
+				+ Constants.ACCOUNT_ID, null, null, null, sortByTemp + " "
+				+ sortByOrderTemp);
 
 		if (cursor.moveToPosition(start)) {
 			for (int i = start; i < Math.min(start + count, cursor.getCount()); i++) {
@@ -255,16 +312,88 @@ public class DataAccessor {
 				// Integer.parseInt(list[1]), Integer.parseInt(list[2]));
 				Date date = new Date(10000);
 
-				Category category = new Category("untitled category", 1, null);
+				Category category = getCategory(cursor.getInt(4));
 				Transaction transaction = new Transaction(cursor.getInt(2),
-						(cursor.getInt(3)), date, cursor.getString(2), category);
+						(cursor.getDouble(3)), date, cursor.getString(0),
+						category);
 				transactions.add(transaction);
 
 				cursor.moveToNext();
 			}
 		}
-
+		
+		
 		return transactions;
+	}
+
+	public List<Transaction> getTransactions(SortBy sortBy,
+			SortByOrder sortByOrder, int start, int count, Category parent) {
+
+		List<Transaction> transactionList = new ArrayList<Transaction>();
+
+		SQLiteDatabase db = new DatabaseOpenHelper(context)
+				.getWritableDatabase();
+
+		Cursor cursor;
+
+		String sortByTemp = "date";
+		String sortByOrderTemp = "desc";
+
+		switch (sortBy) {
+		case NAME:
+			sortByTemp = "name";
+			break;
+		case DATE:
+			sortByTemp = "date";
+			break;
+		case CATEGORY:
+			sortByTemp = "category";
+			break;
+		}
+		switch (sortByOrder) {
+		case ASC:
+			sortByOrderTemp = "ASC";
+			break;
+		case DESC:
+			sortByOrderTemp = "DESC";
+			break;
+		}
+
+		if (parent == null) {
+			String[] arr = { "name", "date", "id", "value", "categoryId" };
+
+			cursor = db.query("transactions", arr,
+					"accountId == " + Constants.ACCOUNT_ID, null, null, null,
+					sortByTemp + " " + sortByOrderTemp);
+		} else {
+			cursor = db
+					.rawQuery(
+							"SELECT transactions.name, transactions.date, transactions.id, transactions.value, transactions.categoryId, categories.parentId FROM transactions INNER JOIN categories ON transactions.categoryId==categories.id WHERE categories.id == "
+									+ parent.getId()
+									+ " OR categories.parentId == "
+									+ parent.getId(), null);
+		}
+
+		int counter = 0;
+
+		if (cursor.moveToFirst()) {
+			Category cat = this.getCategory(cursor.getInt(5));
+			Date date = new Date(cursor.getInt(1));
+			Transaction transaction = new Transaction(cursor.getInt(2),
+					(cursor.getDouble(3)), date, cursor.getString(0), cat);
+			transactionList.add(transaction);
+			counter++;
+			while (cursor.moveToNext() && counter <= count) {
+				cat = this.getCategory(cursor.getInt(5));
+				date = new Date(cursor.getInt(1));
+				transaction = new Transaction(cursor.getInt(2),
+						(cursor.getDouble(3)), date, cursor.getString(0), cat);
+				transactionList.add(transaction);
+				counter++;
+			}
+		}
+		
+		return transactionList;
 	}
 
 	public List<Category> getCategories() {
@@ -303,7 +432,8 @@ public class DataAccessor {
 			}
 
 		}
-
+		
+		
 		return list;
 	}
 
@@ -320,21 +450,36 @@ public class DataAccessor {
 			return new Category(cursor.getString(0), cursor.getInt(1),
 					this.getCategory(cursor.getInt(2)));
 		}
-
+		
+		
 		return null;
 	}
 
 	public void addCategory(String name, Category parent) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
-
+		
 		String parentId = "null";
-		if (parent != null) {
+		
+		if(parent != null){
 			parentId = String.valueOf(parent.getId());
+			
 		}
-
+		
 		db.execSQL("INSERT INTO categories (name, parentId) VALUES ( " + "\""
 				+ name + "\"" + ", " + parentId + ")");
+
+//		if (parent.getId() == Constants.EXPENSE_ID || parent.getId() == Constants.INCOME_ID){
+//			String parentId = String.valueOf(parent.getId());
+//
+//			db.execSQL("INSERT INTO categories (name, parentId) VALUES ( " + "\""
+//					+ name + "\"" + ", " + parentId + ")");
+//		} else {
+//			throw new IllegalArgumentException("Parent ID must be either " +
+//					"Constants.EXPENSE_ID or Constants.INCOME_ID");
+//		}
+			
+		
 	}
 
 	public Settings getSettings() {
@@ -347,9 +492,11 @@ public class DataAccessor {
 
 		if (cursor.moveToFirst()) {
 			Settings settings = new Settings(cursor.getInt(0));
+			
 			return settings;
 		}
-
+		
+		
 		return null;
 	}
 
@@ -363,6 +510,7 @@ public class DataAccessor {
 		values.put("value", value);
 
 		db.insert("budgetitems", null, values);
+		
 
 	}
 
@@ -374,28 +522,38 @@ public class DataAccessor {
 
 		List<BudgetItem> budgetItemList = new ArrayList<BudgetItem>();
 
-		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		SQLiteDatabase db = new DatabaseOpenHelper(context)
+				.getWritableDatabase();
 
 		Cursor cursor;
 
-		if(parent == null) {
-			String[] columns = {"id","categoryId","value"};		
-			cursor = db.query("budgetitems", columns, null, null, null, null, null);
+		if (parent == null) {
+			String[] columns = { "id", "categoryId", "value" };
+			cursor = db.query("budgetitems", columns, null, null, null, null,
+					null);
 		} else {
-			cursor = db.rawQuery("SELECT budgetitems.id, budgetitems.categoryId, budgetitems.value, categories.parentId FROM budgetitems INNER JOIN categories ON budgetitems.categoryId==categories.id WHERE categories.id == "+parent.getId()+" OR categories.parentId == "+parent.getId(), null);
+			cursor = db
+					.rawQuery(
+							"SELECT budgetitems.id, budgetitems.categoryId, budgetitems.value, categories.parentId FROM budgetitems INNER JOIN categories ON budgetitems.categoryId==categories.id WHERE categories.id == "
+									+ parent.getId()
+									+ " OR categories.parentId == "
+									+ parent.getId(), null);
 		}
 
-		if(cursor.moveToFirst()) {
+		if (cursor.moveToFirst()) {
 			Category cat = this.getCategory(cursor.getInt(1));
-			BudgetItem item = new BudgetItem(cursor.getInt(0),cat,cursor.getDouble(2));
+			BudgetItem item = new BudgetItem(cursor.getInt(0), cat,
+					cursor.getDouble(2));
 			budgetItemList.add(item);
-			while(cursor.moveToNext()) {
+			while (cursor.moveToNext()) {
 				cat = this.getCategory(cursor.getInt(1));
-				item = new BudgetItem(cursor.getInt(0),cat,cursor.getDouble(2));
+				item = new BudgetItem(cursor.getInt(0), cat,
+						cursor.getDouble(2));
 				budgetItemList.add(item);
 			}
 		}
-
+		
+		
 		return budgetItemList;
 	}
 
@@ -404,6 +562,7 @@ public class DataAccessor {
 				.getWritableDatabase();
 
 		db.delete("budgetitems", "id == " + item.getId(), null);
+		
 
 	}
 
@@ -416,6 +575,7 @@ public class DataAccessor {
 		values.put("value", newValue);
 
 		db.update("budgetitems", values, "id == " + item.getId(), null);
+		
 
 	}
 
@@ -423,6 +583,7 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		db.execSQL("DELETE FROM categories WHERE id ==" + category.getId());
+		
 	}
 
 	public void editCategory(Category category, String newName) {
@@ -430,6 +591,7 @@ public class DataAccessor {
 				.getWritableDatabase();
 		db.execSQL("UPDATE categories SET name = \"" + newName
 				+ "\" WHERE id == " + category.getId());
+		
 	}
 	
 	public double getBudgetItemsSum(Category parent) {
