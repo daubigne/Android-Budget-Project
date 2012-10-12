@@ -27,5 +27,6 @@
     <string name="title_activity_homescreen_fragment">HomescreenFragment</string>
     <string name="large_text">Large Text</string>
     <string name="edit_balance">Edit Balance</string>
+    <string name="percentage">Percentage</string>
 
 </resources>

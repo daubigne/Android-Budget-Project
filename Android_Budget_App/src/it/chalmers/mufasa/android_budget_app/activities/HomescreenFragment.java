@@ -18,48 +18,47 @@
   */
 package it.chalmers.mufasa.android_budget_app.activities;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.R.layout;
 import it.chalmers.mufasa.android_budget_app.R.menu;
-import it.chalmers.mufasa.android_budget_app.controller.TransactionListController;
-import it.chalmers.mufasa.android_budget_app.model.Account;
+import it.chalmers.mufasa.android_budget_app.controller.HomeScreenController;
+import it.chalmers.mufasa.android_budget_app.model.HomeScreenModel;
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.TextView;
 
-public class HomescreenFragment extends Fragment implements PropertyChangeListener {
-	private Account account;
+public class HomescreenFragment extends Fragment {
 	private LayoutInflater inflater;
 	private View view;
+	private TextView tv;
+	private TextView tv2;
+	private HomeScreenModel model;
+	private HomeScreenController controller;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		this.model = new HomeScreenModel(this.getActivity());
 		this.inflater = inflater;
+		this.controller = new HomeScreenController(this.model);
+
+
 		this.view = inflater.inflate(R.layout.fragment_homescreen, container,
 				false);
-		this.account = Account.getInstance(this.getActivity());
-		this.account.addPropertyChangeListener(this);
-		TextView tv = (TextView) view.findViewById(R.id.Balancefield);
-		tv.setText(this.account.getBalance() + "kr");
+		//Create text fields to hold a baance and a comparison between the users' transactions and budgets.
+		tv = (TextView) view.findViewById(R.id.Balancefield);
+		tv2 = (TextView) view.findViewById(R.id.percentage);
+		tv.setText(model.getBalance() + "kr");
+		controller.calculatePercentage();
+		tv2.setText(String.valueOf(model.getPercentage()) + "%");	
+		
 		return view;
 	}
-	public void setNewBalance(double balance){
-		
-	}
 
-	public void propertyChange(PropertyChangeEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	//TODO: Method for swapping the percentage for something else, so that user can customize his or her homescreen.
 }
