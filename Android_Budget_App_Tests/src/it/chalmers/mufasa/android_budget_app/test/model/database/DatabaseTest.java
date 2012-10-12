@@ -33,17 +33,17 @@ import java.util.List;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
-//public class DatabaseTest extends AndroidTestCase {
-//	
-//	DataAccessor dataAccessor;
-//
-//	protected void setUp() throws Exception {
-//		super.setUp();
-//		
-//		RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "_test"); //This will start with fresh userdata
-//		
-//		dataAccessor = new DataAccessor(context);
-//	}
+public class DatabaseTest extends AndroidTestCase {
+	
+	DataAccessor dataAccessor;
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		
+		RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "_test"); //This will start with fresh userdata
+		
+		dataAccessor = new DataAccessor(context);
+	}
 //
 //	public void testAddAccount() {
 //		
@@ -232,4 +232,8 @@ import android.test.RenamingDelegatingContext;
 //		assertTrue(condition1 && condition2);
 //	}
 //
-//}
+	
+	public void testGetBudgetItemsSum() {
+		fail(String.valueOf(dataAccessor.getBudgetItemsSum(dataAccessor.getCategory(2))));
+	}
+}

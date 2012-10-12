@@ -432,4 +432,20 @@ public class DataAccessor {
 		db.execSQL("UPDATE categories SET name = \"" + newName
 				+ "\" WHERE id == " + category.getId());
 	}
+	
+	public double getBudgetItemsSum(Category parent) {
+		SQLiteDatabase db = new DatabaseOpenHelper(context).getWritableDatabase();
+		
+		Cursor cursor;
+		
+		if(parent == null) {
+			cursor = db.rawQuery("SELECT SUM(budgetitems.value) FROM budgetitems", null);
+		} else {
+			cursor = db.rawQuery("SELECT SUM(budgetitems.value) FROM budgetitems INNER JOIN categories ON budgetitems.categoryId == categories.id WHERE categories.parentId == "+parent.getId()+" OR budgetitems.categoryId == "+parent.getId(), null);
+		}
+		if(cursor.moveToFirst()) {
+			return cursor.getDouble(0);
+		}
+		return 0.0;
+	}
 }
