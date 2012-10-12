@@ -37,11 +37,19 @@ public class AddTransactionFragment extends Fragment {
 	
 	private void setupOnClickListeners() {
 		Button addTransactionButton = (Button) view.findViewById(R.id.addTransactionButton);
+		Button dateTransactionButton = (Button) view.findViewById(R.id.transactionDateButton);
+
 		
 		addTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				AddTransactionFragment.this.saveTransaction(v);
 				((HostActivity)getActivity()).switchToTransactionListFragment();
+			}
+		});
+		
+		dateTransactionButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				((HostActivity)getActivity()).showDialog(HostActivity.MY_DIALOG_ID);
 			}
 		});
 		

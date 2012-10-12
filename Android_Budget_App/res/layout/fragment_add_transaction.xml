@@ -24,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10" >
+            android:ems="10" 
+            android:inputType="text">
 
             <requestFocus />
         </EditText>
@@ -36,12 +37,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/transactionDateTextView"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/transactionDateButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/date"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/addDate" />
 
     </LinearLayout>
 
@@ -62,7 +62,6 @@
             android:id="@+id/transactionAmountEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal" />
 

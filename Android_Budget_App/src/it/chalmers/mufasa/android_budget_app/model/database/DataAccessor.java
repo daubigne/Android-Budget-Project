@@ -240,27 +240,30 @@ public class DataAccessor {
 				.getWritableDatabase();
 		db.execSQL("DELETE FROM transactions WHERE id ==" + transaction.getId());
 		
-		this.setAccountBalance(getAccountBalance() - amount,
-				Constants.ACCOUNT_ID);
+//		this.setAccountBalance(getAccountBalance() - amount,
+//				Constants.ACCOUNT_ID);
+		if(category == null){
+			System.out.println("category Šr null");
+		}
 		
-//		if(category.getParent() != null) {
-//			if(category.getParent().getId() == Constants.INCOME_ID ){
-//				this.setAccountBalance(getAccountBalance() - amount,
-//						Constants.ACCOUNT_ID);
-//			} else if (category.getParent().getId() == Constants.EXPENSE_ID) {
-//				this.setAccountBalance(getAccountBalance() + amount,
-//						Constants.ACCOUNT_ID);
-//			}
-//		} else if(category.getId() == Constants.INCOME_ID){
-//			this.setAccountBalance(getAccountBalance() - amount,
-//					Constants.ACCOUNT_ID);
-//		} else if(category.getId() == Constants.EXPENSE_ID){
-//			this.setAccountBalance(getAccountBalance() + amount,
-//					Constants.ACCOUNT_ID);
-//		} else {
-//			throw new IllegalArgumentException("This category or parent category id must be "
-//					+ "Constant.EXPENSE_ID or Constant.ACCOUNT_ID");
-//		}
+		if(category.getParent() != null) {
+			if(category.getParent().getId() == Constants.INCOME_ID ){
+				this.setAccountBalance(getAccountBalance() + amount,
+						Constants.ACCOUNT_ID);
+			} else if (category.getParent().getId() == Constants.EXPENSE_ID) {
+				this.setAccountBalance(getAccountBalance() - amount,
+						Constants.ACCOUNT_ID);
+			}
+		} else if(category.getId() == Constants.INCOME_ID){
+			this.setAccountBalance(getAccountBalance() + amount,
+					Constants.ACCOUNT_ID);
+		} else if(category.getId() == Constants.EXPENSE_ID){
+			this.setAccountBalance(getAccountBalance() - amount,
+					Constants.ACCOUNT_ID);
+		} else {
+			throw new IllegalArgumentException("This category or parent category id must be "
+					+ "Constant.EXPENSE_ID or Constant.ACCOUNT_ID");
+		}
 		
 	}
 
