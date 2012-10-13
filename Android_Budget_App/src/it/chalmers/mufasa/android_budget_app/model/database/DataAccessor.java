@@ -32,9 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -168,66 +166,75 @@ public class DataAccessor {
 		public Double getValue() {
 			return this.value;
 		}
+		
+		@Override
+		public String toString() {
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+			
+			return "AccountDay: day="+dateFormat.format(day)+" value="+this.value;
+		}
 	}
 
 	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = new GregorianCalendar();
+		Date to = cal.getTime();
+
+		System.out.println("get account balance for each day from "+dateFormat.format(from)+" until "+dateFormat.format(cal.getTime()));
 
 		List<AccountDay> accountBalances = new ArrayList<AccountDay>();
 
 		double currentBalance = getAccountBalance();
 
-		Calendar cal = new GregorianCalendar();
-
 		List<Transaction> allTransactions = this.getTransactions(SortBy.DATE,
-				SortByOrder.DESC, 0, 1000000, null, from, cal.getTime());
+				SortByOrder.DESC, 0, 1000000, null, from, to);
 
-		if (allTransactions.size() > 0) {
-			Date to = cal.getTime();
-
+			Calendar curDay = new GregorianCalendar(); 
+			Calendar endDay = new GregorianCalendar(); 
+			
+			endDay.setTime(from);
+			endDay.add(Calendar.DAY_OF_MONTH, -1);
+			curDay.add(Calendar.DAY_OF_MONTH, 1);
+			//Get list of days between from and to
 			List<Date> dates = new ArrayList<Date>();
-			long interval = 24 * 1000 * 60 * 60; // 1 day
-			long endTime = to.getTime();
-			long curTime = from.getTime();
-			while (curTime <= endTime) {
-				dates.add(new Date(curTime));
-				curTime += interval;
+			while (curDay.getTime().getTime() >= endDay.getTime().getTime()) {
+				dates.add(curDay.getTime());
+				curDay.add(Calendar.DAY_OF_MONTH, -1);
 			}
 
-			int i = allTransactions.size() - 1;
+			int i = 0;
 			if (dates.size() > 0) {
-				for (int j = dates.size() - 1; j > 0; j--) {// Loop days
+				for (int j = 1; j < dates.size()-1; j++) {// Loop days
 															// backwards
+					if(i<allTransactions.size()) {
+						// Loop through all transactions which time is between this
+						// day and the day before
 
-					// Loop through all transactions which time is between this
-					// day and the day before
-					while (allTransactions.get(i).getDate().getTime() >= dates
-							.get(j).getTime()
-							&& (dates.get(j + 1) == null || allTransactions
-									.get(i).getDate().getTime() <= dates.get(
-									j + 1).getTime())) {
-						Transaction transaction = allTransactions.get(i);
-						if (transaction.getCategory().getId() == Constants.INCOME_ID
-								|| (transaction.getCategory().getParent() != null && transaction
-										.getCategory().getParent().getId() == Constants.INCOME_ID)) {
-							currentBalance -= transaction.getAmount(); // Substract
-																		// previous
-																		// incomes
-						} else if (transaction.getCategory().getId() == Constants.EXPENSE_ID
-								|| (transaction.getCategory().getParent() != null && transaction
-										.getCategory().getParent().getId() == Constants.EXPENSE_ID)) {
-							currentBalance += transaction.getAmount(); // Add
-																		// previous
-																		// expenses
+						System.out.println("Transaction date:"+dateFormat.format(allTransactions.get(i).getDate())+" This day: "+dateFormat.format(dates.get(j)) +" Last day: "+ dateFormat.format(dates.get(j-1)));
+
+						while (i<allTransactions.size() && allTransactions.get(i).getDate().getTime() >= dates.get(j).getTime() && allTransactions.get(i).getDate().getTime() <= dates.get(j-1).getTime() ) {
+
+							Transaction transaction = allTransactions.get(i);
+							if (transaction.getCategory().getId() == Constants.INCOME_ID
+									|| (transaction.getCategory().getParent() != null && transaction
+									.getCategory().getParent().getId() == Constants.INCOME_ID)) {
+								currentBalance -= transaction.getAmount(); // Substract previous incomes
+							} else if (transaction.getCategory().getId() == Constants.EXPENSE_ID
+									|| (transaction.getCategory().getParent() != null && transaction
+									.getCategory().getParent().getId() == Constants.EXPENSE_ID)) {
+								currentBalance += transaction.getAmount(); // Add previous expenses
+							}
+
+							
+							i++;
 						}
-
-						accountBalances.add(new AccountDay(dates.get(j),
-								currentBalance));
-
-						i--;
 					}
+					accountBalances.add(new AccountDay(dates.get(j),
+							currentBalance));
 				}
 			}
-		}
 		return accountBalances;
 	}
 

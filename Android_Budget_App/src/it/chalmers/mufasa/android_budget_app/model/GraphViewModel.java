@@ -34,12 +34,12 @@ public class GraphViewModel {
 	public List<Double> getAccountBalanceListForGraph(int number) {
 		
 		Calendar calendar = new GregorianCalendar();		
-		calendar.set(2012, 8, 1);		
+		calendar.set(2012, 9, 1);		
 		Date from = calendar.getTime();		
-		calendar.set(2012, 10, 30);		
+		calendar.set(2012, 9, 30);		
 		Date to = calendar.getTime();
 		
-		return getAccountBalanceForEachDay(from,to);
+		return getAccountBalanceForEachDay(from, to);
 	}
 
 	/**
@@ -57,7 +57,8 @@ public class GraphViewModel {
 		List<Double> accountBalances = new ArrayList<Double>();
 		
 		for(AccountDay accountDay : account.getAccountBalanceForEachDay(from)) {
-			if(accountDay.getDay().getTime() >= from.getTime() && accountDay.getDay().getTime() <= from.getTime()) {
+			System.out.println(accountDay);
+			if(accountDay.getDay().getTime() >= from.getTime() && accountDay.getDay().getTime() <= to.getTime()) {
 				accountBalances.add(accountDay.getValue());
 			}
 		}
