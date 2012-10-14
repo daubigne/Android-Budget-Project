@@ -360,9 +360,13 @@ public class DatabaseTest extends AndroidTestCase {
 		Category incomeCategory = dataAccessor.getCategory(Constants.INCOME_ID);
 		Category expensesCategory = dataAccessor
 				.getCategory(Constants.EXPENSE_ID);
-		Category incomeCategoryChild = new Category("Lon", 155, incomeCategory);
-		Category expensesCategoryChild = new Category("Mat", 245,
-				expensesCategory);
+		
+		Category incomeCategoryChild = dataAccessor.addCategory("Lon", incomeCategory);
+		Category expensesCategoryChild = dataAccessor.addCategory("Mat", expensesCategory);
+		
+		//Category incomeCategoryChild = new Category("Lon", 155, incomeCategory);
+		//Category expensesCategoryChild = new Category("Mat", 245,
+		//		expensesCategory);
 
 		dataAccessor.addTransaction(200.0, new Date(), "transaction1",
 				incomeCategoryChild);
