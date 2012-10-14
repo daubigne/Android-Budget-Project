@@ -34,9 +34,9 @@ public class GraphViewModel {
 	public List<Double> getAccountBalanceListForGraph(int number) {
 		
 		Calendar calendar = new GregorianCalendar();		
-		calendar.set(2012, 9, 1);		
+		calendar.set(2012, 8, 0);		
 		Date from = calendar.getTime();		
-		calendar.set(2012, 9, 30);		
+		calendar.add(Calendar.MONTH, 1);		
 		Date to = calendar.getTime();
 		
 		return getAccountBalanceForEachDay(from, to);
