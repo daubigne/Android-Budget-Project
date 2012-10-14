@@ -188,7 +188,8 @@ public class DatabaseTest extends AndroidTestCase {
 		if (list.size() != 3) {
 			fail("Size != 3 is " + list.size());
 		}
-
+		
+		
 		if (dataAccessor.getAccountBalance() != 50.0) {
 			fail("Balance != 50.0 is " + dataAccessor.getAccountBalance());
 		}

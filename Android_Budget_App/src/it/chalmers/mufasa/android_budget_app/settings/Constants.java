@@ -18,9 +18,16 @@
   */
 package it.chalmers.mufasa.android_budget_app.settings;
 
+/**
+ * A class holding constants which the whole application has acces to.
+ */
 public final class Constants {
+	//The ID of the only existing Account in the model.
 	public static final int ACCOUNT_ID = 1;
+	//Used when get transactions from the database.
 	public static final int NUMBER_OF_TRANSACTIONS = 50;
+	//The ID of the Category "Expenses" which is the parent of all expenses categories.
 	public static final int EXPENSE_ID = 2;
+	//The ID of the Category "Income" which is the parent of all income categories.
 	public static final int INCOME_ID = 1;
 }

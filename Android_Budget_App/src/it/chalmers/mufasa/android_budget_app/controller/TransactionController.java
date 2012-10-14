@@ -54,26 +54,6 @@ public class TransactionController {
 
 		account.addTransaction(amount, date, name, category);
 	}
-
-	public void saveAllTransactions(List<Transaction> list) {
-		replaceTransactions(list);
-	}
-	
-	public void replaceTransactions(List<Transaction> transactions) {
-		ArrayList<Transaction> removeList = (ArrayList<Transaction>)getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
-		
-		for(Transaction item : removeList) {
-			removeTransaction(item);
-		}
-		
-		for(Transaction item : transactions) {
-			addTransaction(item.getAmount(), item.getDate(), item.getName(), item.getCategory());
-		}
-	}
-	
-	public void newTransaction(){
-		account.addTransaction(0.0, new Date(), "", this.getCurrentMainCategory());
-	}
 	
 	/**
 	 * Removes the given transaction.
@@ -89,29 +69,29 @@ public class TransactionController {
 	public List<Transaction> getTransactions(int nbrOfTransactions){
 		return account.getTransactions(nbrOfTransactions, getCurrentMainCategory());
 	}
-		
-	public void setEditMode(boolean set) {
-		if(this.editMode != set) {
-			this.editMode = set;
-		}
-	}
 	
-	public boolean isEditMode() {
-		return this.editMode;
-	}
-	
-	public void switchToIncome() {
-		setCurrentMainCategory(Constants.INCOME_ID);
-	}
-	
-	public void switchToExpenses() {
-		setCurrentMainCategory(Constants.EXPENSE_ID);
-	}
-	
+
 	private void setCurrentMainCategory(int id){
 		currentMainCategory = account.getCategory(id);
 	}
 	
+	/**
+	 * Sets the current main category to the income category.
+	 */
+	public void switchToIncome() {
+		setCurrentMainCategory(Constants.INCOME_ID);
+	}
+	
+	/**
+	 * Sets the current main category to the expense category.
+	 */
+	public void switchToExpenses() {
+		setCurrentMainCategory(Constants.EXPENSE_ID);
+	}
+	
+	/**
+	 * Returns the current main category.
+	 */
 	public Category getCurrentMainCategory(){
 		return currentMainCategory;
 	}
