@@ -93,18 +93,23 @@ public class DataAccessor {
 	 * } }
 	 */
 
+	/**
+	 * True if an Account exists in the database.
+	 */
 	public boolean accountExists() {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
-		// TODO Account ID????
-		Cursor cursor = db.query("accounts", arr, "id == " + 1, null, null,
+				Cursor cursor = db.query("accounts", arr, "id == " + Constants.ACCOUNT_ID, null, null,
 				null, null);
 
 		return cursor.moveToFirst();
 
 	}
 
+	/**
+	 * Adds an Account to the database.
+	 */
 	public void addAccount(String name, double balance) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -113,6 +118,9 @@ public class DataAccessor {
 				+ "\"," + balance + ")");
 	}
 
+	/**
+	 * Sets the balance of an Account with the given ID:
+	 */
 	public void setAccountBalance(double balance, int id) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -121,6 +129,9 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Updates the Account in the database.
+	 */
 	public void updateAccount(Account account) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -133,7 +144,10 @@ public class DataAccessor {
 
 	}
 
-	public double getAccountBalance() {
+	/**
+	 * Returns the balance of the Account with the given ID.
+	 */
+	public Double getAccountBalance() {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
@@ -238,13 +252,16 @@ public class DataAccessor {
 		return accountBalances;
 	}
 
-	public String getAccountName() {
+	/**
+	 * Returns the name of the Account with the given ID.
+	 */
+	public String getAccountName(int id) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
 
 		Cursor cursor = db.query("accounts", arr, "id == "
-				+ Constants.ACCOUNT_ID, null, null, null, null);
+				+ id, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
 			String name = cursor.getString(1);
@@ -256,6 +273,10 @@ public class DataAccessor {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getAccountId() {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -273,6 +294,9 @@ public class DataAccessor {
 		}
 	}
 
+	/**
+	 * Adds a transactions to the database.
+	 */
 	public void addTransaction(Double amount, Date date, String name,
 			Category category) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
@@ -317,6 +341,9 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Removes given transaction from the database.
+	 */
 	public void removeTransaction(Transaction transaction) {
 		Category category = transaction.getCategory();
 		double amount = transaction.getAmount();
@@ -353,6 +380,14 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Returns transactions in the database.
+	 * 
+	 * @param sortBy The attribute of which the transactions will be sorted by.
+	 * @param sortByOrder Can either be ascending or descending.
+	 * @param start The first transaction to be returned.
+	 * @param count The number of transactions to be returned.
+	 */
 	public List<Transaction> getTransactions(SortBy sortBy,
 			SortByOrder sortByOrder, int start, int count) {
 
@@ -394,9 +429,12 @@ public class DataAccessor {
 				String[] list = dateString.split("-");
 				// Date date = new Date(Integer.parseInt(list[0]),
 				// Integer.parseInt(list[1]), Integer.parseInt(list[2]));
+				
+				//TODO DATE!?!?!?!?
 				Date date = new Date(10000);
 
 				Category category = getCategory(cursor.getInt(4));
+				
 				Transaction transaction = new Transaction(cursor.getInt(2),
 						(cursor.getDouble(3)), date, cursor.getString(0),
 						category);
@@ -409,6 +447,13 @@ public class DataAccessor {
 		return transactions;
 	}
 
+	/**
+	 * Returns transactions of a certain category.
+	 * @param sortBy The attribute of which the transactions will be sorted by.
+	 * @param sortByOrder Can either be ascending or descending.
+	 * @param start The first transaction to be returned.
+	 * @param count The number of transactions to be returned.
+	 */
 	public List<Transaction> getTransactions(SortBy sortBy,
 			SortByOrder sortByOrder, int start, int count, Category parent) {
 
@@ -484,6 +529,9 @@ public class DataAccessor {
 		return transactionList;
 	}
 
+	/**
+	 * Returns all categories from the database.
+	 */
 	public List<Transaction> getTransactions(SortBy sortBy,
 			SortByOrder sortByOrder, int start, int count, Category parent,
 			Date from, Date to) {
@@ -582,6 +630,9 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Returns all categories under a certain parent category.
+	 */
 	public List<Category> getCategories(Category parent) {
 
 		List<Category> list = new ArrayList<Category>();
@@ -616,12 +667,14 @@ public class DataAccessor {
 		return list;
 	}
 
+	/**
+	 * Returns a category with a certain ID.
+	 */
 	public Category getCategory(int id) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 
 		String[] arr = { "name", "id", "parentId" };
-
 		Cursor cursor = db.query("categories", arr, "id == " + id, null, null,
 				null, null);
 
@@ -629,11 +682,16 @@ public class DataAccessor {
 			return new Category(cursor.getString(0), cursor.getInt(1),
 					this.getCategory(cursor.getInt(2)));
 		}
-
+			
 		return null;
 	}
 
-	public void addCategory(String name, Category parent) {
+	/**
+	 * Adds a category to the database.
+	 */
+
+
+	public Category addCategory(String name, Category parent) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 
@@ -644,8 +702,13 @@ public class DataAccessor {
 
 		}
 
-		db.execSQL("INSERT INTO categories (name, parentId) VALUES ( " + "\""
-				+ name + "\"" + ", " + parentId + ")");
+		
+		ContentValues contentValues = new ContentValues();
+		contentValues.put("name", name);
+		contentValues.put("parentId", parentId);
+		long id = db.insert("categories",null,contentValues);
+		
+		return this.getCategory((int)id);
 
 		// if (parent.getId() == Constants.EXPENSE_ID || parent.getId() ==
 		// Constants.INCOME_ID){
@@ -660,6 +723,9 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Returns the settings from the database.
+	 */
 	public Settings getSettings() {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -677,6 +743,9 @@ public class DataAccessor {
 		return null;
 	}
 
+	/**
+	 * Adds a budget item to the database.
+	 */
 	public void addBudgetItem(Category category, Double value) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -690,10 +759,16 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Returns all budget items from the database.
+	 */
 	public List<BudgetItem> getBudgetItems() {
 		return this.getBudgetItems(null);
 	}
 
+	/**
+	 * Returns all budget items under a certain category from the databse.
+	 */
 	public List<BudgetItem> getBudgetItems(Category parent) {
 
 		List<BudgetItem> budgetItemList = new ArrayList<BudgetItem>();
@@ -732,6 +807,9 @@ public class DataAccessor {
 		return budgetItemList;
 	}
 
+	/**
+	 * Removes a certain budget item from the database.
+	 */
 	public void removeBudgetItem(BudgetItem item) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -740,6 +818,9 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Edits an already existing budget item in the database.
+	 */
 	public void editBudgetItem(BudgetItem item, Double newValue) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -752,6 +833,9 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Removes a category from the database.
+	 */
 	public void removeCategory(Category category) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
@@ -759,6 +843,9 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Edits an already existing category in the database.
+	 */
 	public void editCategory(Category category, String newName) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();

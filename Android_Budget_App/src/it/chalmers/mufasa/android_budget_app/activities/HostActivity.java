@@ -61,11 +61,12 @@ public class HostActivity extends Activity {
 		// TODO : Replace the empty constructor with fragments that are going to
 		// fill the app,
 		// upon completion;remove the empty constructor
+
 		Tab tab1 = theBar
 				.newTab()
 				.setText("Home")
 				.setTabListener(
-						new HostTabListener(new TypicalFragment("First tab")));
+						new HostTabListener((new HomescreenFragment())));
 		Tab tab2 = theBar
 				.newTab()
 				.setText("Transactions")
@@ -86,6 +87,7 @@ public class HostActivity extends Activity {
 				.setTabListener(
 						new HostTabListener(new TypicalFragment("Fifth tab")));
 
+
 		// add the tabs to the action bar
 		theBar.addTab(tab1);
 		theBar.addTab(tab2);
@@ -101,7 +103,10 @@ public class HostActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_home_screen_host, menu);
 		return true;
 	}
-
+	
+	/**
+	 * A class used to respond to actions performed on the tab.
+	 */
 	private class HostTabListener implements ActionBar.TabListener {
 		public Fragment fragment;
 
@@ -110,8 +115,7 @@ public class HostActivity extends Activity {
 		}
 
 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
-			// Toast.makeText(HomeScreenHostActivity.appContext, "Reselected!",
-			// Toast.LENGTH_LONG).show();
+			//Do nothing.
 		}
 
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
@@ -124,11 +128,13 @@ public class HostActivity extends Activity {
 
 	}
 
-	public void switchToAddTransactionFragment() {
-		Fragment addTransactionFragment = new AddTransactionFragment();
+	/**
+	 * Changes current shown fragment.
+	 */
+	public void changeFragment(Fragment fragment){
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
-		transaction.replace(R.id.fragment_container, addTransactionFragment);
+		transaction.replace(R.id.fragment_container, fragment);
 		transaction.commit();
 	}
 

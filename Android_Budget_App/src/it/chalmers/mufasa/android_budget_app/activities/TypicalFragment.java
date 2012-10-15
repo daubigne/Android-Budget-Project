@@ -40,6 +40,10 @@ public class TypicalFragment extends Fragment{
 		this.str = str;
 	}
 	
+	
+	/**
+	 * Sets and returns its view when created.
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
