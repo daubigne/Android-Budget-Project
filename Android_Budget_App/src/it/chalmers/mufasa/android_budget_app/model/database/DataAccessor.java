@@ -530,7 +530,6 @@ public class DataAccessor {
 				.getWritableDatabase();
 
 		String[] arr = { "name", "id", "parentId" };
-
 		Cursor cursor = db.query("categories", arr, "id == " + id, null, null,
 				null, null);
 
@@ -542,7 +541,7 @@ public class DataAccessor {
 		return null;
 	}
 
-	public void addCategory(String name, Category parent) {
+	public Category addCategory(String name, Category parent) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 
@@ -553,8 +552,13 @@ public class DataAccessor {
 
 		}
 
-		db.execSQL("INSERT INTO categories (name, parentId) VALUES ( " + "\""
-				+ name + "\"" + ", " + parentId + ")");
+		
+		ContentValues contentValues = new ContentValues();
+		contentValues.put("name", name);
+		contentValues.put("parentId", parentId);
+		long id = db.insert("categories",null,contentValues);
+		
+		return this.getCategory((int)id);
 
 		// if (parent.getId() == Constants.EXPENSE_ID || parent.getId() ==
 		// Constants.INCOME_ID){
