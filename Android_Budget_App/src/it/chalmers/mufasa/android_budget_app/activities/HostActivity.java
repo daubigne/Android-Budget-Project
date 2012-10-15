@@ -61,11 +61,12 @@ public class HostActivity extends Activity {
 		// TODO : Replace the empty constructor with fragments that are going to
 		// fill the app,
 		// upon completion;remove the empty constructor
+
 		Tab tab1 = theBar
 				.newTab()
 				.setText("Home")
 				.setTabListener(
-						new HostTabListener(new TypicalFragment("First tab")));
+						new HostTabListener((new HomescreenFragment())));
 		Tab tab2 = theBar
 				.newTab()
 				.setText("Transactions")
@@ -83,6 +84,7 @@ public class HostActivity extends Activity {
 				.setText("Options")
 				.setTabListener(
 						new HostTabListener(new TypicalFragment("Fifth tab")));
+
 
 		// add the tabs to the action bar
 		theBar.addTab(tab1);

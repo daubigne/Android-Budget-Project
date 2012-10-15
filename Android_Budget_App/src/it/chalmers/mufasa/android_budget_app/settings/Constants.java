@@ -30,4 +30,5 @@ public final class Constants {
 	public static final int EXPENSE_ID = 2;
 	//The ID of the Category "Income" which is the parent of all income categories.
 	public static final int INCOME_ID = 1;
+	public static final int PROGRESS = 0x1;
 }
