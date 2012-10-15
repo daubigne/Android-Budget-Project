@@ -51,7 +51,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
 			nameView.setText(item.getName());
 			amountView.setText(item.getAmount() + "");
-			categoryView.setText(item.getCategory().getName());
+			//categoryView.setText(item.getCategory().getName());
 		}
 
 		return view;

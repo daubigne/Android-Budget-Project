@@ -148,7 +148,7 @@ public class TransactionListFragment extends Fragment {
                    try
                    {
                        controller.removeTransaction(transactionList.get(pos));
-                       updateTransactionList();
+                       setupTransactionList();
                    }
                    catch(Exception e)
                    {
