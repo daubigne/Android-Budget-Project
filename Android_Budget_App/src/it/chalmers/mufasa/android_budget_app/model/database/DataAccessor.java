@@ -196,8 +196,6 @@ public class DataAccessor {
 		Calendar cal = new GregorianCalendar();
 		Date to = cal.getTime();
 
-		System.out.println("get account balance for each day from "+dateFormat.format(from)+" until "+dateFormat.format(cal.getTime()));
-
 		List<AccountDay> accountBalances = new ArrayList<AccountDay>();
 
 		double currentBalance = getAccountBalance();
@@ -225,8 +223,6 @@ public class DataAccessor {
 					if(i<allTransactions.size()) {
 						// Loop through all transactions which time is between this
 						// day and the day before
-
-						System.out.println("Transaction date:"+dateFormat.format(allTransactions.get(i).getDate())+" This day: "+dateFormat.format(dates.get(j)) +" Last day: "+ dateFormat.format(dates.get(j-1)));
 
 						while (i<allTransactions.size() && allTransactions.get(i).getDate().getTime() >= dates.get(j).getTime() && allTransactions.get(i).getDate().getTime() <= dates.get(j-1).getTime() ) {
 
