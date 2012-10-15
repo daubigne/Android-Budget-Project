@@ -34,5 +34,6 @@
     <string name="add">Add</string>
     <string name="addTransaction">Add New Transaction</string>
     <string name="addDate">Add Date</string>
+    <string name="medium_text">medium_text</string>
 
 </resources>

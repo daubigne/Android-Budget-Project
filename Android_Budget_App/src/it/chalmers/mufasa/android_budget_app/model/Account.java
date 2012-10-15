@@ -233,11 +233,11 @@ public class Account {
 		return dataAccessor.getTransactions(sortBy, sortByOrder, 0, 10000, parent, from, to);
 	}
 	
-	public double getTransactionsSum(Date from, Date to, Category parent) {
+	public double getTransactionsSum(Date from, Date to, int categoryId) {
 		
 		double sum = 0.0;
 		
-		for(Transaction transaction : dataAccessor.getTransactions(SortBy.DATE, SortByOrder.DESC, 0, 10000, parent, from, to)) {
+		for(Transaction transaction : dataAccessor.getTransactions(SortBy.DATE, SortByOrder.DESC, 0, 10000, dataAccessor.getCategory(categoryId), from, to)) {
 			sum += transaction.getAmount();
 		}
 		return sum;

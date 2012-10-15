@@ -30,13 +30,22 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author daubigne
+ * 
+ * A class that is the view of the home-screen displaying the user's current balance and a simple tool to keep track of the budget.
+ *
+ */
 public class HomescreenFragment extends Fragment {
 	private LayoutInflater inflater;
 	private View view;
 	private TextView tv;
 	private TextView tv2;
+	private ProgressBar progressBar;
 	private HomeScreenModel model;
 	private HomeScreenController controller;
 	
@@ -50,12 +59,15 @@ public class HomescreenFragment extends Fragment {
 
 		this.view = inflater.inflate(R.layout.fragment_homescreen, container,
 				false);
-		//Create text fields to hold a baance and a comparison between the users' transactions and budgets.
+		//Create text fields and a progressbar to hold a baalnce and a comparison between the users' transactions and budgets.
 		tv = (TextView) view.findViewById(R.id.Balancefield);
-		tv2 = (TextView) view.findViewById(R.id.percentage);
+		tv2 = (TextView) view.findViewById(R.id.progressFeedback);
+		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+		//Fill these components with information
 		tv.setText(model.getBalance() + "kr");
 		controller.calculatePercentage();
-		tv2.setText(String.valueOf(model.getPercentage()) + "%");	
+		progressBar.setProgress((int)model.getPercentage());
+		tv2.setText("Remains of your budget");
 		
 		return view;
 	}
