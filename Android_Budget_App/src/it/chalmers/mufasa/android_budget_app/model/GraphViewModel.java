@@ -4,8 +4,6 @@ import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.Account
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,8 +31,9 @@ public class GraphViewModel {
 	
 	public List<Double> getAccountBalanceListForGraph(int number) {
 		
-		Calendar calendar = new GregorianCalendar();		
-		calendar.set(2012, 8, 0);		
+		Calendar calendar = new GregorianCalendar();
+		calendar.set(Calendar.DAY_OF_MONTH, 0);
+		calendar.add(Calendar.MONTH, -number);
 		Date from = calendar.getTime();		
 		calendar.add(Calendar.MONTH, 1);		
 		Date to = calendar.getTime();
