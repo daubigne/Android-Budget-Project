@@ -492,7 +492,7 @@ public class DataAccessor {
 
 		List<Transaction> list = new ArrayList<Transaction>();
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 		Cursor cursor;
 
