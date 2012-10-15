@@ -19,32 +19,30 @@
 package it.chalmers.mufasa.android_budget_app.controller;
 
 import it.chalmers.mufasa.android_budget_app.model.Account;
-import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
-import it.chalmers.mufasa.android_budget_app.model.TransactionListModel;
-import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
-import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortBy;
-import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortByOrder;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import android.content.Context;
 
 /**
  * A class for saving and updating the users transactions.
  * 
  * @author: slurpo
  */
-public class TransactionListController {
+public class TransactionController {
 	
 	boolean editMode = false;
 	private Account account;
+	Category currentMainCategory;
+	
 
-	public TransactionListController(Account account) {
+	public TransactionController(Account account) {
 		this.account = account;
+		this.currentMainCategory = account.getCategory(1);
+
 
 	}
 
@@ -62,7 +60,7 @@ public class TransactionListController {
 	}
 	
 	public void replaceTransactions(List<Transaction> transactions) {
-		List<Transaction> removeList = getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
+		ArrayList<Transaction> removeList = (ArrayList<Transaction>)getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
 		
 		for(Transaction item : removeList) {
 			removeTransaction(item);
@@ -71,6 +69,10 @@ public class TransactionListController {
 		for(Transaction item : transactions) {
 			addTransaction(item.getAmount(), item.getDate(), item.getName(), item.getCategory());
 		}
+	}
+	
+	public void newTransaction(){
+		account.addTransaction(0.0, new Date(), "", this.getCurrentMainCategory());
 	}
 	
 	/**
@@ -85,7 +87,7 @@ public class TransactionListController {
 	 * @param nbrOfTransactions. The number of transactions to be retrieved.
 	 */
 	public List<Transaction> getTransactions(int nbrOfTransactions){
-		return account.getTransactions(nbrOfTransactions);
+		return account.getTransactions(nbrOfTransactions, getCurrentMainCategory());
 	}
 		
 	public void setEditMode(boolean set) {
@@ -96,5 +98,21 @@ public class TransactionListController {
 	
 	public boolean isEditMode() {
 		return this.editMode;
+	}
+	
+	public void switchToIncome() {
+		setCurrentMainCategory(Constants.INCOME_ID);
+	}
+	
+	public void switchToExpenses() {
+		setCurrentMainCategory(Constants.EXPENSE_ID);
+	}
+	
+	private void setCurrentMainCategory(int id){
+		currentMainCategory = account.getCategory(id);
+	}
+	
+	public Category getCurrentMainCategory(){
+		return currentMainCategory;
 	}
 }

@@ -40,6 +40,7 @@ public class TypicalFragment extends Fragment{
 		this.str = str;
 	}
 	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment

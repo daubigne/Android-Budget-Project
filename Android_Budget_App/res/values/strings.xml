@@ -28,5 +28,11 @@
     <string name="large_text">Large Text</string>
     <string name="edit_balance">Edit Balance</string>
     <string name="percentage">Percentage</string>
+    <string name="your_transactions">Your Transactions</string>
+    <string name="date">Date</string>
+    <string name="amount">Amount</string>
+    <string name="add">Add</string>
+    <string name="addTransaction">Add New Transaction</string>
+    <string name="addDate">Add Date</string>
 
 </resources>
