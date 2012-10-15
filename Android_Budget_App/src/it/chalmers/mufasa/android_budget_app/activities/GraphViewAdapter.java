@@ -3,7 +3,9 @@ package it.chalmers.mufasa.android_budget_app.activities;
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.model.GraphViewModel;
 
-import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import org.taptwo.android.widget.TitleProvider;
 
@@ -26,7 +28,7 @@ public class GraphViewAdapter extends BaseAdapter implements TitleProvider {
 	}
 	
 	public int getCount() {
-		return 5;
+		return 12;
 	}
 
 	public Object getItem(int position) {
@@ -58,9 +60,10 @@ public class GraphViewAdapter extends BaseAdapter implements TitleProvider {
 	}
 
 	public String getTitle(int position) {
-		return "Graph "+position;
+		Calendar calendar = new GregorianCalendar();
+		calendar.add(Calendar.MONTH, -position);
+		
+		return calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + " " + calendar.get(Calendar.YEAR);
 	}
-
-
 
 }

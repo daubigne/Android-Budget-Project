@@ -25,7 +25,7 @@ public class GraphListAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		return 5;
+		return 1;
 	}
 
 	public Object getItem(int position) {
@@ -47,7 +47,7 @@ public class GraphListAdapter extends BaseAdapter {
 
 			GraphViewSeries graphViewSeries = new GraphViewSeries(graphViewData);
 
-			GraphView graphView = new LineGraphView(context, "GraphViewDemo");
+			GraphView graphView = new LineGraphView(context, "Account balance");
 			graphView.addSeries(graphViewSeries);
 			graphView.setMinimumHeight(500);
 

@@ -53,11 +53,10 @@ public class GraphViewModel {
 	 * @return 
 	 */
 	public List<Double> getAccountBalanceForEachDay(Date from, Date to) {
-
+		
 		List<Double> accountBalances = new ArrayList<Double>();
 		
 		for(AccountDay accountDay : account.getAccountBalanceForEachDay(from)) {
-			System.out.println(accountDay);
 			if(accountDay.getDay().getTime() >= from.getTime() && accountDay.getDay().getTime() <= to.getTime()) {
 				accountBalances.add(accountDay.getValue());
 			}
