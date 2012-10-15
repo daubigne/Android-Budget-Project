@@ -1,0 +1,9 @@
+Student Budget App v0.2 Release Notes
+========================
+Released on Oct 15, 2012
+
+Requirements
+--------------------
+Smartphone with Android 1.4 or higher
+
+TBA
