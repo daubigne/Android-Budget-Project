@@ -346,9 +346,6 @@ public class DataAccessor {
 
 				Category category = getCategory(cursor.getInt(4));
 				
-				if(category == null){
-					System.out.println("CATEGORY I GETTRANSACTION IS NULL");
-				}
 				Transaction transaction = new Transaction(cursor.getInt(2),
 						(cursor.getDouble(3)), date, cursor.getString(0),
 						category);

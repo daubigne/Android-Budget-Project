@@ -14,14 +14,21 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
+/**
+ * A fragment for adding transactions.
+ * @author marcusisaksson
+ *
+ */
 public class AddTransactionFragment extends Fragment {
 	
 	private LayoutInflater inflater;
 	private View view;
 	private Account account;
 	private TransactionController controller;
-
+	
+	/**
+	 * Sets up the fragment when created.
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.inflater = inflater;
@@ -35,6 +42,9 @@ public class AddTransactionFragment extends Fragment {
 		return view;
 	}
 	
+	/**
+	 * Sets up click listeners.
+	 */
 	private void setupOnClickListeners() {
 		Button addTransactionButton = (Button) view.findViewById(R.id.addTransactionButton);
 		Button dateTransactionButton = (Button) view.findViewById(R.id.transactionDateButton);
@@ -43,7 +53,7 @@ public class AddTransactionFragment extends Fragment {
 		addTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				AddTransactionFragment.this.saveTransaction(v);
-				((HostActivity)getActivity()).switchToTransactionListFragment();
+				((HostActivity)getActivity()).changeFragment(new TransactionListFragment());
 			}
 		});
 		
@@ -56,7 +66,9 @@ public class AddTransactionFragment extends Fragment {
 	}
 		
 
-
+	/**
+	 * Gathers data from the user and stores it as a transaction.
+	 */
 	private void saveTransaction(View v) {
 		EditText nameEdit = (EditText)view.findViewById(R.id.transactionNameEditText);
 		//EditText dateEdit = (EditText)view.findViewById(R.id.transactionDateEditText);

@@ -161,9 +161,11 @@ public class DatabaseTest extends AndroidTestCase {
 		Category incomeCategory = dataAccessor.getCategory(Constants.INCOME_ID);
 		Category expensesCategory = dataAccessor
 				.getCategory(Constants.EXPENSE_ID);
-		Category incomeCategoryChild = new Category("Lon", 155, incomeCategory);
-		Category expensesCategoryChild = new Category("Mat", 245,
+		Category incomeCategoryChild = new Category("Lon", 9, incomeCategory);
+		Category expensesCategoryChild = new Category("Mat", 8,
 				expensesCategory);
+		dataAccessor.addCategory("Lon",
+				dataAccessor.getCategory(Constants.INCOME_ID));
 
 		dataAccessor.addTransaction(200.0, new Date(), "transaction1",
 				incomeCategoryChild);
@@ -188,12 +190,19 @@ public class DatabaseTest extends AndroidTestCase {
 		if (list.size() != 3) {
 			fail("Size != 3 is " + list.size());
 		}
-		
-		
+
 		if (dataAccessor.getAccountBalance() != 50.0) {
 			fail("Balance != 50.0 is " + dataAccessor.getAccountBalance());
 		}
-
+		if (list.get(2).getCategory() == null) {
+			fail();
+		}
+		if (list.get(1).getCategory() == null) {
+			fail();
+		}
+		if (list.get(0).getCategory() == null) {
+			fail();
+		}
 		if (list.get(0).getName().equals("transaction1")) {
 			dataAccessor.removeTransaction(list.get(0));
 		}
@@ -205,17 +214,33 @@ public class DatabaseTest extends AndroidTestCase {
 			fail("Size != 2 is " + list.size());
 		}
 		if (dataAccessor.getAccountBalance() != -150) {
-			fail("Balance != 75 is " + dataAccessor.getAccountBalance());
+			fail("Balance != -150 is " + dataAccessor.getAccountBalance());
 		}
-		
-		List<Transaction> expenseList= dataAccessor.getTransactions(SortBy.DATE,
-				SortByOrder.DESC, 0, 10,
+
+		dataAccessor.removeTransaction(list.get(1));
+
+		List<Transaction> expenseList = dataAccessor.getTransactions(
+				SortBy.DATE, SortByOrder.DESC, 0, 10,
 				dataAccessor.getCategory(Constants.EXPENSE_ID));
 
-		
+		for (Transaction t : expenseList) {
+			if (t.getCategory() == null) {
+				fail(t.getName() + " doesn't have a category.");
+			}
+			if (t.getCategory().getParent() != null) {
+				if (t.getCategory().getParent().getId() != Constants.EXPENSE_ID) {
+					fail("The transaction: " + t.getName()
+							+ " doesn't have the right category.");
+				}
+			}
+			if (t.getCategory().getId() != Constants.EXPENSE_ID) {
+				fail("The transaction: " + t.getName()
+						+ " doesn't have the right category.");
+			}
+
+		}
 		if (expenseList.size() != 1) {
-			if(expenseList.get(0).getCategory().getId() == Constants.EXPENSE_ID)
-				fail("The amount of expense transactions != 1 they are: "
+			fail("The amount of expense transactions != 1 they are: "
 					+ expenseList.size());
 		}
 
