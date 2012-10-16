@@ -100,7 +100,10 @@ public class HostActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_home_screen_host, menu);
 		return true;
 	}
-
+	
+	/**
+	 * A class used to respond to actions performed on the tab.
+	 */
 	private class HostTabListener implements ActionBar.TabListener {
 		public Fragment fragment;
 
@@ -109,8 +112,7 @@ public class HostActivity extends Activity {
 		}
 
 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
-			// Toast.makeText(HomeScreenHostActivity.appContext, "Reselected!",
-			// Toast.LENGTH_LONG).show();
+			//Do nothing.
 		}
 
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
@@ -123,22 +125,16 @@ public class HostActivity extends Activity {
 
 	}
 
-	public void switchToAddTransactionFragment() {
-		Fragment addTransactionFragment = new AddTransactionFragment();
+	/**
+	 * Changes current shown fragment.
+	 */
+	public void changeFragment(Fragment fragment){
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
-		transaction.replace(R.id.fragment_container, addTransactionFragment);
+		transaction.replace(R.id.fragment_container, fragment);
 		transaction.commit();
 	}
 
-	public void switchToTransactionListFragment() {
-		Fragment transactionListFragment = new TransactionListFragment();
-		FragmentManager fm = getFragmentManager();
-		FragmentTransaction transaction = fm.beginTransaction();
-		transaction.replace(R.id.fragment_container, transactionListFragment);
-		transaction.commit();
-	}
-	
 	//Code extracted from http://mobile.tutsplus.com/tutorials/android/android-sdk_datepickerdialog/
 	@Override
 	protected Dialog onCreateDialog(int id) {

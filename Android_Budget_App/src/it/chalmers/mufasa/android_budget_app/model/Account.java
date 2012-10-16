@@ -56,10 +56,10 @@ public class Account {
 	private Account(Context context) {
 		dataAccessor = new DataAccessor(context);
 
-		// If the database has an account the retrieves the data from that one.
+		// If the database has an account we retrieve the data from that account.
 		if (dataAccessor.accountExists()) {
 			setId(dataAccessor.getAccountId());
-			setName(dataAccessor.getAccountName());
+			setName(dataAccessor.getAccountName(Constants.ACCOUNT_ID));
 			setBalance(dataAccessor.getAccountBalance());
 
 			// If it doesn't a new account is stored in the database.
@@ -87,6 +87,9 @@ public class Account {
 		return instance;
 	}
 
+	/**
+	 * Sets the id of the account.
+	 */
 	private void setId(int id) {
 		this.id = id;
 		if (dataAccessor.accountExists()) {
@@ -95,6 +98,9 @@ public class Account {
 
 	}
 
+	/**
+	 * Sets the name of the account.
+	 */
 	private void setName(String name) {
 		this.name = name;
 		if (dataAccessor.accountExists()) {
@@ -140,6 +146,9 @@ public class Account {
 		return getBudgetItems(null);
 	}
 	
+	/**
+	 * Returns all budgetItems under a certain category,
+	 */
 	public List<BudgetItem> getBudgetItems(Category parent) {
 		updateBudgetItemList(parent);
 		return budgetItemList;
@@ -185,6 +194,14 @@ public class Account {
 	 */
 	public List<Category> getCategories() {
 		updateCategoryList();
+		return categoryList;
+	}
+	
+	/**
+	 * Returns the categories which has a certain parent category.
+	 */
+	public List<Category> getCategories(Category currentParentCategory) {
+		categoryList = dataAccessor.getCategories(currentParentCategory);
 		return categoryList;
 	}
 
@@ -275,6 +292,9 @@ public class Account {
 		for (this.transactionList) //TODO: Finish method
 	}
 
+	/**
+	 * Fetches current account balance from the database.
+	 */
 	private void updateBalance() {
 		setBalance(dataAccessor.getAccountBalance());
 	}
@@ -287,9 +307,6 @@ public class Account {
 		pcs.removePropertyChangeListener(l);
 	}
 
-	public List<Category> getCategories(Category currentParentCategory) {
-		categoryList = dataAccessor.getCategories(currentParentCategory);
-		return categoryList;
-	}
+
 
 }

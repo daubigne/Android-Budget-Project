@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+/**
+ * A class for formatting the list rows in the transaction list.
+ * @author slurp
+ *
+ */
 public class TransactionAdapter extends ArrayAdapter<Transaction> {
 
 	private List<Transaction> transactions;
@@ -24,6 +29,9 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
 		this.context = context;
 	}
 
+	/**
+	 * Uses the layout transaction_list_row to show transaction information.
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
