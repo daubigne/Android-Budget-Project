@@ -170,7 +170,9 @@ public class Account {
 		dataAccessor.removeBudgetItem(budgetItem);
 		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
-	
+	public void removeBudget(){
+		//TODO: complete method.
+	}
 	/**
 	 * Returns a single saved category.
 	 */
@@ -268,6 +270,9 @@ public class Account {
 		dataAccessor.removeTransaction(transaction);
 		updateBalance();
 		pcs.firePropertyChange("Transactions Updated", null, null);
+	}
+	public void removeAllTransactions(){
+		for (this.transactionList) //TODO: Finish method
 	}
 
 	private void updateBalance() {
