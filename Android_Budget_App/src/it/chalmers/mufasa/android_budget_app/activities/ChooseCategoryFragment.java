@@ -28,14 +28,16 @@ public class ChooseCategoryFragment extends ListFragment {
 	private int parentCategoryId;
 	private Category chosenCategory;
 
+	public ChooseCategoryFragment(ChooseCategoryInterface cci, int id) {
+		parentCategoryId = id;
+		chooseCategoryListener = cci;
+	}
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState, ChooseCategoryInterface cci, int id) {
+			Bundle savedInstanceState) {
 
 		this.view = inflater.inflate(R.layout.fragment_choose_category,
 				container, false);
-
-		parentCategoryId = id;
-		chooseCategoryListener = cci;
 
 		account = Account.getInstance(this.getActivity());
 		list = this.getCategoryListToString(parentCategoryId);
