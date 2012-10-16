@@ -1,0 +1,19 @@
+Student Budget App v0.2 Release Notes
+========================
+Released on Oct 15, 2012
+
+Requirements
+--------------------
+Smartphone with Android 1.4 or higher
+
+Added features
+--------------------
+* A home screen displaying the amount of money you've got left to spend.
+* Add a transaction.
+* List transactions by income and expenses.
+
+Known limtations
+--------------------
+* The minimum target api level 11 because of the use of an action bar.
+* Cannot choose category for transactions and budget items.
+* There is not content in the options tab.

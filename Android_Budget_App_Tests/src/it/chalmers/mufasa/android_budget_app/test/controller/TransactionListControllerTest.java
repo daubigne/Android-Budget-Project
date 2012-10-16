@@ -1,12 +1,27 @@
-/**
- * 
- */
+ /*
+  * Copyright © 2012 Mufasa developer unit
+  *
+  * This file is part of Mufasa Budget.
+  *
+  *	Mufasa Budget is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * Mufasa Budget is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package it.chalmers.mufasa.android_budget_app.test.controller;
 
 import java.util.Date;
 import java.util.List;
 
-import it.chalmers.mufasa.android_budget_app.controller.TransactionListController;
+import it.chalmers.mufasa.android_budget_app.controller.TransactionController;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
@@ -30,7 +45,7 @@ public class TransactionListControllerTest extends AndroidTestCase {
 				getContext(), "_test"); // This will start with fresh userdata
 
 		Account account = Account.getInstance(context);
-		TransactionListController controller = new TransactionListController(account);
+		TransactionController controller = new TransactionController(account);
 		
 		Category cat = new Category("CatFromTransactionListControllerTest", 1,
 				null);
@@ -54,7 +69,7 @@ public class TransactionListControllerTest extends AndroidTestCase {
 				getContext(), "_test"); // This will start with fresh userdata
 
 		Account account = Account.getInstance(context);
-		TransactionListController controller = new TransactionListController(account);
+		TransactionController controller = new TransactionController(account);
 
 
 		Category cat = new Category("CatFromTransactionListControllerTest", 1,
