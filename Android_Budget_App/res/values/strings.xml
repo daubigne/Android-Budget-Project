@@ -36,5 +36,6 @@
     <string name="addDate">Add Date</string>
     <string name="medium_text">medium_text</string>
     <string name="set_date">Set date</string>
+    <string name="chooseCategory">Choose Category</string>
 
 </resources>

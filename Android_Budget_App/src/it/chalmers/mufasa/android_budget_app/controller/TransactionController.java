@@ -67,6 +67,7 @@ public class TransactionController {
 	 * @param nbrOfTransactions. The number of transactions to be retrieved.
 	 */
 	public List<Transaction> getTransactions(int nbrOfTransactions){
+		System.out.println(account.getCategory(getCurrentMainCategory().getId()).getName());
 		return account.getTransactions(nbrOfTransactions, getCurrentMainCategory());
 	}
 	
@@ -94,5 +95,6 @@ public class TransactionController {
 	 */
 	public Category getCurrentMainCategory(){
 		return currentMainCategory;
+		
 	}
 }

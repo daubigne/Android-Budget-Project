@@ -117,7 +117,7 @@ public class TransactionListFragment extends Fragment {
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 		      public void onItemClick(AdapterView<?> parent, View view,
 		          int position, long id) {
-		    	  	showAlertRemoveTransactionBox(TransactionListFragment.this.getActivity(), "Transaction deleted", position);
+		    	  	showAlertRemoveTransactionBox(TransactionListFragment.this.getActivity(), "Do you want to delet this transaction?", position);
 		    	  	
 		      }
 		});
