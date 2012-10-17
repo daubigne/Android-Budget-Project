@@ -1,4 +1,4 @@
-package it.chalmers.mufasa.android_budget_app.activities;
+package it.chalmers.mufasa.android_budget_app.utilities;
 
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.model.GraphViewModel;

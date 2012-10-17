@@ -3,6 +3,7 @@ package it.chalmers.mufasa.android_budget_app.activities;
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.GraphViewController;
 import it.chalmers.mufasa.android_budget_app.model.GraphViewModel;
+import it.chalmers.mufasa.android_budget_app.utilities.GraphViewAdapter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
