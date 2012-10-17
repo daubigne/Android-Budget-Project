@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,7 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 	private LayoutInflater inflater;
 	private View view;
 	
-	private BudgetItem budgetItemToUpdate;
+	private Button buttonToUpdate;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -147,7 +148,7 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 
 				Button categoryButton = (Button) v.findViewById(R.id.budgetItemEditRowEditCategoryButton);
 				categoryButton.setText(bi.getCategory().getName());
-				categoryButton.setTag(bi); // Stores the budget item object in the button so it can be accessed in onClick events.
+				categoryButton.setTag(bi.getCategory()); // Stores the budget item object in the button so it can be accessed in onClick events.
 				
 				categoryButton.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
@@ -221,7 +222,7 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 					Button categoryButton = (Button) v.findViewById(R.id.budgetItemEditRowEditCategoryButton);
 					EditText valueText = (EditText) v.findViewById(R.id.budgetItemEditRowEditValueTextEdit);
 
-					Category category = (Category) categoryButton.getTag();
+					Category category = (Category)categoryButton.getTag();
 					Double value = Double.parseDouble(valueText.getText().toString());
 
 					// budgetItem.setCategory(category);
@@ -249,15 +250,18 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 
 	public void chooseCategory(View view) {
 		// TODO Choose category via ChooseCategoryActivity
-		if (view.getTag() instanceof BudgetItem) {
-			this.budgetItemToUpdate = (BudgetItem)view.getTag();
-			Category category = budgetItemToUpdate.getCategory();
+		if (view.getTag() instanceof Category) {
+			this.buttonToUpdate = (Button)view;
+			Category category = (Category)buttonToUpdate.getTag();
 			if(category.getParent() != null) {
 				this.chooseCategoryFragment = new ChooseCategoryFragment(this, category.getParent().getId());
 			} else {
 				this.chooseCategoryFragment = new ChooseCategoryFragment(this, category.getId());
 			}
-			((HostActivity)getActivity()).changeFragment(chooseCategoryFragment);
+			//((HostActivity)getActivity()).changeFragment(chooseCategoryFragment);
+			FragmentManager fm = ((HostActivity)getActivity()).getFragmentManager();
+
+			chooseCategoryFragment.show(fm, "test");
 		}
 	}
 
@@ -316,10 +320,17 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 			this.populateBudgetListView(model.getBudgetItems());
 		}
 	}
+	
+	public void editButtonCategory(Button button, Category newCategory) {
+		button.setTag(newCategory);
+		button.setText(newCategory.getName());
+	}
 
 	public void chooseCategoryCategoryChosen(Category newCategory) {
 		// TODO Choose category
 		//controller.setCategoryOnBudgetItem(budgetItemToUpdate, newCategory);
-		hostActivity.changeFragment(this);
+		//hostActivity.changeFragment(this);
+		this.editButtonCategory(buttonToUpdate, newCategory);
+		chooseCategoryFragment.dismiss();
 	}
 }
