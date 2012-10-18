@@ -32,7 +32,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE settings ( currentAccountId INTEGER);");
 		db.execSQL("CREATE TABLE accounts ( id INTEGER PRIMARY KEY, name TEXT, balance FLOAT NOT NULL);");
-		db.execSQL("CREATE TABLE transactions ( id INTEGER PRIMARY KEY, name TEXT, value FLOAT NOT NULL, date DATE NOT NULL, accountId INTEGER, categoryId INTEGER);");
+		db.execSQL("CREATE TABLE transactions ( id INTEGER PRIMARY KEY, name TEXT, value FLOAT NOT NULL, date DATETIME NOT NULL, accountId INTEGER, categoryId INTEGER);");
 		db.execSQL("CREATE TABLE categories ( id INTEGER PRIMARY KEY, name TEXT, parentId INTEGER);");
 		db.execSQL("CREATE TABLE budgetitems ( id INTEGER PRIMARY KEY, categoryId INTEGER, value FLOAT NOT NULL);");
 
