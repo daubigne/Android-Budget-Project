@@ -24,8 +24,9 @@ import android.widget.ListView;
 
 /**
  * A fragment for displaying all transactions made by the user.
+ * 
  * @author marcusisaksson
- *
+ * 
  */
 public class TransactionListFragment extends Fragment {
 
@@ -44,45 +45,44 @@ public class TransactionListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		this.inflater = inflater;
-		this.view = inflater.inflate(R.layout.fragment_transaction_list, container,
-				false);
+		this.view = inflater.inflate(R.layout.fragment_transaction_list,
+				container, false);
 
 		this.account = Account.getInstance(this.getActivity());
 		this.controller = new TransactionController(account);
-		
+
 		setupTransactionList();
 
 		setupOnClickListeners();
-		
+
 		updateIncomeExpensesButtons();
 
 		return view;
 	}
-	
+
 	/**
 	 * Used when the fragment is created to set up the listView.
 	 */
-	private void setupTransactionList(){
+	private void setupTransactionList() {
 		transactionList = controller
 				.getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
-		
+
 		listAdapter = new TransactionAdapter(getActivity(),
 				R.layout.transaction_list_row, transactionList);
-		
+
 		listView = (ListView) view.findViewById(R.id.transactionList);
 		listView.setAdapter(listAdapter);
 	}
-	
+
 	/**
 	 * Fetches all transactions and updates its listView.
 	 */
-	private void updateTransactionList(){
+	private void updateTransactionList() {
 		transactionList = controller
 				.getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
 		listView.setAdapter(listAdapter);
 	}
 
-	
 	/**
 	 * Adds actions to button clicks.
 	 */
@@ -91,7 +91,8 @@ public class TransactionListFragment extends Fragment {
 				.findViewById(R.id.addTransactionButton);
 		addTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				((HostActivity)getActivity()).changeFragment(new AddTransactionFragment());
+				((HostActivity) getActivity())
+						.changeFragment(new AddTransactionFragment(TransactionListFragment.this.controller));
 			}
 		});
 		Button expensesButton = (Button) view
@@ -113,55 +114,61 @@ public class TransactionListFragment extends Fragment {
 
 			}
 		});
-		
+
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-		      public void onItemClick(AdapterView<?> parent, View view,
-		          int position, long id) {
-		    	  	showAlertRemoveTransactionBox(TransactionListFragment.this.getActivity(), "Transaction deleted", position);
-		    	  	
-		      }
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				showAlertRemoveTransactionBox(
+						TransactionListFragment.this.getActivity(),
+						"Do you want to delet this transaction?", position);
+
+			}
 		});
 	}
-	
+
 	/**
 	 * Switches the income/expenses buttons "on" and "off".
 	 */
 	public void updateIncomeExpensesButtons() {
 		if (controller.getCurrentMainCategory().getId() == 2) {
-			view.findViewById(R.id.transactionListIncomeSwitchButton).setEnabled(true);
-			view.findViewById(R.id.transactionListExpensesSwitchButton).setEnabled(false);
+			view.findViewById(R.id.transactionListIncomeSwitchButton)
+					.setEnabled(true);
+			view.findViewById(R.id.transactionListExpensesSwitchButton)
+					.setEnabled(false);
 		} else {
-			view.findViewById(R.id.transactionListIncomeSwitchButton).setEnabled(false);
-			view.findViewById(R.id.transactionListExpensesSwitchButton).setEnabled(true);
+			view.findViewById(R.id.transactionListIncomeSwitchButton)
+					.setEnabled(false);
+			view.findViewById(R.id.transactionListExpensesSwitchButton)
+					.setEnabled(true);
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
-	public void showAlertRemoveTransactionBox(Context context, String message,int position)
-    {
-        final int pos = position;
+	public void showAlertRemoveTransactionBox(Context context, String message,
+			int position) {
+		final int pos = position;
 
-        final AlertDialog alertDialog = new  AlertDialog.Builder(context).create();
-           alertDialog.setTitle("Removing transaction");
-           alertDialog.setButton("Delete", new DialogInterface.OnClickListener() {
-               public void onClick(DialogInterface dialog, int which) {
-                   try
-                   {
-                       controller.removeTransaction(transactionList.get(pos));
-                       setupTransactionList();
-                   }
-                   catch(Exception e)
-                   {
-                	   return;
-                   }
-           } }); 
-           alertDialog.setButton2("Cancel", new DialogInterface.OnClickListener() {
-               public void onClick(DialogInterface dialog, int which) {
-                   alertDialog.dismiss();
-           } }); 
+		final AlertDialog alertDialog = new AlertDialog.Builder(context)
+				.create();
+		alertDialog.setTitle("Removing transaction");
+		alertDialog.setButton("Delete", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				try {
+					controller.removeTransaction(transactionList.get(pos));
+					setupTransactionList();
+				} catch (Exception e) {
+					return;
+				}
+			}
+		});
+		alertDialog.setButton2("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				alertDialog.dismiss();
+			}
+		});
 
-           alertDialog.setMessage(message);
-           alertDialog.show();
-    }
+		alertDialog.setMessage(message);
+		alertDialog.show();
+	}
 
 }

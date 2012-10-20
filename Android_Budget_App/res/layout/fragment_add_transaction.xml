@@ -80,6 +80,12 @@
             android:text="@string/category"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        <Button
+            android:id="@+id/chooseTransactionCategoryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chooseCategory" />
+
     </LinearLayout>
 
     <Button

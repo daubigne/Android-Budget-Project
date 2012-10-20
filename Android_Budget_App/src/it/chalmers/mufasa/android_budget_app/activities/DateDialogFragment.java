@@ -1,5 +1,7 @@
 package it.chalmers.mufasa.android_budget_app.activities;
 
+import it.chalmers.mufasa.android_budget_app.interfaces.DateDialogFragmentListener;
+
 import java.util.Calendar;
 
 import android.app.DatePickerDialog;

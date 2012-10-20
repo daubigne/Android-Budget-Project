@@ -61,10 +61,12 @@ public class Account {
 
 		// If the database has an account we retrieve the data from that account.
 		if (dataAccessor.accountExists()) {
-			setId(dataAccessor.getAccountId());
-			setName(dataAccessor.getAccountName(Constants.ACCOUNT_ID));
-			setBalance(dataAccessor.getAccountBalance());
-
+			//setId(dataAccessor.getAccountId());
+			//setName(dataAccessor.getAccountName(Constants.ACCOUNT_ID));
+			//setBalance(dataAccessor.getAccountBalance());
+			this.id = dataAccessor.getAccountId();
+			this.name = dataAccessor.getAccountName(Constants.ACCOUNT_ID);
+			this.balance = dataAccessor.getAccountBalance();
 			// If it doesn't a new account is stored in the database.
 		} else {
 			setId(Constants.ACCOUNT_ID);

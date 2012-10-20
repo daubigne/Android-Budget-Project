@@ -6,11 +6,14 @@ import java.util.Locale;
 
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.TransactionController;
+import it.chalmers.mufasa.android_budget_app.interfaces.ChooseCategoryInterface;
+import it.chalmers.mufasa.android_budget_app.interfaces.DateDialogFragmentListener;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,20 +30,25 @@ import android.widget.TextView;
  * @author marcusisaksson
  * 
  */
-public class AddTransactionFragment extends Fragment implements DateDialogFragmentListener {
+public class AddTransactionFragment extends Fragment implements
+		DateDialogFragmentListener, ChooseCategoryInterface {
 
 	private LayoutInflater inflater;
 	private View view;
 	private Account account;
 	private TransactionController controller;
+	private Category choosenCategory;
 
-	private int mYear;
-	private int mMonth;
-	private int mDay;
-	
 	private Calendar calendar;
 
+	private ChooseCategoryFragment chooseCategoryFragment;
+
 	static final int DATE_DIALOG_ID = 0;
+	
+	public AddTransactionFragment(TransactionController controller){
+		super();
+		this.controller = controller;
+	}
 
 	/**
 	 * Sets up the fragment when created.
@@ -53,16 +61,13 @@ public class AddTransactionFragment extends Fragment implements DateDialogFragme
 				container, false);
 
 		this.account = Account.getInstance(this.getActivity());
-		this.controller = new TransactionController(account);
 
 		this.setupOnClickListeners();
+		
+		choosenCategory = controller.getCurrentMainCategory();
 
 		calendar = Calendar.getInstance();
-		mYear = calendar.get(Calendar.YEAR);
-		mMonth = calendar.get(Calendar.MONTH);
-		mDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-		
 		return view;
 	}
 
@@ -74,7 +79,15 @@ public class AddTransactionFragment extends Fragment implements DateDialogFragme
 				.findViewById(R.id.addTransactionButton);
 		Button dateTransactionButton = (Button) view
 				.findViewById(R.id.transactionDateButton);
+		Button chooseCategoryButton = (Button) view
+				.findViewById(R.id.chooseTransactionCategoryButton);
 
+		chooseCategoryButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					AddTransactionFragment.this.chooseCategory(v);
+				}
+		});
+		
 		addTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				AddTransactionFragment.this.saveTransaction(v);
@@ -86,19 +99,20 @@ public class AddTransactionFragment extends Fragment implements DateDialogFragme
 		dateTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// create new DateDialogFragment
-				DateDialogFragment ddf = DateDialogFragment.newInstance(((HostActivity) getActivity()),
-						R.string.set_date, calendar);
+				DateDialogFragment ddf = DateDialogFragment.newInstance(
+						((HostActivity) getActivity()), R.string.set_date,
+						calendar);
 
 				ddf.setDateDialogFragmentListener(new DateDialogFragmentListener() {
 
 					public void dateDialogFragmentDateSet(Calendar date) {
 						// update the fragment
-						AddTransactionFragment.this.dateDialogFragmentDateSet(date);
+						AddTransactionFragment.this
+								.dateDialogFragmentDateSet(date);
 					}
 				});
 
-				ddf.show(getFragmentManager(),
-						"date picker dialog fragment");
+				ddf.show(getFragmentManager(), "date picker dialog fragment");
 			}
 		});
 
@@ -114,12 +128,26 @@ public class AddTransactionFragment extends Fragment implements DateDialogFragme
 		EditText amountEdit = (EditText) view
 				.findViewById(R.id.transactionAmountEditText);
 
-		controller.addTransaction(Double.parseDouble(amountEdit.getText()
-				.toString()), this.calendar.getTime(), nameEdit.getText()
-				.toString(), new Category("TempCat", 1, null));
+		controller.addTransaction(
+				Double.parseDouble(amountEdit.getText().toString()),
+				this.calendar.getTime(), nameEdit.getText().toString(),
+				choosenCategory);
 	}
-	
+
 	public void dateDialogFragmentDateSet(Calendar date) {
 		this.calendar = date;
+	}
+	
+	private void chooseCategory(View v){
+		this.chooseCategoryFragment = new ChooseCategoryFragment(this, controller.getCurrentMainCategory().getId());
+		FragmentManager fm = ((HostActivity)getActivity()).getFragmentManager();
+
+		chooseCategoryFragment.show(fm, "");
+	}
+
+	public void chooseCategoryCategoryChosen(Category category) {
+		this.choosenCategory = category;
+		chooseCategoryFragment.dismiss();
+
 	}
 }
