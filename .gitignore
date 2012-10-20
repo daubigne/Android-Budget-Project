@@ -4,3 +4,5 @@ local.properties
 .metadata
 gen
 bin
+
+android-library-projects

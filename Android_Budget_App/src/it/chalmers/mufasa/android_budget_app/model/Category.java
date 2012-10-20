@@ -61,11 +61,6 @@ public class Category {
 		return this.parent;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -76,40 +71,34 @@ public class Category {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Category other = (Category) obj;
-		if (id != other.id) {
+		if (id != other.id)
 			return false;
-		}
 		if (name == null) {
-			if (other.name != null) {
+			if (other.name != null)
 				return false;
-			}
-		} else if (!name.equals(other.name)) {
+		} else if (!name.equals(other.name))
 			return false;
-		}
 		if (parent == null) {
-			if (other.parent != null) {
+			if (other.parent != null)
 				return false;
-			}
-		} else if (!parent.equals(other.parent)) {
+		} else if (!parent.equals(other.parent))
 			return false;
-		}
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Category [name=" + name + ", id=" + id + ", parent=" + parent
+				+ "]";
+	}
+
 }

@@ -27,6 +27,9 @@ import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortBy;
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortByOrder;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -325,12 +328,23 @@ public class DatabaseTest extends AndroidTestCase {
 
 	public void testTransactions() {
 		Category incomeCategory = dataAccessor.getCategory(Constants.INCOME_ID);
-		Category incomeCategoryChild = new Category("Lon", 5, incomeCategory);
+		Category incomeCategoryChild = dataAccessor.addCategory("incomeCategoryChild", incomeCategory);
 
-		dataAccessor.addTransaction(100.0, new Date(01, 01, 2012),
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		Calendar cal = new GregorianCalendar();
+		cal.set(2012, 0, 0);
+		Date date1 = cal.getTime();
+		cal.set(2012, 1, 0);
+		Date date2 = cal.getTime();
+		
+		double value1 = 100.0;
+		double value2 = 50.0;
+		
+		dataAccessor.addTransaction(value1, date1,
 				"transaction1", incomeCategoryChild);
 
-		dataAccessor.addTransaction(50.0, new Date(02, 01, 2012),
+		dataAccessor.addTransaction(value2, date2,
 				"transaction2", incomeCategoryChild);
 
 		List<Transaction> list = dataAccessor.getTransactions(SortBy.DATE,
@@ -339,9 +353,25 @@ public class DatabaseTest extends AndroidTestCase {
 		if (list.size() != 2) {
 			fail("Size != 2 is " + list.size());
 		}
+		
+		if (!list.get(0).getName().equals("transaction2")) {
+			fail("Name != transaction2 is "+list.get(0).getName());
+		}
+		
+		if (list.get(0).getAmount() != value2) {
+			fail("Value != "+value2+" is "+list.get(0).getAmount());
+		}
+		
+		if (!list.get(0).getCategory().equals(incomeCategoryChild)) {
+			fail("Category != "+list.get(0).getCategory().toString()+" is "+list.get(0).getCategory().toString());
+		}
+		
+		if (!list.get(0).getDate().equals(date2)) {
+			fail("Date != "+dateFormat.format(date2) +" is "+dateFormat.format(list.get(0).getDate()));
+		}
 
 		if (dataAccessor.getAccountBalance() != 150.0) {
-			fail("Balance != 150 is " + dataAccessor.getAccountBalance());
+			fail("Account balance != 150 is " + dataAccessor.getAccountBalance());
 		}
 
 		dataAccessor.removeTransaction(list.get(0));

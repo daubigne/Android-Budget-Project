@@ -126,7 +126,6 @@ public class DataAccessor {
 				.getWritableDatabase();
 		db.execSQL("UPDATE accounts SET balance=" + balance + " WHERE id == "
 				+ id);
-
 	}
 
 	/**
@@ -419,15 +418,17 @@ public class DataAccessor {
 				+ Constants.ACCOUNT_ID, null, null, null, sortByTemp + " "
 				+ sortByOrderTemp + " LIMIT " + start + ", " + (count - start));
 
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
 		if (cursor.moveToPosition(start)) {
 			for (int i = start; i < Math.min(start + count, cursor.getCount()); i++) {
-				String dateString = cursor.getString(1);
-				String[] list = dateString.split("-");
-				// Date date = new Date(Integer.parseInt(list[0]),
-				// Integer.parseInt(list[1]), Integer.parseInt(list[2]));
 				
-				//TODO DATE!?!?!?!?
-				Date date = new Date(10000);
+				Date date = null;
+				try {
+					date = dateFormat.parse(cursor.getString(1));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 
 				Category category = getCategory(cursor.getInt(4));
 				
