@@ -64,22 +64,22 @@ public class HostActivity extends Activity {
 
 		Tab tab1 = theBar
 				.newTab()
-				.setText("Home")
+				.setIcon(R.drawable.ic_tab_home)
 				.setTabListener(
-						new HostTabListener((new HomescreenFragment())));
+						new HostTabListener(new HomescreenFragment()));
 		Tab tab2 = theBar
 				.newTab()
-				.setText("Transactions")
+				.setIcon(R.drawable.ic_tab_transactions)
 				.setTabListener(
 						new HostTabListener(new TransactionListFragment()));
 		Tab tab3 = theBar
 				.newTab()
-				.setText("Categories")
+				.setIcon(R.drawable.ic_tab_categories)
 				.setTabListener(
 						new HostTabListener(new ManageCategoryFragment()));
-		Tab tab4 = theBar.newTab().setText("Graphs")
+		Tab tab4 = theBar.newTab().setIcon(R.drawable.ic_tab_graphs)
 				.setTabListener(new HostTabListener(new GraphViewFragment()));
-		Tab tab5 = theBar.newTab().setText("Budget")
+		Tab tab5 = theBar.newTab().setIcon(R.drawable.ic_tab_options)
 				.setTabListener(new HostTabListener(new BudgetEditFragment()));
 		/*Tab tab6 = theBar
 				.newTab()
