@@ -81,11 +81,11 @@ public class HostActivity extends Activity {
 				.setTabListener(new HostTabListener(new GraphViewFragment()));
 		Tab tab5 = theBar.newTab().setText("Budget")
 				.setTabListener(new HostTabListener(new BudgetEditFragment()));
-		Tab tab6 = theBar
+		/*Tab tab6 = theBar
 				.newTab()
 				.setText("Options")
 				.setTabListener(
-						new HostTabListener(new TypicalFragment("Fifth tab")));
+						new HostTabListener(new TypicalFragment("Fifth tab")));*/
 
 
 		// add the tabs to the action bar
@@ -94,7 +94,7 @@ public class HostActivity extends Activity {
 		theBar.addTab(tab3);
 		theBar.addTab(tab4);
 		theBar.addTab(tab5);
-		theBar.addTab(tab6);
+		//theBar.addTab(tab6);
 
 	}
 

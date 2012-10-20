@@ -13,6 +13,7 @@ import it.chalmers.mufasa.android_budget_app.model.Category;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,11 @@ public class AddTransactionFragment extends Fragment implements
 	private ChooseCategoryFragment chooseCategoryFragment;
 
 	static final int DATE_DIALOG_ID = 0;
+	
+	public AddTransactionFragment(TransactionController controller){
+		super();
+		this.controller = controller;
+	}
 
 	/**
 	 * Sets up the fragment when created.
@@ -55,9 +61,10 @@ public class AddTransactionFragment extends Fragment implements
 				container, false);
 
 		this.account = Account.getInstance(this.getActivity());
-		this.controller = new TransactionController(account);
 
 		this.setupOnClickListeners();
+		
+		choosenCategory = controller.getCurrentMainCategory();
 
 		calendar = Calendar.getInstance();
 
@@ -76,13 +83,9 @@ public class AddTransactionFragment extends Fragment implements
 				.findViewById(R.id.chooseTransactionCategoryButton);
 
 		chooseCategoryButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				chooseCategoryFragment = new ChooseCategoryFragment(AddTransactionFragment.this, 
-						controller.getCurrentMainCategory().getId());
-				((HostActivity) getActivity())
-				.changeFragment(chooseCategoryFragment);
-				
-			}
+				public void onClick(View v) {
+					AddTransactionFragment.this.chooseCategory(v);
+				}
 		});
 		
 		addTransactionButton.setOnClickListener(new OnClickListener() {
@@ -128,14 +131,23 @@ public class AddTransactionFragment extends Fragment implements
 		controller.addTransaction(
 				Double.parseDouble(amountEdit.getText().toString()),
 				this.calendar.getTime(), nameEdit.getText().toString(),
-				controller.getCurrentMainCategory());
+				choosenCategory);
 	}
 
 	public void dateDialogFragmentDateSet(Calendar date) {
 		this.calendar = date;
 	}
+	
+	private void chooseCategory(View v){
+		this.chooseCategoryFragment = new ChooseCategoryFragment(this, controller.getCurrentMainCategory().getId());
+		FragmentManager fm = ((HostActivity)getActivity()).getFragmentManager();
+
+		chooseCategoryFragment.show(fm, "");
+	}
 
 	public void chooseCategoryCategoryChosen(Category category) {
 		this.choosenCategory = category;
+		chooseCategoryFragment.dismiss();
+
 	}
 }

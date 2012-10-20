@@ -261,7 +261,7 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 			//((HostActivity)getActivity()).changeFragment(chooseCategoryFragment);
 			FragmentManager fm = ((HostActivity)getActivity()).getFragmentManager();
 
-			chooseCategoryFragment.show(fm, "test");
+			chooseCategoryFragment.show(fm, "");
 		}
 	}
 
