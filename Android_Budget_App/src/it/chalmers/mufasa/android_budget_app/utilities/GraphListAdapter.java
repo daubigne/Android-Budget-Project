@@ -1,5 +1,6 @@
 package it.chalmers.mufasa.android_budget_app.utilities;
 
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -9,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.LineGraphView;
@@ -47,9 +47,15 @@ public class GraphListAdapter extends BaseAdapter {
 
 			GraphViewSeries graphViewSeries = new GraphViewSeries(graphViewData);
 
-			GraphView graphView = new LineGraphView(context, "Account balance");
+			LineGraphView graphView = new LineGraphView(context, "Account balance");
 			graphView.addSeries(graphViewSeries);
 			graphView.setMinimumHeight(500);
+			
+			graphView.setDrawBackground(true);
+			Double max = Collections.max(values);
+			Double min = Collections.min(values);
+			Double range = Math.max(Math.abs(max), Math.abs(min));
+			graphView.setManualYAxisBounds(range+1000, 0);
 
 			LinearLayout layout = new LinearLayout(context);
 			layout.addView(graphView);
