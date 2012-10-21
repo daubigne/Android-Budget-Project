@@ -29,7 +29,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -70,6 +72,18 @@ public class HomescreenFragment extends Fragment {
 		tv2.setText("Remains of your budget");
 		
 		return view;
+	}
+	
+	//TODO
+	private void setupOnClickListeners(){
+		Button incomeButton = (Button) view
+				.findViewById(R.id.homeScreenAddTransactionButton);
+		
+		incomeButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+			}
+		});
 	}
 
 	//TODO: Method for swapping the percentage for something else, so that user can customize his or her homescreen.

@@ -1,5 +1,7 @@
 package it.chalmers.mufasa.android_budget_app.activities;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import it.chalmers.mufasa.android_budget_app.R;
@@ -28,7 +30,8 @@ import android.widget.ListView;
  * @author marcusisaksson
  * 
  */
-public class TransactionListFragment extends Fragment {
+public class TransactionListFragment extends Fragment implements
+		PropertyChangeListener {
 
 	private LayoutInflater inflater;
 	private View view;
@@ -36,7 +39,7 @@ public class TransactionListFragment extends Fragment {
 	private TransactionController controller;
 	private List<Transaction> transactionList;
 	private ListView listView;
-	private ListAdapter listAdapter;
+	private TransactionAdapter listAdapter;
 
 	/**
 	 * Sets up its view when created.
@@ -49,6 +52,7 @@ public class TransactionListFragment extends Fragment {
 				container, false);
 
 		this.account = Account.getInstance(this.getActivity());
+		account.addPropertyChangeListener(this);
 		this.controller = new TransactionController(account);
 
 		setupTransactionList();
@@ -68,7 +72,8 @@ public class TransactionListFragment extends Fragment {
 				.getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
 
 		listAdapter = new TransactionAdapter(getActivity(),
-				R.layout.transaction_list_row, transactionList);
+				R.layout.transaction_list_row, transactionList,
+				controller.getEditMode());
 
 		listView = (ListView) view.findViewById(R.id.transactionList);
 		listView.setAdapter(listAdapter);
@@ -78,6 +83,7 @@ public class TransactionListFragment extends Fragment {
 	 * Fetches all transactions and updates its listView.
 	 */
 	private void updateTransactionList() {
+		listAdapter.setEditMode(controller.getEditMode());
 		transactionList = controller
 				.getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
 		listView.setAdapter(listAdapter);
@@ -92,7 +98,8 @@ public class TransactionListFragment extends Fragment {
 		addTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				((HostActivity) getActivity())
-						.changeFragment(new AddTransactionFragment(TransactionListFragment.this.controller));
+						.changeFragment(new AddTransactionFragment(
+								TransactionListFragment.this.controller));
 			}
 		});
 		Button expensesButton = (Button) view
@@ -114,23 +121,29 @@ public class TransactionListFragment extends Fragment {
 
 			}
 		});
-
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				showAlertRemoveTransactionBox(
-						TransactionListFragment.this.getActivity(),
-						"Do you want to delet this transaction?", position);
+		final Button editTransactionButton = (Button) view
+				.findViewById(R.id.editTransactionButton);
+		editTransactionButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (controller.getEditMode()) {
+					controller.setEditMode(false);
+					editTransactionButton.setText("Edit");
+				} else {
+					controller.setEditMode(true);
+					editTransactionButton.setText("Done");
+				}
+				updateTransactionList();
 
 			}
 		});
+
 	}
 
 	/**
 	 * Switches the income/expenses buttons "on" and "off".
 	 */
 	public void updateIncomeExpensesButtons() {
-		if (controller.getCurrentMainCategory().getId() == 2) {
+		if (controller.getCurrentMainCategory().getId() == Constants.EXPENSE_ID) {
 			view.findViewById(R.id.transactionListIncomeSwitchButton)
 					.setEnabled(true);
 			view.findViewById(R.id.transactionListExpensesSwitchButton)
@@ -143,32 +156,10 @@ public class TransactionListFragment extends Fragment {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
-	public void showAlertRemoveTransactionBox(Context context, String message,
-			int position) {
-		final int pos = position;
-
-		final AlertDialog alertDialog = new AlertDialog.Builder(context)
-				.create();
-		alertDialog.setTitle("Removing transaction");
-		alertDialog.setButton("Delete", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					controller.removeTransaction(transactionList.get(pos));
-					setupTransactionList();
-				} catch (Exception e) {
-					return;
-				}
-			}
-		});
-		alertDialog.setButton2("Cancel", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				alertDialog.dismiss();
-			}
-		});
-
-		alertDialog.setMessage(message);
-		alertDialog.show();
+	public void propertyChange(PropertyChangeEvent event) {
+		if (event.getPropertyName().equals("Transactions Updated")) {
+			updateTransactionList();
+		}
 	}
 
 }
