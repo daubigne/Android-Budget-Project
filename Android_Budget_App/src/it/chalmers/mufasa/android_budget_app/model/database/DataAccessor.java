@@ -40,7 +40,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
- * Data Accessor Object to fetch and save data from database. This is the only
+ * Data Acessor Object to fetch and save data from database. This is the only
  * place where classes Account,BudgetItem,Category,Transaction should be fetched
  * and saved from.
  */
