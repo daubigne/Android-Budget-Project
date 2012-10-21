@@ -201,15 +201,16 @@ public class Account {
 	 */
 	public List<Category> getCategories() {
 		updateCategoryList();
-		return categoryList;
+		return new ArrayList<Category>(categoryList);
 	}
 	
 	/**
 	 * Returns the categories which has a certain parent category.
 	 */
 	public List<Category> getCategories(Category currentParentCategory) {
-		categoryList = dataAccessor.getCategories(currentParentCategory);
-		return categoryList;
+		categoryList.clear();
+		categoryList.addAll(dataAccessor.getCategories(currentParentCategory));
+		return new ArrayList<Category>(categoryList);
 	}
 
 	private void updateCategoryList() {
