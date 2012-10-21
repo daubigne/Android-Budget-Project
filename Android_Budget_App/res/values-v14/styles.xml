@@ -1,5 +1,16 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar" />
-
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    	<item name="android:buttonStyle">@android:style/Widget.Holo.Light.Button.Small</item>
+    </style>
+    
+    <style name="tabButtonLayout" parent="android:style/Holo.Light.ButtonBar" />
+    <style name="tabButton" parent="android:style/Widget.Holo.Light.Button.Borderless.Small" />
+    
+    <style name="editButton" parent="android:style/Widget.Holo.Light.Button.Small" />
+    <style name="backButton" parent="android:style/Widget.Holo.Light.Button.Small" />
+    <style name="addButton" parent="android:style/Widget.Holo.Light.Button.Small" />
+    <style name="chooseCategoryButton" parent="android:style/Widget.Holo.Light.Button.Small" />
+    
+    
 </resources>
