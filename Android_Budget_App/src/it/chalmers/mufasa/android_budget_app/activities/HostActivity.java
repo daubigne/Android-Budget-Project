@@ -18,9 +18,10 @@
  */
 package it.chalmers.mufasa.android_budget_app.activities;
 
+import it.chalmers.mufasa.android_budget_app.R;
+
 import java.util.Calendar;
 
-import it.chalmers.mufasa.android_budget_app.R;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -33,6 +34,8 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -50,12 +53,15 @@ public class HostActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_host);
 
 		// create an action bar for navigation
 		theBar = getActionBar();
 		theBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		theBar.setDisplayShowHomeEnabled(false);
 		theBar.setDisplayShowTitleEnabled(false);
+		//theBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
 
 		// Create tabs for the action bar
 		// TODO : Replace the empty constructor with fragments that are going to
