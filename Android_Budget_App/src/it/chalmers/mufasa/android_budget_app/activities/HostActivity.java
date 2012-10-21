@@ -80,18 +80,18 @@ public class HostActivity extends Activity {
 						new HostTabListener(new TransactionListFragment()));
 		Tab tab3 = theBar
 				.newTab()
-				.setIcon(R.drawable.ic_tab_categories)
+				.setIcon(R.drawable.ic_tab_budget)
 				.setTabListener(
-						new HostTabListener(new ManageCategoryFragment()));
-		Tab tab4 = theBar.newTab().setIcon(R.drawable.ic_tab_graphs)
-				.setTabListener(new HostTabListener(new GraphViewFragment()));
-		Tab tab5 = theBar.newTab().setIcon(R.drawable.ic_tab_options)
-				.setTabListener(new HostTabListener(new BudgetEditFragment()));
-		/*Tab tab6 = theBar
+						new HostTabListener(new BudgetEditFragment()));
+		Tab tab4 = theBar
 				.newTab()
-				.setText("Options")
+				.setIcon(R.drawable.ic_tab_graphs)
+				.setTabListener(new HostTabListener(new GraphViewFragment()));
+		Tab tab5 = theBar
+				.newTab()
+				.setIcon(R.drawable.ic_tab_options)
 				.setTabListener(
-						new HostTabListener(new TypicalFragment("Fifth tab")));*/
+						new HostTabListener(new OptionsFragment()));
 
 
 		// add the tabs to the action bar
@@ -100,7 +100,7 @@ public class HostActivity extends Activity {
 		theBar.addTab(tab3);
 		theBar.addTab(tab4);
 		theBar.addTab(tab5);
-		//theBar.addTab(tab6);
+
 
 	}
 
@@ -141,14 +141,6 @@ public class HostActivity extends Activity {
 		FragmentManager fm = getFragmentManager();
 		FragmentTransaction transaction = fm.beginTransaction();
 		transaction.replace(R.id.fragment_container, fragment);
-		transaction.commit();
-	}
-
-	public void switchToTransactionListFragment() {
-		Fragment transactionListFragment = new TransactionListFragment();
-		FragmentManager fm = getFragmentManager();
-		FragmentTransaction transaction = fm.beginTransaction();
-		transaction.replace(R.id.fragment_container, transactionListFragment);
 		transaction.commit();
 	}
 

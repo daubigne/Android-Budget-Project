@@ -43,7 +43,6 @@ public class ManageCategoryModel {
 	 * @param parent
 	 */
 	public void addCategory(String name, Category parent) {
-
 		account.addCategory(name, parent);
 		pcs.firePropertyChange("added_category", null, null);
 	}

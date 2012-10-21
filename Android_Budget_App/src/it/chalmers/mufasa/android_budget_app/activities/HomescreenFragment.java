@@ -29,7 +29,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -59,7 +61,7 @@ public class HomescreenFragment extends Fragment {
 
 		this.view = inflater.inflate(R.layout.fragment_homescreen, container,
 				false);
-		//Create text fields and a progressbar to hold a baalnce and a comparison between the users' transactions and budgets.
+		//Create text fields and a progressbar to hold a balance and a comparison between the users' transactions and budgets.
 		tv = (TextView) view.findViewById(R.id.Balancefield);
 		tv2 = (TextView) view.findViewById(R.id.progressFeedback);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -67,9 +69,21 @@ public class HomescreenFragment extends Fragment {
 		tv.setText(model.getBalance() + "kr");
 		controller.calculatePercentage();
 		progressBar.setProgress((int)model.getPercentage());
-		tv2.setText("Remains of your budget");
+		tv2.setText("Remaining % of your budget");
 		
 		return view;
+	}
+	
+	//TODO
+	private void setupOnClickListeners(){
+		Button incomeButton = (Button) view
+				.findViewById(R.id.homeScreenAddTransactionButton);
+		
+		incomeButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+			}
+		});
 	}
 
 	//TODO: Method for swapping the percentage for something else, so that user can customize his or her homescreen.
