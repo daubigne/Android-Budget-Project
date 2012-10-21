@@ -144,14 +144,6 @@ public class HostActivity extends Activity {
 		transaction.commit();
 	}
 
-	public void switchToTransactionListFragment() {
-		Fragment transactionListFragment = new TransactionListFragment();
-		FragmentManager fm = getFragmentManager();
-		FragmentTransaction transaction = fm.beginTransaction();
-		transaction.replace(R.id.fragment_container, transactionListFragment);
-		transaction.commit();
-	}
-
 	// Code extracted from
 	// http://mobile.tutsplus.com/tutorials/android/android-sdk_datepickerdialog/
 	@Override

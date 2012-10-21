@@ -36,7 +36,7 @@ public class TransactionController {
 	
 	boolean editMode = false;
 	private Account account;
-	Category currentMainCategory;
+	private Category currentMainCategory;
 	
 
 	public TransactionController(Account account) {
@@ -94,6 +94,19 @@ public class TransactionController {
 	 */
 	public Category getCurrentMainCategory(){
 		return currentMainCategory;
-		
+	}
+	
+	/**
+	 *  Switches edit mode on or off depending on the given boolean.
+	 */
+	public void setEditMode(boolean editMode){
+		this.editMode = editMode;
+	}
+	
+	/**
+	 * Returns true if in edit mode and false if not.
+	 */
+	public boolean isEditMode(){
+		return this.editMode;
 	}
 }

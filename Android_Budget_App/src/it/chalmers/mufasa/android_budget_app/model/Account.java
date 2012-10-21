@@ -61,9 +61,6 @@ public class Account {
 
 		// If the database has an account we retrieve the data from that account.
 		if (dataAccessor.accountExists()) {
-			//setId(dataAccessor.getAccountId());
-			//setName(dataAccessor.getAccountName(Constants.ACCOUNT_ID));
-			//setBalance(dataAccessor.getAccountBalance());
 			this.id = dataAccessor.getAccountId();
 			this.name = dataAccessor.getAccountName(Constants.ACCOUNT_ID);
 			this.balance = dataAccessor.getAccountBalance();

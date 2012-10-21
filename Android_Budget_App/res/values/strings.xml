@@ -40,5 +40,6 @@
     <string name="set_date">Set date</string>
     <string name="Save_balance">save_balance</string>
     <string name="chooseCategory">Choose Category</string>
-
+    <string name="removeText">X</string>
+    
 </resources>

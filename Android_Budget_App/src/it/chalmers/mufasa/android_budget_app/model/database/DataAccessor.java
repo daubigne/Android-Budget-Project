@@ -508,20 +508,32 @@ public class DataAccessor {
 									+ (count - start), null);
 		}
 
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 		if (cursor.moveToFirst()) {
-			Category cat = this.getCategory(cursor.getInt(5));
-			Date date = new Date(cursor.getInt(1));
-			Transaction transaction = new Transaction(cursor.getInt(2),
+			Category cat = this.getCategory(cursor.getInt(4));
+			Date date = null;
+			try {
+				date = dateFormat.parse(cursor.getString(1));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}			Transaction transaction = new Transaction(cursor.getInt(2),
 					(cursor.getDouble(3)), date, cursor.getString(0), cat);
 			transactionList.add(transaction);
 			while (cursor.moveToNext()) {
-				cat = this.getCategory(cursor.getInt(5));
-				date = new Date(cursor.getInt(1));
+				cat = this.getCategory(cursor.getInt(4));
+				date = null;
+				try {
+					date = dateFormat.parse(cursor.getString(1));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}				System.out.println(date.toString());
 				transaction = new Transaction(cursor.getInt(2),
 						(cursor.getDouble(3)), date, cursor.getString(0), cat);
 				transactionList.add(transaction);
 			}
 		}
+		
 
 		return transactionList;
 	}
