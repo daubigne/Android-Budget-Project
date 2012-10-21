@@ -45,10 +45,12 @@ import android.database.sqlite.SQLiteDatabase;
  * and saved from.
  */
 public class DataAccessor {
-	private Context context;
+
+	private SQLiteDatabase db;
 
 	public DataAccessor(Context context) {
-		this.context = context;
+
+		db = new DatabaseOpenHelper(context).getWritableDatabase();
 		// this.addAccount(account.getName(), account.getBalance());
 	}
 
@@ -97,13 +99,13 @@ public class DataAccessor {
 	 * True if an Account exists in the database.
 	 */
 	public boolean accountExists() {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
+
 		String[] arr = { "id", "name", "balance" };
 		Cursor cursor = db.query("accounts", arr, "id == "
 				+ Constants.ACCOUNT_ID, null, null, null, null);
-
-		return cursor.moveToFirst();
+		boolean result = cursor.moveToFirst();
+		cursor.close();
+		return result;
 
 	}
 
@@ -111,9 +113,6 @@ public class DataAccessor {
 	 * Adds an Account to the database.
 	 */
 	public void addAccount(String name, double balance) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-
 		db.execSQL("INSERT INTO accounts (name, balance) VALUES (\"" + name
 				+ "\"," + balance + ")");
 	}
@@ -122,8 +121,6 @@ public class DataAccessor {
 	 * Sets the balance of an Account with the given ID:
 	 */
 	public void setAccountBalance(double balance, int id) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 		db.execSQL("UPDATE accounts SET balance=" + balance + " WHERE id == "
 				+ id);
 	}
@@ -132,8 +129,7 @@ public class DataAccessor {
 	 * Updates the Account in the database.
 	 */
 	public void updateAccount(Account account) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
+
 		ContentValues values = new ContentValues();
 
 		values.put("balance", Double.toString(account.getBalance()));
@@ -147,16 +143,17 @@ public class DataAccessor {
 	 * Returns the balance of the Account with the given ID.
 	 */
 	public Double getAccountBalance() {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
+
 		String[] arr = { "id", "name", "balance" };
 		Cursor cursor = db.query("accounts", arr, "id == "
 				+ Constants.ACCOUNT_ID, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
 			Double balance = cursor.getDouble(2);
+			cursor.close();
 			return balance;
 		} else {
+			cursor.close();
 			return 0.0;
 		}
 
@@ -259,8 +256,6 @@ public class DataAccessor {
 	 * Returns the name of the Account with the given ID.
 	 */
 	public String getAccountName(int id) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
 
 		Cursor cursor = db.query("accounts", arr, "id == " + id, null, null,
@@ -268,7 +263,7 @@ public class DataAccessor {
 
 		if (cursor.moveToFirst()) {
 			String name = cursor.getString(1);
-
+			cursor.close();
 			return name;
 		} else {
 
@@ -281,18 +276,16 @@ public class DataAccessor {
 	 * @return
 	 */
 	public int getAccountId() {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
 		Cursor cursor = db.query("accounts", arr, "id == "
 				+ Constants.ACCOUNT_ID, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
 			int id = cursor.getInt(0);
-
+			cursor.close();
 			return id;
 		} else {
-
+			cursor.close();
 			throw new IllegalArgumentException("Could not access account ID");
 		}
 	}
@@ -302,9 +295,6 @@ public class DataAccessor {
 	 */
 	public void addTransaction(Double amount, Date date, String name,
 			Category category) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		db.execSQL("INSERT INTO transactions (accountId, name, date, value, categoryId ) VALUES ( "
@@ -350,9 +340,6 @@ public class DataAccessor {
 	public void removeTransaction(Transaction transaction) {
 		Category category = transaction.getCategory();
 		double amount = transaction.getAmount();
-
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 		db.execSQL("DELETE FROM transactions WHERE id ==" + transaction.getId());
 
 		if (category.getParent() != null) {
@@ -391,9 +378,6 @@ public class DataAccessor {
 	 */
 	public List<Transaction> getTransactions(SortBy sortBy,
 			SortByOrder sortByOrder, int start, int count) {
-
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 		List<Transaction> transactions = new ArrayList<Transaction>();
 		String sortByTemp = "date";
 		String sortByOrderTemp = "desc";
@@ -446,7 +430,7 @@ public class DataAccessor {
 				cursor.moveToNext();
 			}
 		}
-
+		cursor.close();
 		return transactions;
 	}
 
@@ -466,10 +450,6 @@ public class DataAccessor {
 			SortByOrder sortByOrder, int start, int count, Category parent) {
 
 		List<Transaction> transactionList = new ArrayList<Transaction>();
-
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-
 		Cursor cursor;
 
 		String sortByTemp = "date";
@@ -546,6 +526,7 @@ public class DataAccessor {
 				transactionList.add(transaction);
 			}
 		}
+		cursor.close();
 
 		return transactionList;
 	}
@@ -556,9 +537,6 @@ public class DataAccessor {
 	public List<Transaction> getTransactions(SortBy sortBy,
 			SortByOrder sortByOrder, int start, int count, Category parent,
 			Date from, Date to) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-
 		List<Transaction> list = new ArrayList<Transaction>();
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -642,6 +620,7 @@ public class DataAccessor {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		cursor.close();
 		return list;
 	}
 
@@ -658,8 +637,6 @@ public class DataAccessor {
 
 		List<Category> list = new ArrayList<Category>();
 
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 		String[] arr = { "name", "id", "parentId" };// use more?
 
 		Cursor cursor;
@@ -684,7 +661,7 @@ public class DataAccessor {
 			}
 
 		}
-
+		cursor.close();
 		return list;
 	}
 
@@ -692,18 +669,17 @@ public class DataAccessor {
 	 * Returns a category with a certain ID.
 	 */
 	public Category getCategory(int id) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-
 		String[] arr = { "name", "id", "parentId" };
 		Cursor cursor = db.query("categories", arr, "id == " + id, null, null,
 				null, null);
 
 		if (cursor.moveToFirst()) {
-			return new Category(cursor.getString(0), cursor.getInt(1),
-					this.getCategory(cursor.getInt(2)));
+			Category category = new Category(cursor.getString(0),
+					cursor.getInt(1), this.getCategory(cursor.getInt(2)));
+			cursor.close();
+			return category;
 		}
-
+		cursor.close();
 		return null;
 	}
 
@@ -712,9 +688,6 @@ public class DataAccessor {
 	 */
 
 	public Category addCategory(String name, Category parent) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-
 		String parentId = "null";
 
 		if (parent != null) {
@@ -746,8 +719,6 @@ public class DataAccessor {
 	 * Returns the settings from the database.
 	 */
 	public Settings getSettings() {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 
 		String[] arr = { "currentAccountId" };
 
@@ -755,10 +726,10 @@ public class DataAccessor {
 
 		if (cursor.moveToFirst()) {
 			Settings settings = new Settings(cursor.getInt(0));
-
+			cursor.close();
 			return settings;
 		}
-
+		cursor.close();
 		return null;
 	}
 
@@ -766,9 +737,6 @@ public class DataAccessor {
 	 * Adds a budget item to the database.
 	 */
 	public void addBudgetItem(Category category, Double value) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
-
 		ContentValues values = new ContentValues();
 
 		values.put("categoryId", category.getId());
@@ -791,9 +759,6 @@ public class DataAccessor {
 	public List<BudgetItem> getBudgetItems(Category parent) {
 
 		List<BudgetItem> budgetItemList = new ArrayList<BudgetItem>();
-
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 
 		Cursor cursor;
 
@@ -822,7 +787,7 @@ public class DataAccessor {
 				budgetItemList.add(item);
 			}
 		}
-
+		cursor.close();
 		return budgetItemList;
 	}
 
@@ -830,8 +795,6 @@ public class DataAccessor {
 	 * Removes a certain budget item from the database.
 	 */
 	public void removeBudgetItem(BudgetItem item) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 
 		db.delete("budgetitems", "id == " + item.getId(), null);
 
@@ -841,8 +804,6 @@ public class DataAccessor {
 	 * Edits an already existing budget item in the database.
 	 */
 	public void editBudgetItem(BudgetItem item, Double newValue) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
 
@@ -856,8 +817,7 @@ public class DataAccessor {
 	 * Removes a category from the database.
 	 */
 	public void removeCategory(Category category) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
+
 		db.execSQL("DELETE FROM categories WHERE id ==" + category.getId());
 
 	}
@@ -866,16 +826,13 @@ public class DataAccessor {
 	 * Edits an already existing category in the database.
 	 */
 	public void editCategory(Category category, String newName) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
+
 		db.execSQL("UPDATE categories SET name = \"" + newName
 				+ "\" WHERE id == " + category.getId());
 
 	}
 
 	public double getBudgetItemsSum(Category parent) {
-		SQLiteDatabase db = new DatabaseOpenHelper(context)
-				.getWritableDatabase();
 
 		Cursor cursor;
 
@@ -891,8 +848,11 @@ public class DataAccessor {
 									+ parent.getId(), null);
 		}
 		if (cursor.moveToFirst()) {
-			return cursor.getDouble(0);
+			double result = cursor.getDouble(0);
+			cursor.close();
+			return result;
 		}
+		cursor.close();
 		return 0.0;
 	}
 

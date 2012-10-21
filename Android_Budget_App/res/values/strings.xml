@@ -35,7 +35,10 @@
     <string name="addTransaction">Add New Transaction</string>
     <string name="addDate">Add Date</string>
     <string name="medium_text">medium_text</string>
+    <string name="manage_categories">manage_Categories</string>
+    <string name="choose_an_option">Choose an option</string>
     <string name="set_date">Set date</string>
+    <string name="Save_balance">save_balance</string>
     <string name="chooseCategory">Choose Category</string>
     <string name="removeText">X</string>
     
