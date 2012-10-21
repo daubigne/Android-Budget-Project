@@ -649,10 +649,10 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "name", "id", "parentId" };// use more?
-
+		
 		Cursor cursor;
-		if (parent == null) {
 
+		if (parent == null) {
 			cursor = db.query("categories", arr, null, null, null, null, null);
 		} else {
 			cursor = db.rawQuery(
