@@ -33,7 +33,7 @@ import android.test.RenamingDelegatingContext;
  * @author Slurpo
  * 
  */
-public class TransactionListControllerTest extends AndroidTestCase {
+public class TransactionControllerTest extends AndroidTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
