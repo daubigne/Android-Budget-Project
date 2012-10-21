@@ -72,58 +72,34 @@ public class DatabaseTest extends AndroidTestCase {
 	// assertTrue(dataAccessor.getAccount(1).getBalance() == balance);
 	// }
 
-	public void testAddCategory() {
-		dataAccessor.addCategory("1", null);
-		dataAccessor.addCategory("2", null);
-
+	public void testCategories() {
 		List<Category> catList = dataAccessor.getCategories();
-
-		if (catList.size() != 2) {
-			fail("Could not add and get two first categories. Size:"
-					+ catList.size());
-		}
-	}
-
-	public void testAddSubCategories() {
-
-		dataAccessor.addCategory("1", null);
-		dataAccessor.addCategory("2", null);
-
-		List<Category> catList = dataAccessor.getCategories();
-
-		if (catList.size() != 2) {
-			fail("Could not add and get two first categories. Size:"
-					+ catList.size());
-		}
-
-		for (Category cat : catList) {
-			dataAccessor.addCategory(cat.getName() + "-1", cat);
-			dataAccessor.addCategory(cat.getName() + "-2", cat);
-		}
-
+		int catListSizeStart = catList.size();
+		dataAccessor.addCategory("1", dataAccessor.getCategory(Constants.EXPENSE_ID));
+		dataAccessor.addCategory("2", dataAccessor.getCategory(Constants.INCOME_ID));
+		
 		catList = dataAccessor.getCategories();
+		int catListSize = catList.size() - catListSizeStart;
 
-		for (Category cat : catList) {
-			if (cat.getParent() != null) {
-				dataAccessor.addCategory(cat.getName() + "-1", cat);
-				dataAccessor.addCategory(cat.getName() + "-2", cat);
-			}
+		if (catListSize != 2) {
+			fail("Could not add and get two first categories. Size:"
+					+ catListSize);
 		}
-
-		catList = dataAccessor.getCategories();
-
-		// Print out just for fun
-		for (Category cat : catList) {
-			String parent = "";
-			if (cat.getParent() != null) {
-				parent = cat.getParent().getName();
-			}
-			// System.out.println(cat.getName() + " Parent:" + parent);
-
+		
+		Category cat1 = catList.get(catList.size() - 2);
+		Category cat2 = catList.get(catList.size() - 1);
+		
+		if(!cat1.getName().equals("1")){
+			fail("Wrong category name, is: " + cat1.getName());
 		}
-
-		if (catList.size() != (2 + 2 * 2 + 2 * 2 * 2)) {
-			fail("Could not add or get subcategories. Size:" + catList.size());
+		if(!cat2.getName().equals("2")){
+			fail("Wrong category name, is: " + cat2.getName());
+		}
+		if(cat1.getParent().getId() != Constants.EXPENSE_ID){
+			fail("Wrong parent, is: " + cat1.getParent().getId());
+		}
+		if(cat2.getParent().getId() != 1){
+			fail("Wrong parent, is: " + cat2.getParent().getId());
 		}
 	}
 
@@ -131,7 +107,7 @@ public class DatabaseTest extends AndroidTestCase {
 		Category incomeCategory = dataAccessor.getCategory(Constants.INCOME_ID);
 		Category incomeCategoryChild = dataAccessor.addCategory("incomeCategoryChild", incomeCategory);
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		Calendar cal = new GregorianCalendar();
 		cal.set(2012, 0, 0);
@@ -167,7 +143,7 @@ public class DatabaseTest extends AndroidTestCase {
 			fail("Category != "+list.get(0).getCategory().toString()+" is "+list.get(0).getCategory().toString());
 		}
 		
-		if (!list.get(0).getDate().equals(date2)) {
+		if (!dateFormat.format(list.get(0).getDate()).equals(dateFormat.format(date2))) {
 			fail("Date != "+dateFormat.format(date2) +" is "+dateFormat.format(list.get(0).getDate()));
 		}
 
@@ -198,9 +174,6 @@ public class DatabaseTest extends AndroidTestCase {
 		Category incomeCategoryChild = dataAccessor.addCategory("Lon", incomeCategory);
 		Category expensesCategoryChild = dataAccessor.addCategory("Mat", expensesCategory);
 		
-		//Category incomeCategoryChild = new Category("Lon", 155, incomeCategory);
-		//Category expensesCategoryChild = new Category("Mat", 245,
-		//		expensesCategory);
 
 		dataAccessor.addTransaction(200.0, new Date(), "transaction1",
 				incomeCategoryChild);
@@ -229,18 +202,9 @@ public class DatabaseTest extends AndroidTestCase {
 		if (dataAccessor.getAccountBalance() != 50.0) {
 			fail("Balance != 50.0 is " + dataAccessor.getAccountBalance());
 		}
-		if (list.get(2).getCategory() == null) {
-			fail();
-		}
-		if (list.get(1).getCategory() == null) {
-			fail();
-		}
-		if (list.get(0).getCategory() == null) {
-			fail();
-		}
-		if (list.get(0).getName().equals("transaction1")) {
-			dataAccessor.removeTransaction(list.get(0));
-		}
+				
+		dataAccessor.removeTransaction(list.get(0));
+		
 
 		list = dataAccessor.getTransactions(SortBy.DATE, SortByOrder.DESC, 0,
 				10);
@@ -248,6 +212,7 @@ public class DatabaseTest extends AndroidTestCase {
 		if (list.size() != 2) {
 			fail("Size != 2 is " + list.size());
 		}
+		
 		if (dataAccessor.getAccountBalance() != -150) {
 			fail("Balance != -150 is " + dataAccessor.getAccountBalance());
 		}
@@ -268,7 +233,7 @@ public class DatabaseTest extends AndroidTestCase {
 							+ " doesn't have the right category.");
 				}
 			}
-			if (t.getCategory().getId() != Constants.EXPENSE_ID) {
+			else if (t.getCategory().getId() != Constants.EXPENSE_ID) {
 				fail("The transaction: " + t.getName()
 						+ " doesn't have the right category.");
 			}
@@ -291,11 +256,6 @@ public class DatabaseTest extends AndroidTestCase {
 
 		list = dataAccessor.getBudgetItems();
 
-		// for (BudgetItem item : list) {
-		// System.out.println("Category: " + item.getCategory().getName()
-		// + " Value: " + item.getValue());
-		// }
-
 		boolean condition1 = (list.size() - listSizeBefore) == 1;
 		boolean condition2 = list.get(list.size() - 1).getValue() == 2000.0;
 
@@ -309,45 +269,48 @@ public class DatabaseTest extends AndroidTestCase {
 	}
 
 	public void testEditBudgetItem() {
-
+		List<BudgetItem> listStart = dataAccessor.getBudgetItems();
 		dataAccessor.addCategory("food", null);
 
 		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
 
 		List<BudgetItem> list = dataAccessor.getBudgetItems();
 
-		// for (BudgetItem item : list) {
-		// System.out.println("Category: " + item.getCategory().getName()
-		// + " Value: " + item.getValue());
-		// }
-
-		boolean condition1 = list.size() == 1;
-		boolean condition2 = list.get(0).getValue() == 2000.0;
-
-		assertTrue(condition1 && condition2);
-	}
-
-	public void testRemoveBudgetItems() {
-
-		dataAccessor.addCategory("food", null);
-
-		dataAccessor.addBudgetItem(dataAccessor.getCategory(1), 2000.0);
-
-		List<BudgetItem> list = dataAccessor.getBudgetItems();
-
-		// for (BudgetItem item : list) {
-		// System.out.println("Category: " + item.getCategory().getName()
-		// + " Value: " + item.getValue());
-		// }
-
-		boolean condition1 = list.size() == 1;
-		boolean condition2 = list.get(0).getValue() == 2000.0;
-
-		assertTrue(condition1 && condition2);
+		if(list.size() - listStart.size() != 1){
+			fail();
+		}
+		if(list.get(list.size() - 1).getValue() != 2000.0){
+			fail();
+		}
+		
+		dataAccessor.removeBudgetItem(list.get(list.size() - 1));
+		
+		list = dataAccessor.getBudgetItems();
+		
+		if(list.size() - listStart.size() != 0){
+			fail();
+		}
 	}
 	
 	public void testGetBudgetItemsSum() {
-		fail(String.valueOf(dataAccessor.getBudgetItemsSum(dataAccessor.getCategory(2))));
+		double startExpenseSum = dataAccessor.getBudgetItemsSum(dataAccessor.getCategory(Constants.EXPENSE_ID));
+		double startIncomeSum = dataAccessor.getBudgetItemsSum(dataAccessor.getCategory(Constants.INCOME_ID));
+
+		
+		dataAccessor.addBudgetItem(dataAccessor.getCategory(Constants.EXPENSE_ID), 2000.0);
+		dataAccessor.addBudgetItem(dataAccessor.getCategory(Constants.INCOME_ID), 1000.0);
+		
+		double expenseSum = dataAccessor.getBudgetItemsSum(dataAccessor.getCategory(Constants.EXPENSE_ID));
+		double incomeSum = dataAccessor.getBudgetItemsSum(dataAccessor.getCategory(Constants.INCOME_ID));
+
+		
+		if(expenseSum - startExpenseSum != 2000.0){
+			fail(Double.toString(expenseSum - startExpenseSum));
+		}
+		
+		if(incomeSum - startIncomeSum != 1000.0){
+			fail(Double.toString(incomeSum - startIncomeSum));
+		}
 	}
 	
 	public void testGetTransactionsByDates() {
@@ -355,9 +318,6 @@ public class DatabaseTest extends AndroidTestCase {
 			dataAccessor.addTransaction(200.0*i, (new GregorianCalendar(2012,9,12,15,00,00)).getTime(), "Mat"+i, dataAccessor.getCategory(2));
 		}
 		
-//		for(Transaction transaction : dataAccessor.getTransactions(SortBy.DATE,SortByOrder.DESC,0,100,null,(new GregorianCalendar(2012,9,1)).getTime(), (new GregorianCalendar(2012,9,29)).getTime())) {
-//			System.out.println(transaction.toString());
-//		}
 	}
 	public void testGetAccountBalanceForEachDay() {
 		
@@ -376,7 +336,7 @@ public class DatabaseTest extends AndroidTestCase {
 //		}
 		
 		for(AccountDay accountDay : dataAccessor.getAccountBalanceForEachDay((new GregorianCalendar(2012,8,1)).getTime())) {
-			System.out.println(accountDay.toString());
+			//System.out.println(accountDay.toString());
 		}
 	}
 }

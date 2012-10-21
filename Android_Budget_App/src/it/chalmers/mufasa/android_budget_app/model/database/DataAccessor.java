@@ -1,5 +1,5 @@
 /*
- * Copyright © 2012 Mufasa developer unit
+gi * Copyright © 2012 Mufasa developer unit
  *
  * This file is part of Mufasa Budget.
  *
@@ -100,8 +100,8 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
-				Cursor cursor = db.query("accounts", arr, "id == " + Constants.ACCOUNT_ID, null, null,
-				null, null);
+		Cursor cursor = db.query("accounts", arr, "id == "
+				+ Constants.ACCOUNT_ID, null, null, null, null);
 
 		return cursor.moveToFirst();
 
@@ -179,18 +179,19 @@ public class DataAccessor {
 		public Double getValue() {
 			return this.value;
 		}
-		
+
 		@Override
 		public String toString() {
-			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-			
-			return "AccountDay: day="+dateFormat.format(day)+" value="+this.value;
+
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			return "AccountDay: day=" + dateFormat.format(day) + " value="
+					+ this.value;
 		}
 	}
 
 	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
-		
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = new GregorianCalendar();
 		Date to = cal.getTime();
@@ -202,48 +203,55 @@ public class DataAccessor {
 		List<Transaction> allTransactions = this.getTransactions(SortBy.DATE,
 				SortByOrder.DESC, 0, 1000000, null, from, to);
 
-			Calendar curDay = new GregorianCalendar(); 
-			Calendar endDay = new GregorianCalendar(); 
-			
-			endDay.setTime(from);
-			endDay.add(Calendar.DAY_OF_MONTH, -1);
-			curDay.add(Calendar.DAY_OF_MONTH, 1);
-			//Get list of days between from and to
-			List<Date> dates = new ArrayList<Date>();
-			while (curDay.getTime().getTime() >= endDay.getTime().getTime()) {
-				dates.add(curDay.getTime());
-				curDay.add(Calendar.DAY_OF_MONTH, -1);
-			}
+		Calendar curDay = new GregorianCalendar();
+		Calendar endDay = new GregorianCalendar();
 
-			int i = 0;
-			if (dates.size() > 0) {
-				for (int j = 1; j < dates.size()-1; j++) {// Loop days
-															// backwards
-					if(i<allTransactions.size()) {
-						// Loop through all transactions which time is between this
-						// day and the day before
+		endDay.setTime(from);
+		endDay.add(Calendar.DAY_OF_MONTH, -1);
+		curDay.add(Calendar.DAY_OF_MONTH, 1);
+		// Get list of days between from and to
+		List<Date> dates = new ArrayList<Date>();
+		while (curDay.getTime().getTime() >= endDay.getTime().getTime()) {
+			dates.add(curDay.getTime());
+			curDay.add(Calendar.DAY_OF_MONTH, -1);
+		}
 
-						while (i<allTransactions.size() && allTransactions.get(i).getDate().getTime() >= dates.get(j).getTime() && allTransactions.get(i).getDate().getTime() <= dates.get(j-1).getTime() ) {
+		int i = 0;
+		if (dates.size() > 0) {
+			for (int j = 1; j < dates.size() - 1; j++) {// Loop days
+														// backwards
+				if (i < allTransactions.size()) {
+					// Loop through all transactions which time is between this
+					// day and the day before
 
-							Transaction transaction = allTransactions.get(i);
-							if (transaction.getCategory().getId() == Constants.INCOME_ID
-									|| (transaction.getCategory().getParent() != null && transaction
-									.getCategory().getParent().getId() == Constants.INCOME_ID)) {
-								currentBalance -= transaction.getAmount(); // Substract previous incomes
-							} else if (transaction.getCategory().getId() == Constants.EXPENSE_ID
-									|| (transaction.getCategory().getParent() != null && transaction
-									.getCategory().getParent().getId() == Constants.EXPENSE_ID)) {
-								currentBalance += transaction.getAmount(); // Add previous expenses
-							}
+					while (i < allTransactions.size()
+							&& allTransactions.get(i).getDate().getTime() >= dates
+									.get(j).getTime()
+							&& allTransactions.get(i).getDate().getTime() <= dates
+									.get(j - 1).getTime()) {
 
-							
-							i++;
+						Transaction transaction = allTransactions.get(i);
+						if (transaction.getCategory().getId() == Constants.INCOME_ID
+								|| (transaction.getCategory().getParent() != null && transaction
+										.getCategory().getParent().getId() == Constants.INCOME_ID)) {
+							currentBalance -= transaction.getAmount(); // Substract
+																		// previous
+																		// incomes
+						} else if (transaction.getCategory().getId() == Constants.EXPENSE_ID
+								|| (transaction.getCategory().getParent() != null && transaction
+										.getCategory().getParent().getId() == Constants.EXPENSE_ID)) {
+							currentBalance += transaction.getAmount(); // Add
+																		// previous
+																		// expenses
 						}
+
+						i++;
 					}
-					accountBalances.add(new AccountDay(dates.get(j),
-							currentBalance));
 				}
+				accountBalances
+						.add(new AccountDay(dates.get(j), currentBalance));
 			}
+		}
 		return accountBalances;
 	}
 
@@ -255,8 +263,8 @@ public class DataAccessor {
 				.getWritableDatabase();
 		String[] arr = { "id", "name", "balance" };
 
-		Cursor cursor = db.query("accounts", arr, "id == "
-				+ id, null, null, null, null);
+		Cursor cursor = db.query("accounts", arr, "id == " + id, null, null,
+				null, null);
 
 		if (cursor.moveToFirst()) {
 			String name = cursor.getString(1);
@@ -347,25 +355,19 @@ public class DataAccessor {
 				.getWritableDatabase();
 		db.execSQL("DELETE FROM transactions WHERE id ==" + transaction.getId());
 
-		// this.setAccountBalance(getAccountBalance() - amount,
-		// Constants.ACCOUNT_ID);
-		if (category == null) {
-			System.out.println("category Šr null");
-		}
-
 		if (category.getParent() != null) {
 			if (category.getParent().getId() == Constants.INCOME_ID) {
-				this.setAccountBalance(getAccountBalance() + amount,
+				this.setAccountBalance(getAccountBalance() - amount,
 						Constants.ACCOUNT_ID);
 			} else if (category.getParent().getId() == Constants.EXPENSE_ID) {
-				this.setAccountBalance(getAccountBalance() - amount,
+				this.setAccountBalance(getAccountBalance() + amount,
 						Constants.ACCOUNT_ID);
 			}
 		} else if (category.getId() == Constants.INCOME_ID) {
-			this.setAccountBalance(getAccountBalance() + amount,
+			this.setAccountBalance(getAccountBalance() - amount,
 					Constants.ACCOUNT_ID);
 		} else if (category.getId() == Constants.EXPENSE_ID) {
-			this.setAccountBalance(getAccountBalance() - amount,
+			this.setAccountBalance(getAccountBalance() + amount,
 					Constants.ACCOUNT_ID);
 		} else {
 			throw new IllegalArgumentException(
@@ -378,10 +380,14 @@ public class DataAccessor {
 	/**
 	 * Returns transactions in the database.
 	 * 
-	 * @param sortBy The attribute of which the transactions will be sorted by.
-	 * @param sortByOrder Can either be ascending or descending.
-	 * @param start The first transaction to be returned.
-	 * @param count The number of transactions to be returned.
+	 * @param sortBy
+	 *            The attribute of which the transactions will be sorted by.
+	 * @param sortByOrder
+	 *            Can either be ascending or descending.
+	 * @param start
+	 *            The first transaction to be returned.
+	 * @param count
+	 *            The number of transactions to be returned.
 	 */
 	public List<Transaction> getTransactions(SortBy sortBy,
 			SortByOrder sortByOrder, int start, int count) {
@@ -419,10 +425,10 @@ public class DataAccessor {
 				+ sortByOrderTemp + " LIMIT " + start + ", " + (count - start));
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		
+
 		if (cursor.moveToPosition(start)) {
 			for (int i = start; i < Math.min(start + count, cursor.getCount()); i++) {
-				
+
 				Date date = null;
 				try {
 					date = dateFormat.parse(cursor.getString(1));
@@ -431,7 +437,7 @@ public class DataAccessor {
 				}
 
 				Category category = getCategory(cursor.getInt(4));
-				
+
 				Transaction transaction = new Transaction(cursor.getInt(2),
 						(cursor.getDouble(3)), date, cursor.getString(0),
 						category);
@@ -446,10 +452,15 @@ public class DataAccessor {
 
 	/**
 	 * Returns transactions of a certain category.
-	 * @param sortBy The attribute of which the transactions will be sorted by.
-	 * @param sortByOrder Can either be ascending or descending.
-	 * @param start The first transaction to be returned.
-	 * @param count The number of transactions to be returned.
+	 * 
+	 * @param sortBy
+	 *            The attribute of which the transactions will be sorted by.
+	 * @param sortByOrder
+	 *            Can either be ascending or descending.
+	 * @param start
+	 *            The first transaction to be returned.
+	 * @param count
+	 *            The number of transactions to be returned.
 	 */
 	public List<Transaction> getTransactions(SortBy sortBy,
 			SortByOrder sortByOrder, int start, int count, Category parent) {
@@ -517,7 +528,8 @@ public class DataAccessor {
 				date = dateFormat.parse(cursor.getString(1));
 			} catch (ParseException e) {
 				e.printStackTrace();
-			}			Transaction transaction = new Transaction(cursor.getInt(2),
+			}
+			Transaction transaction = new Transaction(cursor.getInt(2),
 					(cursor.getDouble(3)), date, cursor.getString(0), cat);
 			transactionList.add(transaction);
 			while (cursor.moveToNext()) {
@@ -527,13 +539,13 @@ public class DataAccessor {
 					date = dateFormat.parse(cursor.getString(1));
 				} catch (ParseException e) {
 					e.printStackTrace();
-				}				System.out.println(date.toString());
+				}
+				System.out.println(date.toString());
 				transaction = new Transaction(cursor.getInt(2),
 						(cursor.getDouble(3)), date, cursor.getString(0), cat);
 				transactionList.add(transaction);
 			}
 		}
-		
 
 		return transactionList;
 	}
@@ -649,7 +661,7 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "name", "id", "parentId" };// use more?
-		
+
 		Cursor cursor;
 
 		if (parent == null) {
@@ -691,14 +703,13 @@ public class DataAccessor {
 			return new Category(cursor.getString(0), cursor.getInt(1),
 					this.getCategory(cursor.getInt(2)));
 		}
-			
+
 		return null;
 	}
 
 	/**
 	 * Adds a category to the database.
 	 */
-
 
 	public Category addCategory(String name, Category parent) {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
@@ -711,13 +722,12 @@ public class DataAccessor {
 
 		}
 
-		
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("name", name);
 		contentValues.put("parentId", parentId);
-		long id = db.insert("categories",null,contentValues);
-		
-		return this.getCategory((int)id);
+		long id = db.insert("categories", null, contentValues);
+
+		return this.getCategory((int) id);
 
 		// if (parent.getId() == Constants.EXPENSE_ID || parent.getId() ==
 		// Constants.INCOME_ID){

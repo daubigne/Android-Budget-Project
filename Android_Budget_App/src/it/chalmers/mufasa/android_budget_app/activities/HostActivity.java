@@ -95,13 +95,6 @@ public class HostActivity extends Activity {
 		theBar.addTab(tab4);
 		theBar.addTab(tab5);
 		//theBar.addTab(tab6);
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_home_screen_host, menu);
-		return true;
 	}
 	
 	/**
@@ -158,20 +151,6 @@ public class HostActivity extends Activity {
 				}, 2011, 0, 1);
 		dateDlg.setMessage("Transaction date");
 		return dateDlg;
-	}
-
-	// Code extracted from
-	// http://mobile.tutsplus.com/tutorials/android/android-sdk_datepickerdialog/
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		super.onPrepareDialog(id, dialog);
-		DatePickerDialog dateDlg = (DatePickerDialog) dialog;
-		int iDay, iMonth, iYear;
-		Calendar cal = Calendar.getInstance();
-		iDay = cal.get(Calendar.DAY_OF_MONTH);
-		iMonth = cal.get(Calendar.MONTH);
-		iYear = cal.get(Calendar.YEAR);
-		dateDlg.updateDate(iYear, iMonth, iDay);
 	}
 
 }
