@@ -15,6 +15,6 @@
         android:id="@+id/saveBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Save_balance" />
+        android:text="Save Balance" />
 
 </LinearLayout>
