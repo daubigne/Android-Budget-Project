@@ -73,7 +73,7 @@ public class TransactionListFragment extends Fragment implements
 
 		listAdapter = new TransactionAdapter(getActivity(),
 				R.layout.transaction_list_row, transactionList,
-				controller.getEditMode());
+				controller.isEditMode());
 
 		listView = (ListView) view.findViewById(R.id.transactionList);
 		listView.setAdapter(listAdapter);
@@ -83,7 +83,7 @@ public class TransactionListFragment extends Fragment implements
 	 * Fetches all transactions and updates its listView.
 	 */
 	private void updateTransactionList() {
-		listAdapter.setEditMode(controller.getEditMode());
+		listAdapter.setEditMode(controller.isEditMode());
 		transactionList = controller
 				.getTransactions(Constants.NUMBER_OF_TRANSACTIONS);
 		listView.setAdapter(listAdapter);
@@ -125,7 +125,7 @@ public class TransactionListFragment extends Fragment implements
 				.findViewById(R.id.editTransactionButton);
 		editTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (controller.getEditMode()) {
+				if (controller.isEditMode()) {
 					controller.setEditMode(false);
 					editTransactionButton.setText("Edit");
 				} else {
