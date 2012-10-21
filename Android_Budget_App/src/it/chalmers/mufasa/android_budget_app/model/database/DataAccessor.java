@@ -64,7 +64,7 @@ public class DataAccessor {
 
 	/*
 	 * public List<Account> getAccounts() {
-	 * 
+	 *  
 	 * List<Account> accountList = new ArrayList<Account>();
 	 * 
 	 * SQLiteDatabase db = new
