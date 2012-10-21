@@ -22,11 +22,15 @@ import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.OptionsController;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.OptionsModel;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class OptionsFragment extends Fragment{
@@ -43,15 +47,48 @@ public class OptionsFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		this.inflater = inflater;
+		this.view = inflater.inflate(R.layout.fragment_options,
+				container, false);
 		this.model = new OptionsModel(this.getActivity());
 		this.inflater = inflater;
 		this.controller = new OptionsController(this.model);
-		
+		setupOnClickListeners();
+
+		return view;
+
+	}
+	
+	private void setupOnClickListeners() {
 		this.addBalanceButton = (Button) view.findViewById(R.id.addBalance);
 		this.clearTransactionButton = (Button) view.findViewById(R.id.clearTransactions);
 		this.clearBudgetButton = (Button) view.findViewById(R.id.clearBudget);
 		this.manageCategoryButton = (Button) view.findViewById(R.id.manageCategories);
-
-		return view;
+		
+		this.addBalanceButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				((HostActivity)getActivity()).changeFragment(new BalanceFragment());
+			}
+		});
+		
+		this.clearTransactionButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				controller.clearTransactions();
+			}
+		});
+		
+		this.clearBudgetButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				controller.clearBudget();
+			}
+		});
+		
+		this.manageCategoryButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				((HostActivity)getActivity()).changeFragment(new ManageCategoryFragment());
+			}
+		});
+		
+		
 	}
 }

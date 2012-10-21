@@ -34,5 +34,8 @@ public class OptionsController {
 	public void clearBudget(){
 		this.model.clearBudget();
 	}
+	public void addBalance(double balance){
+		this.model.addBalance(balance);
+	}
 
 }

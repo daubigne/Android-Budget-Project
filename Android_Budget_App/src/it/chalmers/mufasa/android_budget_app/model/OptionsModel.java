@@ -35,4 +35,7 @@ public class OptionsModel {
 	public void clearBudget(){
 		this.account.removeBudget();
 	}
+	public void addBalance(double balance){
+		this.account.setBalance(balance);
+	}
 }

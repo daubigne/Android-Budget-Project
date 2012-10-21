@@ -74,16 +74,14 @@ public class HostActivity extends Activity {
 						new HostTabListener(new TransactionListFragment()));
 		Tab tab3 = theBar
 				.newTab()
-				.setText("Categories")
+				.setText("Budget")
 				.setTabListener(
-						new HostTabListener(new ManageCategoryFragment()));
-		Tab tab4 = theBar.newTab().setText("Budget")
-				.setTabListener(new HostTabListener(new BudgetEditFragment()));
-		Tab tab5 = theBar
+						new HostTabListener(new BudgetEditFragment()));
+		Tab tab4 = theBar
 				.newTab()
 				.setText("Options")
 				.setTabListener(
-						new HostTabListener(new TypicalFragment("Fifth tab")));
+						new HostTabListener(new OptionsFragment()));
 
 
 		// add the tabs to the action bar
@@ -91,7 +89,6 @@ public class HostActivity extends Activity {
 		theBar.addTab(tab2);
 		theBar.addTab(tab3);
 		theBar.addTab(tab4);
-		theBar.addTab(tab5);
 
 	}
 

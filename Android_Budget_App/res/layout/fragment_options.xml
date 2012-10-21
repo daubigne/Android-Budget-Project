@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="33dp"
-        android:text="Large Text"
+        android:text="@string/choose_an_option"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -20,7 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="44dp"
-        android:text="manage_Categories" />
+        android:text="Manage Categories" />
 
     <Button
         android:id="@+id/clearTransactions"
@@ -29,7 +29,7 @@
         android:layout_above="@+id/manageCategories	"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="25dp"
-        android:text="clear_Transactions" />
+        android:text="Clear Transactions" />
 
     <Button
         android:id="@+id/clearBudget"
@@ -38,7 +38,7 @@
         android:layout_above="@+id/clearTransactions"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="26dp"
-        android:text="clear_Budget" />
+        android:text="Clear Budget" />
 
     <Button
         android:id="@+id/addBalance"
@@ -47,6 +47,6 @@
         android:layout_above="@+id/clearBudget"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="29dp"
-        android:text="add_Balance" />
+        android:text="Add Balance" />
 
 </RelativeLayout>

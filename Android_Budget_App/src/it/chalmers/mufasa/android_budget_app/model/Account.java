@@ -289,7 +289,7 @@ public class Account {
 		pcs.firePropertyChange("Transactions Updated", null, null);
 	}
 	public void removeAllTransactions(){
-		for (this.transactionList) //TODO: Finish method
+	//TODO: Finish method
 	}
 
 	/**
