@@ -38,6 +38,7 @@ public class ManageCategoryFragment extends Fragment implements
 	private Button expenseButton;
 	private Button editSaveButton;
 	private Button addButton;
+	private Button backToOptionsButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +49,7 @@ public class ManageCategoryFragment extends Fragment implements
 		this.addView = inflater.inflate(
 				R.layout.manage_categories_add_category, container, false);
 		this.model = new ManageCategoryModel(this.getActivity());
-		this.controller = new ManageCategoryController(model);
+		this.controller = new ManageCategoryController(this.model);
 		model.addPropertyChangeListener(this);
 
 		this.populateCategoryListView(model.getCategoryList());
@@ -66,6 +67,7 @@ public class ManageCategoryFragment extends Fragment implements
 		editSaveButton = (Button) view
 				.findViewById(R.id.manageCategoryButtonEditSave);
 		addButton = (Button) addView.findViewById(R.id.manageCategoryButtonAdd);
+		backToOptionsButton= (Button) view.findViewById(R.id.backToOptions);
 
 		incomeButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -93,6 +95,11 @@ public class ManageCategoryFragment extends Fragment implements
 				String nameString = editTextname.getText().toString();
 				ManageCategoryFragment.this.addCategory(nameString);
 				editTextname.setText("");
+			}
+		});
+		this.backToOptionsButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				((HostActivity)getActivity()).changeFragment(new OptionsFragment());
 			}
 		});
 	}
@@ -195,25 +202,24 @@ public class ManageCategoryFragment extends Fragment implements
 	 */
 	public void toggleEditSave() {
 		if (model.isEditMode()) {
-			
-			System.out.println("entering toggleEditSave");
+
 			
 			LinearLayout editCategoryLayout = (LinearLayout) this.view
 					.findViewById(R.id.manageCategoryListLayout);
 			
 			for (int i = 0; i < editCategoryLayout.getChildCount(); i++) {
 				
-				System.out.println("entering for loop: " + editCategoryLayout.getChildCount());
 				
 				if (editCategoryLayout.getChildAt(i) instanceof LinearLayout) {
 					
 					LinearLayout editCategoryRowLayout = (LinearLayout) editCategoryLayout.getChildAt(i);
-					System.out.println(editCategoryRowLayout.getChildCount());
+					
 					EditText editText = (EditText)editCategoryRowLayout.findViewById(R.id.manageCategoryCategoryEditText);
 					
 					if (editCategoryRowLayout.getTag() instanceof Category) {
 					Category category = (Category) editCategoryRowLayout.getTag();
-					this.editCategory(category, editText.getText().toString());
+					this.removeCategory(category);
+					this.addCategory(editText.getText().toString());
 					}
 					
 					

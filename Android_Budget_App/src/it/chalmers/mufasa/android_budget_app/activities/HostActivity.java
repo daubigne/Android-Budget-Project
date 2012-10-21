@@ -18,9 +18,10 @@
  */
 package it.chalmers.mufasa.android_budget_app.activities;
 
+import it.chalmers.mufasa.android_budget_app.R;
+
 import java.util.Calendar;
 
-import it.chalmers.mufasa.android_budget_app.R;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -33,6 +34,8 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -50,12 +53,15 @@ public class HostActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_host);
 
 		// create an action bar for navigation
 		theBar = getActionBar();
 		theBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		theBar.setDisplayShowHomeEnabled(false);
 		theBar.setDisplayShowTitleEnabled(false);
+		//theBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
 
 		// Create tabs for the action bar
 		// TODO : Replace the empty constructor with fragments that are going to
@@ -64,29 +70,28 @@ public class HostActivity extends Activity {
 
 		Tab tab1 = theBar
 				.newTab()
-				.setText("Home")
+				.setIcon(R.drawable.ic_tab_home)
 				.setTabListener(
-						new HostTabListener((new HomescreenFragment())));
+						new HostTabListener(new HomescreenFragment()));
 		Tab tab2 = theBar
 				.newTab()
-				.setText("Transactions")
+				.setIcon(R.drawable.ic_tab_transactions)
 				.setTabListener(
 						new HostTabListener(new TransactionListFragment()));
 		Tab tab3 = theBar
 				.newTab()
-				.setText("Categories")
+				.setIcon(R.drawable.ic_tab_budget)
 				.setTabListener(
-						new HostTabListener(new ManageCategoryFragment()));
-		Tab tab4 = theBar.newTab().setText("Graphs")
-				.setTabListener(new HostTabListener(new GraphViewFragment()));
-		Tab tab5 = theBar.newTab().setText("Budget")
-				.setTabListener(new HostTabListener(new BudgetEditFragment()));
-		/*Tab tab6 = theBar
+						new HostTabListener(new BudgetEditFragment()));
+		Tab tab4 = theBar
 				.newTab()
-				.setText("Options")
+				.setIcon(R.drawable.ic_tab_graphs)
+				.setTabListener(new HostTabListener(new GraphViewFragment()));
+		Tab tab5 = theBar
+				.newTab()
+				.setIcon(R.drawable.ic_tab_options)
 				.setTabListener(
-						new HostTabListener(new TypicalFragment("Fifth tab")));*/
-
+						new HostTabListener(new OptionsFragment()));
 
 		// add the tabs to the action bar
 		theBar.addTab(tab1);
@@ -94,14 +99,8 @@ public class HostActivity extends Activity {
 		theBar.addTab(tab3);
 		theBar.addTab(tab4);
 		theBar.addTab(tab5);
-		//theBar.addTab(tab6);
 
-	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_home_screen_host, menu);
-		return true;
 	}
 	
 	/**
@@ -138,14 +137,6 @@ public class HostActivity extends Activity {
 		transaction.commit();
 	}
 
-	public void switchToTransactionListFragment() {
-		Fragment transactionListFragment = new TransactionListFragment();
-		FragmentManager fm = getFragmentManager();
-		FragmentTransaction transaction = fm.beginTransaction();
-		transaction.replace(R.id.fragment_container, transactionListFragment);
-		transaction.commit();
-	}
-
 	// Code extracted from
 	// http://mobile.tutsplus.com/tutorials/android/android-sdk_datepickerdialog/
 	@Override
@@ -166,20 +157,6 @@ public class HostActivity extends Activity {
 				}, 2011, 0, 1);
 		dateDlg.setMessage("Transaction date");
 		return dateDlg;
-	}
-
-	// Code extracted from
-	// http://mobile.tutsplus.com/tutorials/android/android-sdk_datepickerdialog/
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		super.onPrepareDialog(id, dialog);
-		DatePickerDialog dateDlg = (DatePickerDialog) dialog;
-		int iDay, iMonth, iYear;
-		Calendar cal = Calendar.getInstance();
-		iDay = cal.get(Calendar.DAY_OF_MONTH);
-		iMonth = cal.get(Calendar.MONTH);
-		iYear = cal.get(Calendar.YEAR);
-		dateDlg.updateDate(iYear, iMonth, iDay);
 	}
 
 }

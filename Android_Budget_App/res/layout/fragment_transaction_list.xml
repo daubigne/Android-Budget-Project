@@ -8,16 +8,19 @@
 
     <Button
         android:id="@+id/addTransactionButton"
+        style="@style/addButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/addTransaction" />
 
-     <LinearLayout
+    <LinearLayout
+        style="@style/tabButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/transactionListIncomeSwitchButton"
+            style="@style/tabButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
@@ -25,12 +28,28 @@
 
         <Button
             android:id="@+id/transactionListExpensesSwitchButton"
+            style="@style/tabButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
             android:text="@string/expenses" />
 
     </LinearLayout>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/editTransactionButton"
+            style="@style/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/edit" />
+
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/transactionList"

@@ -6,51 +6,59 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        style="@style/tabButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/budgetEditIncomeSwitchButton"
+            style="@style/tabButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".50"
+            android:layout_weight="1"
             android:text="@string/income" />
 
         <Button
             android:id="@+id/budgetEditExpensesSwitchButton"
+            style="@style/tabButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".50"
+            android:layout_weight="1"
             android:text="@string/expenses" />
 
     </LinearLayout>
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/budgetItemEditBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#cccccc" >
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/budgetItemEditBarEditButton"
+            style="@style/editButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:text="@string/edit" />
-    </FrameLayout>
 
-    <FrameLayout
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/budgetItemEditDoneBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#cccccc"
         android:visibility="gone" >
 
         <Button
             android:id="@+id/budgetItemEditBarEditDoneButton"
+            style="@style/editButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:text="@string/done" />
-    </FrameLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView1"

@@ -61,9 +61,6 @@ public class Account {
 
 		// If the database has an account we retrieve the data from that account.
 		if (dataAccessor.accountExists()) {
-			//setId(dataAccessor.getAccountId());
-			//setName(dataAccessor.getAccountName(Constants.ACCOUNT_ID));
-			//setBalance(dataAccessor.getAccountBalance());
 			this.id = dataAccessor.getAccountId();
 			this.name = dataAccessor.getAccountName(Constants.ACCOUNT_ID);
 			this.balance = dataAccessor.getAccountBalance();
@@ -188,7 +185,9 @@ public class Account {
 		dataAccessor.removeBudgetItem(budgetItem);
 		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
-	
+	public void removeBudget(){
+		//TODO: complete method.
+	}
 	/**
 	 * Returns a single saved category.
 	 */
@@ -201,15 +200,16 @@ public class Account {
 	 */
 	public List<Category> getCategories() {
 		updateCategoryList();
-		return categoryList;
+		return new ArrayList<Category>(categoryList);
 	}
 	
 	/**
 	 * Returns the categories which has a certain parent category.
 	 */
 	public List<Category> getCategories(Category currentParentCategory) {
-		categoryList = dataAccessor.getCategories(currentParentCategory);
-		return categoryList;
+		categoryList.clear();
+		categoryList.addAll(dataAccessor.getCategories(currentParentCategory));
+		return new ArrayList<Category>(categoryList);
 	}
 
 	private void updateCategoryList() {
@@ -294,6 +294,9 @@ public class Account {
 		dataAccessor.removeTransaction(transaction);
 		updateBalance();
 		pcs.firePropertyChange("Transactions Updated", null, null);
+	}
+	public void removeAllTransactions(){
+	//TODO: Finish method
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package it.chalmers.mufasa.android_budget_app.activities;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -44,8 +46,14 @@ public class AddTransactionFragment extends Fragment implements
 	private ChooseCategoryFragment chooseCategoryFragment;
 
 	static final int DATE_DIALOG_ID = 0;
-	
-	public AddTransactionFragment(TransactionController controller){
+
+	private Button addTransactionButton;
+	private Button dateTransactionButton;
+	private Button chooseCategoryButton;
+	private TextView transactionDateTextView;
+	private TextView transactionCategoryTextView;
+
+	public AddTransactionFragment(TransactionController controller) {
 		super();
 		this.controller = controller;
 	}
@@ -60,13 +68,27 @@ public class AddTransactionFragment extends Fragment implements
 		this.view = inflater.inflate(R.layout.fragment_add_transaction,
 				container, false);
 
+		calendar = Calendar.getInstance();
+
 		this.account = Account.getInstance(this.getActivity());
+		chooseCategoryButton = (Button) view
+				.findViewById(R.id.chooseTransactionCategoryButton);
+		addTransactionButton = (Button) view
+				.findViewById(R.id.addTransactionButton);
+		dateTransactionButton = (Button) view
+				.findViewById(R.id.transactionDateButton);
+
+		transactionDateTextView = (TextView) view
+				.findViewById(R.id.transactionDateTextView);
+		transactionCategoryTextView = (TextView) view
+				.findViewById(R.id.transactionCategoryTextView);
 
 		this.setupOnClickListeners();
-		
+
 		choosenCategory = controller.getCurrentMainCategory();
 
-		calendar = Calendar.getInstance();
+		updateDateText();
+		updateCategoryText();
 
 		return view;
 	}
@@ -75,19 +97,13 @@ public class AddTransactionFragment extends Fragment implements
 	 * Sets up click listeners.
 	 */
 	private void setupOnClickListeners() {
-		Button addTransactionButton = (Button) view
-				.findViewById(R.id.addTransactionButton);
-		Button dateTransactionButton = (Button) view
-				.findViewById(R.id.transactionDateButton);
-		Button chooseCategoryButton = (Button) view
-				.findViewById(R.id.chooseTransactionCategoryButton);
 
 		chooseCategoryButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					AddTransactionFragment.this.chooseCategory(v);
-				}
+			public void onClick(View v) {
+				AddTransactionFragment.this.chooseCategory(v);
+			}
 		});
-		
+
 		addTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				AddTransactionFragment.this.saveTransaction(v);
@@ -136,18 +152,33 @@ public class AddTransactionFragment extends Fragment implements
 
 	public void dateDialogFragmentDateSet(Calendar date) {
 		this.calendar = date;
+		updateDateText();
 	}
-	
-	private void chooseCategory(View v){
-		this.chooseCategoryFragment = new ChooseCategoryFragment(this, controller.getCurrentMainCategory().getId());
-		FragmentManager fm = ((HostActivity)getActivity()).getFragmentManager();
+
+	private void chooseCategory(View v) {
+		this.chooseCategoryFragment = new ChooseCategoryFragment(this,
+				controller.getCurrentMainCategory().getId());
+		FragmentManager fm = ((HostActivity) getActivity())
+				.getFragmentManager();
 
 		chooseCategoryFragment.show(fm, "");
+		updateCategoryText();
+	}
+
+	private void updateDateText() {
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		String dateString = df.format(calendar.getTime());
+		transactionDateTextView.setText(dateString);
+	}
+
+	// TODO: Doesn't update.
+	public void updateCategoryText() {
+		transactionCategoryTextView.setText(controller.getCurrentMainCategory()
+				.getName());
 	}
 
 	public void chooseCategoryCategoryChosen(Category category) {
 		this.choosenCategory = category;
 		chooseCategoryFragment.dismiss();
-
 	}
 }
