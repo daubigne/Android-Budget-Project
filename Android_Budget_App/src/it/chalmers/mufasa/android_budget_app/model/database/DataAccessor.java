@@ -45,11 +45,11 @@ import android.database.sqlite.SQLiteDatabase;
  * and saved from.
  */
 public class DataAccessor {
-	private Context context;
+
 	private SQLiteDatabase db;
 
 	public DataAccessor(Context context) {
-		this.context = context;
+
 		db = new DatabaseOpenHelper(context).getWritableDatabase();
 		// this.addAccount(account.getName(), account.getBalance());
 	}
@@ -64,7 +64,7 @@ public class DataAccessor {
 
 	/*
 	 * public List<Account> getAccounts() {
-	 *  
+	 * 
 	 * List<Account> accountList = new ArrayList<Account>();
 	 * 
 	 * SQLiteDatabase db = new
@@ -188,8 +188,6 @@ public class DataAccessor {
 	}
 
 	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
-
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = new GregorianCalendar();
 		Date to = cal.getTime();
 
