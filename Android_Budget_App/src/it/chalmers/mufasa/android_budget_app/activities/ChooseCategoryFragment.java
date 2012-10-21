@@ -5,11 +5,18 @@ import it.chalmers.mufasa.android_budget_app.interfaces.ChooseCategoryInterface;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import android.app.ListFragment;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +24,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-public class ChooseCategoryFragment extends ListFragment {
+public class ChooseCategoryFragment extends DialogFragment implements
+		DialogInterface.OnClickListener {
 
 	private Map<String, Integer> map = new HashMap<String, Integer>();
 	private View view;
@@ -31,27 +39,38 @@ public class ChooseCategoryFragment extends ListFragment {
 	public ChooseCategoryFragment(ChooseCategoryInterface cci, int id) {
 		parentCategoryId = id;
 		chooseCategoryListener = cci;
-	}
 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-
-		this.view = inflater.inflate(R.layout.fragment_choose_category,
-				container, false);
-
-		account = Account.getInstance(this.getActivity());
-		list = this.getCategoryListToString(parentCategoryId);
-		listAdapter = new ArrayAdapter<String>(this.getActivity(),
-				R.layout.simplerow, list);
-		setListAdapter(listAdapter);
-		return view;
+		list = new ArrayList<String>();
+		this.account = Account.getInstance(getActivity());
 	}
 
 	@Override
-	public void onListItemClick(ListView lv, View v, int pos, long id) {
-		String item = (String) getListAdapter().getItem(pos);
-		chosenCategory = account.getCategory(map.get(item));
-		chooseCategoryListener.chooseCategoryCategoryChosen(chosenCategory);
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle("Choose Category");
+		builder.setNegativeButton("Cancel", this);
+		LayoutInflater inflater = (LayoutInflater) getActivity()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.view = inflater.inflate(R.layout.fragment_choose_category,
+				null);
+		builder.setView(this.view);
+		
+		list = this.getCategoryListToString(parentCategoryId);
+		listAdapter = new ArrayAdapter<String>(this.getActivity(),
+				R.layout.simplerow, list);
+
+		builder.setAdapter(listAdapter, new DialogInterface.OnClickListener() {
+
+			public void onClick(DialogInterface dialog, int which) {
+				String item = (String) listAdapter.getItem(which);
+				chosenCategory = account.getCategory(map.get(item));
+				chooseCategoryListener
+						.chooseCategoryCategoryChosen(chosenCategory);
+			}
+		});
+
+		return builder.create();
+
 	}
 
 	private List<String> getCategoryListToString(int id) {
@@ -64,5 +83,9 @@ public class ChooseCategoryFragment extends ListFragment {
 		}
 
 		return list;
+	}
+
+	public void onClick(DialogInterface dialog, int pos) {
+		
 	}
 }

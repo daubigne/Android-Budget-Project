@@ -20,6 +20,7 @@ package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.BudgetEditController;
+import it.chalmers.mufasa.android_budget_app.interfaces.ChooseCategoryInterface;
 import it.chalmers.mufasa.android_budget_app.model.BudgetEditModel;
 import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,34 +45,64 @@ import android.widget.TextView;
 /**
  * Activity for managing the users current budget. Includes adding, editing and removing budgetitem rows.
  * 
- * @author Simon
+ * @author simphax <sim.nilsson@gmail.com>
  * 
  */
-public class BudgetEditFragment extends Fragment implements PropertyChangeListener {
+public class BudgetEditFragment extends Fragment implements PropertyChangeListener, ChooseCategoryInterface {
 
 	private BudgetEditController controller;
 	private BudgetEditModel model;
+	private ChooseCategoryFragment chooseCategoryFragment;
+	private HostActivity hostActivity;
+	private boolean initialized = false;
 
-	LayoutInflater inflater;
+	private LayoutInflater inflater;
 	private View view;
+	
+	private Button buttonToUpdate;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if(!initialized) {
+			this.model = new BudgetEditModel(this.getActivity());
+			this.controller = new BudgetEditController(model);
+			this.hostActivity = ((HostActivity)getActivity());
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		this.inflater = inflater;
 		this.view = inflater.inflate(R.layout.fragment_budget_edit, container, false);
 
-		this.model = new BudgetEditModel(this.getActivity());
-		this.controller = new BudgetEditController(model);
-
-		model.addPropertyChangeListener(this);
-
-		controller.switchToIncome();
-
 		this.setupOnClickListeners();
 
 		return view;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if(!initialized) {
+			model.addPropertyChangeListener(this);
+			controller.switchToIncome();
+		} else {
+			this.setEditButtonBar();
+			this.updateIncomeExpensesButtons();
+		}
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		if(!initialized) {
+			initialized = true;
+		} else {
+			this.populateBudgetListView(model.getBudgetItems());
+		}
+	}
+	
 	private void setupOnClickListeners() {
 		Button incomeButton = (Button) view.findViewById(R.id.budgetEditIncomeSwitchButton);
 		Button expensesButton = (Button) view.findViewById(R.id.budgetEditExpensesSwitchButton);
@@ -109,13 +141,14 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 
 		if (model.isEditMode()) {
 			for (BudgetItem bi : list) {
+				
 				View v = inflater.inflate(R.layout.budget_item_edit_row_edit, null);
 
 				v.setTag(bi);
 
 				Button categoryButton = (Button) v.findViewById(R.id.budgetItemEditRowEditCategoryButton);
 				categoryButton.setText(bi.getCategory().getName());
-				categoryButton.setTag(bi.getCategory()); // Stores the budgetitem object in the button so it can be accessed in onClick events.
+				categoryButton.setTag(bi.getCategory()); // Stores the budget item object in the button so it can be accessed in onClick events.
 				
 				categoryButton.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
@@ -124,7 +157,8 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 				});
 
 				EditText valueTextEdit = (EditText) v.findViewById(R.id.budgetItemEditRowEditValueTextEdit);
-				valueTextEdit.setText(bi.getValue().toString());
+
+				valueTextEdit.setText(String.valueOf(bi.getValue()));
 
 				Button removeButton = (Button) v.findViewById(R.id.budgetItemEditRowEditRemoveButton);
 				removeButton.setTag(bi);
@@ -157,7 +191,7 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 				categoryButton.setText(bi.getCategory().getName());
 
 				TextView valueTextEdit = (TextView) v.findViewById(R.id.budgetItemEditRowValueTextView);
-				valueTextEdit.setText(bi.getValue().toString());
+				valueTextEdit.setText(String.valueOf(bi.getValue()));
 
 				budgetListLayout.addView(v);
 			}
@@ -188,7 +222,7 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 					Button categoryButton = (Button) v.findViewById(R.id.budgetItemEditRowEditCategoryButton);
 					EditText valueText = (EditText) v.findViewById(R.id.budgetItemEditRowEditValueTextEdit);
 
-					Category category = (Category) categoryButton.getTag();
+					Category category = (Category)categoryButton.getTag();
 					Double value = Double.parseDouble(valueText.getText().toString());
 
 					// budgetItem.setCategory(category);
@@ -215,11 +249,19 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 	}
 
 	public void chooseCategory(View view) {
-
 		// TODO Choose category via ChooseCategoryActivity
 		if (view.getTag() instanceof Category) {
-			Category category = (Category) view.getTag();
-			System.out.println("Choose category... current category:" + category);
+			this.buttonToUpdate = (Button)view;
+			Category category = (Category)buttonToUpdate.getTag();
+			if(category.getParent() != null) {
+				this.chooseCategoryFragment = new ChooseCategoryFragment(this, category.getParent().getId());
+			} else {
+				this.chooseCategoryFragment = new ChooseCategoryFragment(this, category.getId());
+			}
+			//((HostActivity)getActivity()).changeFragment(chooseCategoryFragment);
+			FragmentManager fm = ((HostActivity)getActivity()).getFragmentManager();
+
+			chooseCategoryFragment.show(fm, "");
 		}
 	}
 
@@ -277,5 +319,18 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 		if (event.getPropertyName().equals("removed_budgetitem")) {
 			this.populateBudgetListView(model.getBudgetItems());
 		}
+	}
+	
+	public void editButtonCategory(Button button, Category newCategory) {
+		button.setTag(newCategory);
+		button.setText(newCategory.getName());
+	}
+
+	public void chooseCategoryCategoryChosen(Category newCategory) {
+		// TODO Choose category
+		//controller.setCategoryOnBudgetItem(budgetItemToUpdate, newCategory);
+		//hostActivity.changeFragment(this);
+		this.editButtonCategory(buttonToUpdate, newCategory);
+		chooseCategoryFragment.dismiss();
 	}
 }

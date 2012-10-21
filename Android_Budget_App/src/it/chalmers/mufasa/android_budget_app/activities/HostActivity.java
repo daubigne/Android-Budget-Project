@@ -82,6 +82,15 @@ public class HostActivity extends Activity {
 				.setText("Options")
 				.setTabListener(
 						new HostTabListener(new OptionsFragment()));
+		Tab tab5 = theBar.newTab().setText("Graphs")
+				.setTabListener(new HostTabListener(new GraphViewFragment()));
+		Tab tab6 = theBar.newTab().setText("Budget")
+				.setTabListener(new HostTabListener(new BudgetEditFragment()));
+		/*Tab tab6 = theBar
+				.newTab()
+				.setText("Options")
+				.setTabListener(
+						new HostTabListener(new TypicalFragment("Fifth tab")));*/
 
 
 		// add the tabs to the action bar
@@ -89,6 +98,9 @@ public class HostActivity extends Activity {
 		theBar.addTab(tab2);
 		theBar.addTab(tab3);
 		theBar.addTab(tab4);
+		theBar.addTab(tab5);
+		theBar.addTab(tab6);
+
 
 	}
 
@@ -132,36 +144,48 @@ public class HostActivity extends Activity {
 		transaction.commit();
 	}
 
-	//Code extracted from http://mobile.tutsplus.com/tutorials/android/android-sdk_datepickerdialog/
+	public void switchToTransactionListFragment() {
+		Fragment transactionListFragment = new TransactionListFragment();
+		FragmentManager fm = getFragmentManager();
+		FragmentTransaction transaction = fm.beginTransaction();
+		transaction.replace(R.id.fragment_container, transactionListFragment);
+		transaction.commit();
+	}
+
+	// Code extracted from
+	// http://mobile.tutsplus.com/tutorials/android/android-sdk_datepickerdialog/
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		DatePickerDialog dateDlg = new DatePickerDialog(this,
-	         new DatePickerDialog.OnDateSetListener() {
-	         public void onDateSet(DatePicker view, int year,
-	                                             int monthOfYear, int dayOfMonth)
-	         {
-	                    Time chosenDate = new Time();
-	                    chosenDate.set(dayOfMonth, monthOfYear, year);
-	                    long dtDob = chosenDate.toMillis(true);
-	                    CharSequence strDate = DateFormat.format("MMMM dd, yyyy", dtDob);
-	                    Toast.makeText(HostActivity.this,
-	                         "Date picked: " + strDate, Toast.LENGTH_SHORT).show();
-	        }}, 2011,0, 1);
-	      dateDlg.setMessage("Transaction date");
-	      return dateDlg;
+				new DatePickerDialog.OnDateSetListener() {
+					public void onDateSet(DatePicker view, int year,
+							int monthOfYear, int dayOfMonth) {
+						Time chosenDate = new Time();
+						chosenDate.set(dayOfMonth, monthOfYear, year);
+						long dtDob = chosenDate.toMillis(true);
+						CharSequence strDate = DateFormat.format(
+								"MMMM dd, yyyy", dtDob);
+						Toast.makeText(HostActivity.this,
+								"Date picked: " + strDate, Toast.LENGTH_SHORT)
+								.show();
+					}
+				}, 2011, 0, 1);
+		dateDlg.setMessage("Transaction date");
+		return dateDlg;
 	}
-	
-	//Code extracted from http://mobile.tutsplus.com/tutorials/android/android-sdk_datepickerdialog/
+
+	// Code extracted from
+	// http://mobile.tutsplus.com/tutorials/android/android-sdk_datepickerdialog/
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
-	    super.onPrepareDialog(id, dialog);
-	    DatePickerDialog dateDlg = (DatePickerDialog) dialog;
-	     int iDay,iMonth,iYear;
-	     Calendar cal = Calendar.getInstance();
-	     iDay = cal.get(Calendar.DAY_OF_MONTH);
-	     iMonth = cal.get(Calendar.MONTH);
-	     iYear = cal.get(Calendar.YEAR);
-	     dateDlg.updateDate(iYear, iMonth, iDay);
+		super.onPrepareDialog(id, dialog);
+		DatePickerDialog dateDlg = (DatePickerDialog) dialog;
+		int iDay, iMonth, iYear;
+		Calendar cal = Calendar.getInstance();
+		iDay = cal.get(Calendar.DAY_OF_MONTH);
+		iMonth = cal.get(Calendar.MONTH);
+		iYear = cal.get(Calendar.YEAR);
+		dateDlg.updateDate(iYear, iMonth, iDay);
 	}
-	
+
 }

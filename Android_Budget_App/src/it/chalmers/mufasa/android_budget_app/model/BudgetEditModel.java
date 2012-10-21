@@ -24,6 +24,13 @@ import java.util.List;
 
 import android.content.Context;
 
+/**
+ * Model to represent the state of BudgetEditFragment.
+ * Calls appropriate methods in Account to store BudgetItems in database.
+ * 
+ * @author simphax <sim.nilsson@gmail.com>
+ *
+ */
 public class BudgetEditModel {
 
 	Account account;
@@ -42,6 +49,7 @@ public class BudgetEditModel {
 	}
 	
 	public List<BudgetItem> getBudgetItems() {
+		System.out.println("Getting budget items with category"+this.getCurrentMainCategory().getName());
 		return account.getBudgetItems(this.getCurrentMainCategory());
 	}
 	

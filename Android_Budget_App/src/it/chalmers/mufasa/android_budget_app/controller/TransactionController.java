@@ -94,5 +94,6 @@ public class TransactionController {
 	 */
 	public Category getCurrentMainCategory(){
 		return currentMainCategory;
+		
 	}
 }

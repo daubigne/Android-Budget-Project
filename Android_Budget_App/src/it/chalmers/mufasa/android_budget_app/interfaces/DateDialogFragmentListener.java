@@ -1,4 +1,4 @@
-package it.chalmers.mufasa.android_budget_app.activities;
+package it.chalmers.mufasa.android_budget_app.interfaces;
 
 import java.util.Calendar;
 

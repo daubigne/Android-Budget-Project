@@ -19,6 +19,7 @@
 package it.chalmers.mufasa.android_budget_app.model;
 
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.AccountDay;
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortBy;
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortByOrder;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
@@ -26,7 +27,9 @@ import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.Context;
@@ -58,10 +61,12 @@ public class Account {
 
 		// If the database has an account we retrieve the data from that account.
 		if (dataAccessor.accountExists()) {
-			setId(dataAccessor.getAccountId());
-			setName(dataAccessor.getAccountName(Constants.ACCOUNT_ID));
-			setBalance(dataAccessor.getAccountBalance());
-
+			//setId(dataAccessor.getAccountId());
+			//setName(dataAccessor.getAccountName(Constants.ACCOUNT_ID));
+			//setBalance(dataAccessor.getAccountBalance());
+			this.id = dataAccessor.getAccountId();
+			this.name = dataAccessor.getAccountName(Constants.ACCOUNT_ID);
+			this.balance = dataAccessor.getAccountBalance();
 			// If it doesn't a new account is stored in the database.
 		} else {
 			setId(Constants.ACCOUNT_ID);
@@ -123,6 +128,10 @@ public class Account {
 	 */
 	public double getBalance() {
 		return this.balance;
+	}
+	
+	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
+		return dataAccessor.getAccountBalanceForEachDay(from);
 	}
 
 	/**
@@ -194,15 +203,16 @@ public class Account {
 	 */
 	public List<Category> getCategories() {
 		updateCategoryList();
-		return categoryList;
+		return new ArrayList<Category>(categoryList);
 	}
 	
 	/**
 	 * Returns the categories which has a certain parent category.
 	 */
 	public List<Category> getCategories(Category currentParentCategory) {
-		categoryList = dataAccessor.getCategories(currentParentCategory);
-		return categoryList;
+		categoryList.clear();
+		categoryList.addAll(dataAccessor.getCategories(currentParentCategory));
+		return new ArrayList<Category>(categoryList);
 	}
 
 	private void updateCategoryList() {

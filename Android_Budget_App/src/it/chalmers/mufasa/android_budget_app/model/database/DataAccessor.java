@@ -29,7 +29,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -124,7 +126,6 @@ public class DataAccessor {
 				.getWritableDatabase();
 		db.execSQL("UPDATE accounts SET balance=" + balance + " WHERE id == "
 				+ id);
-
 	}
 
 	/**
@@ -156,9 +157,94 @@ public class DataAccessor {
 			Double balance = cursor.getDouble(2);
 			return balance;
 		} else {
-			return null;
+			return 0.0;
 		}
 
+	}
+
+	public class AccountDay {
+
+		Date day;
+		Double value;
+
+		public AccountDay(Date day, Double value) {
+			this.day = day;
+			this.value = value;
+		}
+
+		public Date getDay() {
+			return this.day;
+		}
+
+		public Double getValue() {
+			return this.value;
+		}
+		
+		@Override
+		public String toString() {
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+			
+			return "AccountDay: day="+dateFormat.format(day)+" value="+this.value;
+		}
+	}
+
+	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = new GregorianCalendar();
+		Date to = cal.getTime();
+
+		List<AccountDay> accountBalances = new ArrayList<AccountDay>();
+
+		double currentBalance = getAccountBalance();
+
+		List<Transaction> allTransactions = this.getTransactions(SortBy.DATE,
+				SortByOrder.DESC, 0, 1000000, null, from, to);
+
+			Calendar curDay = new GregorianCalendar(); 
+			Calendar endDay = new GregorianCalendar(); 
+			
+			endDay.setTime(from);
+			endDay.add(Calendar.DAY_OF_MONTH, -1);
+			curDay.add(Calendar.DAY_OF_MONTH, 1);
+			//Get list of days between from and to
+			List<Date> dates = new ArrayList<Date>();
+			while (curDay.getTime().getTime() >= endDay.getTime().getTime()) {
+				dates.add(curDay.getTime());
+				curDay.add(Calendar.DAY_OF_MONTH, -1);
+			}
+
+			int i = 0;
+			if (dates.size() > 0) {
+				for (int j = 1; j < dates.size()-1; j++) {// Loop days
+															// backwards
+					if(i<allTransactions.size()) {
+						// Loop through all transactions which time is between this
+						// day and the day before
+
+						while (i<allTransactions.size() && allTransactions.get(i).getDate().getTime() >= dates.get(j).getTime() && allTransactions.get(i).getDate().getTime() <= dates.get(j-1).getTime() ) {
+
+							Transaction transaction = allTransactions.get(i);
+							if (transaction.getCategory().getId() == Constants.INCOME_ID
+									|| (transaction.getCategory().getParent() != null && transaction
+									.getCategory().getParent().getId() == Constants.INCOME_ID)) {
+								currentBalance -= transaction.getAmount(); // Substract previous incomes
+							} else if (transaction.getCategory().getId() == Constants.EXPENSE_ID
+									|| (transaction.getCategory().getParent() != null && transaction
+									.getCategory().getParent().getId() == Constants.EXPENSE_ID)) {
+								currentBalance += transaction.getAmount(); // Add previous expenses
+							}
+
+							
+							i++;
+						}
+					}
+					accountBalances.add(new AccountDay(dates.get(j),
+							currentBalance));
+				}
+			}
+		return accountBalances;
 	}
 
 	/**
@@ -332,15 +418,17 @@ public class DataAccessor {
 				+ Constants.ACCOUNT_ID, null, null, null, sortByTemp + " "
 				+ sortByOrderTemp + " LIMIT " + start + ", " + (count - start));
 
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
 		if (cursor.moveToPosition(start)) {
 			for (int i = start; i < Math.min(start + count, cursor.getCount()); i++) {
-				String dateString = cursor.getString(1);
-				String[] list = dateString.split("-");
-				// Date date = new Date(Integer.parseInt(list[0]),
-				// Integer.parseInt(list[1]), Integer.parseInt(list[2]));
 				
-				//TODO DATE!?!?!?!?
-				Date date = new Date(10000);
+				Date date = null;
+				try {
+					date = dateFormat.parse(cursor.getString(1));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 
 				Category category = getCategory(cursor.getInt(4));
 				
@@ -416,7 +504,8 @@ public class DataAccessor {
 									+ sortByOrderTemp
 									+ " LIMIT "
 									+ start
-									+ ", " + (count - start), null);
+									+ ", "
+									+ (count - start), null);
 		}
 
 		if (cursor.moveToFirst()) {
@@ -448,7 +537,7 @@ public class DataAccessor {
 
 		List<Transaction> list = new ArrayList<Transaction>();
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 		Cursor cursor;
 
@@ -489,8 +578,7 @@ public class DataAccessor {
 									+ sortByOrderTemp
 									+ " LIMIT "
 									+ start
-									+ ", "
-									+ (count - start), null);
+									+ ", " + (count - start), null);
 		} else {
 			cursor = db
 					.rawQuery(
@@ -549,10 +637,10 @@ public class DataAccessor {
 		SQLiteDatabase db = new DatabaseOpenHelper(context)
 				.getWritableDatabase();
 		String[] arr = { "name", "id", "parentId" };// use more?
-
+		
 		Cursor cursor;
-		if (parent == null) {
 
+		if (parent == null) {
 			cursor = db.query("categories", arr, null, null, null, null, null);
 		} else {
 			cursor = db.rawQuery(

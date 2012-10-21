@@ -8,4 +8,22 @@
 \
 The application is structured around a model-view-controller design pattern. The activities and fragments acts as views where the graphics are displayed and user input is handled. The controller receives relevant user input and uses it to change the model. The model then stores all data in the database. When the model is updated, the view is noticed and updated accordingly.\
 \
-HostActivity is the host of all fragments which the user can browse through using the action bar in the host activity. Most fragments has their own controller that speaks with its corresponding model. The account class is where the model is store in the database, as such all data that is to be saved needs to be added to Account.}
+Activities and fragments:\
+HostActivity is the host of all fragments, it uses an action bar with tabs that links to its respective fragment. The HostActivity keeps its current fragment in a variable and when a tab is clicked the HostActivity switches to the clicked tabs corresponding fragment.\
+\
+The fragments kept within the HostActivity fetches data from model and displays it, usually in lists.\
+Most fragments has their own controller that speaks with its corresponding model. \
+\
+\
+Controller:\
+Controllers takes care of the user input and sets the model correctly. Since we are using a DataAccessor to set data in to the database a lot of the logic happens in there instead.\
+\
+Model:\
+Account is the main model class that keeps lists of Transactions, Categories and BudgetItems that it sets and gets from the database.\
+The FragmentModels has an instance of Account and uses it for access to the database. These models exists to divide the functionality of Account into smaller classes.\
+\
+\
+\
+\
+\
+The account class is where the model is store in the database, as such all data that is to be saved needs to be added to Account.}

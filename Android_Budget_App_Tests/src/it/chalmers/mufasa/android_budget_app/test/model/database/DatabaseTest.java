@@ -22,10 +22,14 @@ import it.chalmers.mufasa.android_budget_app.model.BudgetItem;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
+import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.AccountDay;
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortBy;
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor.SortByOrder;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -324,12 +328,23 @@ public class DatabaseTest extends AndroidTestCase {
 
 	public void testTransactions() {
 		Category incomeCategory = dataAccessor.getCategory(Constants.INCOME_ID);
-		Category incomeCategoryChild = new Category("Lon", 5, incomeCategory);
+		Category incomeCategoryChild = dataAccessor.addCategory("incomeCategoryChild", incomeCategory);
 
-		dataAccessor.addTransaction(100.0, new Date(01, 01, 2012),
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		Calendar cal = new GregorianCalendar();
+		cal.set(2012, 0, 0);
+		Date date1 = cal.getTime();
+		cal.set(2012, 1, 0);
+		Date date2 = cal.getTime();
+		
+		double value1 = 100.0;
+		double value2 = 50.0;
+		
+		dataAccessor.addTransaction(value1, date1,
 				"transaction1", incomeCategoryChild);
 
-		dataAccessor.addTransaction(50.0, new Date(02, 01, 2012),
+		dataAccessor.addTransaction(value2, date2,
 				"transaction2", incomeCategoryChild);
 
 		List<Transaction> list = dataAccessor.getTransactions(SortBy.DATE,
@@ -338,9 +353,25 @@ public class DatabaseTest extends AndroidTestCase {
 		if (list.size() != 2) {
 			fail("Size != 2 is " + list.size());
 		}
+		
+		if (!list.get(0).getName().equals("transaction2")) {
+			fail("Name != transaction2 is "+list.get(0).getName());
+		}
+		
+		if (list.get(0).getAmount() != value2) {
+			fail("Value != "+value2+" is "+list.get(0).getAmount());
+		}
+		
+		if (!list.get(0).getCategory().equals(incomeCategoryChild)) {
+			fail("Category != "+list.get(0).getCategory().toString()+" is "+list.get(0).getCategory().toString());
+		}
+		
+		if (!list.get(0).getDate().equals(date2)) {
+			fail("Date != "+dateFormat.format(date2) +" is "+dateFormat.format(list.get(0).getDate()));
+		}
 
 		if (dataAccessor.getAccountBalance() != 150.0) {
-			fail("Balance != 150 is " + dataAccessor.getAccountBalance());
+			fail("Account balance != 150 is " + dataAccessor.getAccountBalance());
 		}
 
 		dataAccessor.removeTransaction(list.get(0));
@@ -520,13 +551,31 @@ public class DatabaseTest extends AndroidTestCase {
 	
 	public void testGetTransactionsByDates() {
 		for(int i=0; i<20; i++) {
-			dataAccessor.addTransaction(200.0*i, (new GregorianCalendar()).getTime(), "Mat"+i, dataAccessor.getCategory(2));
+			dataAccessor.addTransaction(200.0*i, (new GregorianCalendar(2012,9,12,15,00,00)).getTime(), "Mat"+i, dataAccessor.getCategory(2));
 		}
 		
-		System.out.println("Test");
+//		for(Transaction transaction : dataAccessor.getTransactions(SortBy.DATE,SortByOrder.DESC,0,100,null,(new GregorianCalendar(2012,9,1)).getTime(), (new GregorianCalendar(2012,9,29)).getTime())) {
+//			System.out.println(transaction.toString());
+//		}
+	}
+	public void testGetAccountBalanceForEachDay() {
 		
-		for(Transaction transaction : dataAccessor.getTransactions(SortBy.DATE,SortByOrder.DESC,0,100,null,(new GregorianCalendar(2012,0,1)).getTime(), (new GregorianCalendar(2012,11,30)).getTime())) {
-			System.out.println(transaction.toString());
+		dataAccessor.addTransaction(2000.0, (new GregorianCalendar(2012,8,0,15,00,00)).getTime(), "Income 1", dataAccessor.getCategory(1));
+		dataAccessor.addTransaction(1000.0, (new GregorianCalendar(2012,8,19,15,00,00)).getTime(), "Income 2", dataAccessor.getCategory(1));
+		
+		dataAccessor.addTransaction(200.0, (new GregorianCalendar(2012,8,5,15,00,00)).getTime(), "Expense 1", dataAccessor.getCategory(2));
+		dataAccessor.addTransaction(200.0, (new GregorianCalendar(2012,8,25,15,00,00)).getTime(), "Expense 2", dataAccessor.getCategory(2));
+		dataAccessor.addTransaction(200.0, (new GregorianCalendar(2012,8,25,15,00,00)).getTime(), "Expense 3", dataAccessor.getCategory(2));
+		
+//		for(int i=0; i<20; i++) {
+//			dataAccessor.addTransaction(200.0*i, (new GregorianCalendar(2012,9,i,15,00,00)).getTime(), "Expense "+i, dataAccessor.getCategory(2));
+//		}
+//		for(int i=0; i<5; i++) {
+//			dataAccessor.addTransaction(1000.0*i, (new GregorianCalendar(2012,9,i,15,00,00)).getTime(), "Income "+i, dataAccessor.getCategory(1));
+//		}
+		
+		for(AccountDay accountDay : dataAccessor.getAccountBalanceForEachDay((new GregorianCalendar(2012,8,1)).getTime())) {
+			System.out.println(accountDay.toString());
 		}
 	}
 }

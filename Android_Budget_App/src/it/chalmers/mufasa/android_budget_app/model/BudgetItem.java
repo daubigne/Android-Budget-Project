@@ -34,7 +34,7 @@ public class BudgetItem {
 		return this.category;
 	}
 	
-	public Double getValue() {
+	public double getValue() {
 		return this.value;
 	}
 	
@@ -44,7 +44,7 @@ public class BudgetItem {
 	
 	@Override
 	public String toString() {
-		return "Category: "+this.category.getName()+" Value: "+this.value;
+		return "BudgetItem (Category: "+this.category.getName()+" Value: "+this.value+")";
 	}
 	
 }

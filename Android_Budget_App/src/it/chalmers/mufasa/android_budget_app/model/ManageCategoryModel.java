@@ -26,21 +26,43 @@ public class ManageCategoryModel {
 		this.setCurrentParentCategory(account.getCategory(2));
 	}
 
+	/**
+	 * a method that returns a list of categories based on the parent category
+	 * (income or expense)
+	 * 
+	 * @return
+	 */
 	public List<Category> getCategoryList() {
 		return account.getCategories(currentParentCategory);
 	}
 
+	/**
+	 * a method to add a category in the account
+	 * 
+	 * @param name
+	 * @param parent
+	 */
 	public void addCategory(String name, Category parent) {
-		
 		account.addCategory(name, parent);
 		pcs.firePropertyChange("added_category", null, null);
 	}
 
+	/**
+	 * a method to remove a category in the account
+	 * 
+	 * @param category
+	 */
 	public void removeCategory(Category category) {
 		account.removeCategory(category);
 		pcs.firePropertyChange("removed_category", null, null);
 	}
 
+	/**
+	 * a method to edit a category in the account
+	 * 
+	 * @param category
+	 * @param newName
+	 */
 	public void editCategory(Category category, String newName) {
 		account.editCategory(category, newName);
 		pcs.firePropertyChange("edited_category", null, null);
@@ -71,6 +93,11 @@ public class ManageCategoryModel {
 		return editMode;
 	}
 
+	/**
+	 * a method to change the edit mode of the model
+	 * 
+	 * @return
+	 */
 	public void setEditMode(boolean set) {
 		if (this.editMode != set) {
 			this.editMode = set;
