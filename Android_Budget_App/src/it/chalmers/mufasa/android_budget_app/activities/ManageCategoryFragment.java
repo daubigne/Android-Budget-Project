@@ -107,7 +107,6 @@ public class ManageCategoryFragment extends Fragment implements
 
 		addButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				System.out.println("trying to add category");
 				EditText editTextname = (EditText) addView
 						.findViewById(R.id.manageCategoryEditTextAdd);
 				String nameString = editTextname.getText().toString();

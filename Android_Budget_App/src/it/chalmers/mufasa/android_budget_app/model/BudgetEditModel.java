@@ -46,8 +46,6 @@ public class BudgetEditModel {
 	}
 
 	public List<BudgetItem> getBudgetItems() {
-		System.out.println("Getting budget items with category"
-				+ this.getCurrentMainCategory().getName());
 		return account.getBudgetItems(this.getCurrentMainCategory());
 	}
 
