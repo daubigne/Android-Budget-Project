@@ -23,7 +23,6 @@ import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +33,7 @@ import java.util.List;
  */
 public class TransactionController {
 	
-	boolean editMode = false;
+	private boolean editMode = false;
 	private Account account;
 	private Category currentMainCategory;
 	
