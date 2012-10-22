@@ -37,7 +37,7 @@ import android.content.Context;
  * 
  * @author Slurpo
  */
-public class Account {
+public final class Account {
 
 	private int id;
 	private String name;
