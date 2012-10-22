@@ -41,7 +41,7 @@ import android.content.Context;
  * 
  * @author Slurpo
  */
-public class Account {
+public final class Account {
 
 	private int id;
 	private String name;
@@ -111,28 +111,7 @@ public class Account {
 			dataAccessor.updateAccount(this);
 		}
 	}
-
-	/**
-	 * Sets balance to the given amount.
-	 */
-	public void setBalance(double balance) {
-		this.balance = balance;
-		if (dataAccessor.accountExists()) {
-			dataAccessor.updateAccount(this);
-		}
-	}
-
-	/**
-	 * Returns current balance.
-	 */
-	public double getBalance() {
-		return this.balance;
-	}
-
-	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
-		return dataAccessor.getAccountBalanceForEachDay(from);
-	}
-
+	
 	/**
 	 * Returns the name of the account.
 	 */
@@ -146,6 +125,39 @@ public class Account {
 	public int getId() {
 		return this.id;
 	}
+
+	/**
+	 * Sets balance to the given amount.
+	 */
+	public void setBalance(double balance) {
+		this.balance = balance;
+		if (dataAccessor.accountExists()) {
+			dataAccessor.updateAccount(this);
+		}
+	}
+	
+	/**
+	 * Fetches current account balance from the database.
+	 */
+	private void updateBalance() {
+		setBalance(dataAccessor.getAccountBalance());
+	}
+
+	/**
+	 * Returns current balance.
+	 */
+	public double getBalance() {
+		return this.balance;
+	}
+
+	/**
+	 * Returns a list of AccountDays from the given date to today.
+	 * @param from - The start date.
+	 */
+	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
+		return dataAccessor.getAccountBalanceForEachDay(from);
+	}
+	
 
 	/**
 	 * Returns the budget item that the user have saved.
@@ -162,11 +174,19 @@ public class Account {
 		return budgetItemList;
 	}
 
+	/**
+	 * Returns the sum of all budget items under a specific categoryId.
+	 * @param categoryId - The category to get budgetItems from.
+	 */
 	public Double getBudgetItemsSum(int categoryId) {
 		return dataAccessor.getBudgetItemsSum(dataAccessor
 				.getCategory(categoryId));
 	}
 
+	/**
+	 * Updates the budgetItemList with data from the dataAccessor.
+	 * @param parent - The category which the budget items are placed under.
+	 */
 	private void updateBudgetItemList(Category parent) {
 		budgetItemList.clear();
 		budgetItemList.addAll(dataAccessor.getBudgetItems(parent));
@@ -189,7 +209,7 @@ public class Account {
 	}
 
 	public void removeBudget() {
-		// TODO: complete method.
+		dataAccessor.removeAllBudgetItems();
 	}
 
 	/**
@@ -216,6 +236,9 @@ public class Account {
 		return new ArrayList<Category>(categoryList);
 	}
 
+	/**
+	 * Updates the categoryList with data from the dataAccessor.
+	 */
 	private void updateCategoryList() {
 		categoryList.clear();
 		categoryList.addAll(dataAccessor.getCategories());
@@ -322,20 +345,21 @@ public class Account {
 	 * Removes all transactions from the database.
 	 */
 	public void removeAllTransactions() {
-		// TODO: Finish method
+		dataAccessor.removeAllTransactions();
 	}
 
 	/**
-	 * Fetches current account balance from the database.
+	 * Adds a property change listener to this.
+	 * @param l- the listener
 	 */
-	private void updateBalance() {
-		setBalance(dataAccessor.getAccountBalance());
-	}
-
 	public void addPropertyChangeListener(PropertyChangeListener l) {
 		pcs.addPropertyChangeListener(l);
 	}
 
+	/**
+	 * Removes a property change listener from this.
+	 * @param l- the listener
+	 */
 	public void removePropertyChangeListener(PropertyChangeListener l) {
 		pcs.removePropertyChangeListener(l);
 	}

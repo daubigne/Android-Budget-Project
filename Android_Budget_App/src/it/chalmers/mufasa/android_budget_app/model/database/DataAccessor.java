@@ -62,10 +62,6 @@ public class DataAccessor {
 		DESC, ASC
 	}
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 	/**
 	 * True if an Account exists in the database.
 	 */
@@ -715,7 +711,7 @@ public class DataAccessor {
 	}
 
 	/**
-	 * Returns all budget items under a certain category from the databse.
+	 * Returns all budget items under a certain category from the database.
 	 */
 	public List<BudgetItem> getBudgetItems(Category parent) {
 
@@ -822,18 +818,18 @@ public class DataAccessor {
 	}
 	
 	/**
-	 * Removes all entires in the transaction table
+	 * Removes all entries in the transaction table
 	 */
-	public void clearTransactions() {
-		db.execSQL("DROP TABLE ?",new String[]{DatabaseOpenHelper.TRANSACTIONS_TABLE});
+	public void removeAllTransactions() {
+		db.execSQL("DROP TABLE "+DatabaseOpenHelper.TRANSACTIONS_TABLE);
 		db.execSQL(DatabaseOpenHelper.TRANSACTIONS_TABLE_INIT);
 	}
 	
 	/**
-	 * Removes all entires in the budgetitems table
+	 * Removes all entries in the budgetitems table
 	 */
-	public void clearBudgetItems() {
-		db.execSQL("DROP TABLE ?",new String[]{DatabaseOpenHelper.BUDGETITEMS_TABLE});
+	public void removeAllBudgetItems() {
+		db.execSQL("DROP TABLE "+DatabaseOpenHelper.BUDGETITEMS_TABLE);
 		db.execSQL(DatabaseOpenHelper.BUDGETITEMS_TABLE_INIT);
 	}
 
