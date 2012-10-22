@@ -33,14 +33,14 @@ import android.content.Context;
  *
  */
 public class HomeScreenModel { 
-	private Account account;	
-	private double balance;
+	private Account account;
 	private double percentage;
+	private double leftInMonth;
 	
 	public HomeScreenModel(Context context) {
 		this.account = Account.getInstance(context);
-		this.balance = this.account.getBalance();
 		this.percentage = 0.0;
+		this.leftInMonth = 0.0;
 	}
 	public double getBalance(){
 		return this.account.getBalance();
@@ -49,8 +49,11 @@ public class HomeScreenModel {
 		return this.account;
 	}
 	public double getPercentage(){
-		this.calculatePercentage();
 		return this.percentage;
+	}
+	
+	public double getLeftInMonth(){
+		return this.leftInMonth;
 	}
 	
 	/**
@@ -64,8 +67,14 @@ public class HomeScreenModel {
 		c.set(Calendar.DAY_OF_MONTH, 0);
 		Date from = c.getTime();
 		//Make sure to calculate with double's . 
-		this.percentage = 1.0-(this.account.getTransactionsSum(from,to,Constants.EXPENSE_ID)
-				/ this.account.getBudgetItemsSum(Constants.EXPENSE_ID));
+		
+		double budgetItemsSum = this.account.getBudgetItemsSum(Constants.EXPENSE_ID);
+		double transactionsSum = this.account.getTransactionsSum(from,to,Constants.EXPENSE_ID);
+		
+		this.leftInMonth = budgetItemsSum-transactionsSum;
+		this.percentage = 1.0-(transactionsSum
+				/ budgetItemsSum);
+
 	}
 	
 }

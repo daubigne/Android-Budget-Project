@@ -44,5 +44,7 @@
     <string name="chooseCategory">Choose Category</string>
     <string name="removeText">X</string>
     <string name="account_balance_over_time">Account balance over time</string>
+    <string name="your_account_balance">Current account balance</string>
+    <string name="left_to_spend_this_month">Left to spend this month</string>
 
 </resources>
