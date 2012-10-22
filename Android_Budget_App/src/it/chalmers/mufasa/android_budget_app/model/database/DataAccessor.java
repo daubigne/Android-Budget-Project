@@ -62,39 +62,6 @@ public class DataAccessor {
 		DESC, ASC
 	}
 
-	/*
-	 * public List<Account> getAccounts() {
-	 * 
-	 * List<Account> accountList = new ArrayList<Account>();
-	 * 
-	 * SQLiteDatabase db = new
-	 * DatabaseOpenHelper(context).getWritableDatabase(); String[] arr = { "id",
-	 * "name", "balance"}; Cursor cursor = db.query("accounts", arr, null, null,
-	 * null, null, null);
-	 * 
-	 * if (cursor.moveToFirst()) { accountList.add(new
-	 * Account(cursor.getInt(0),cursor.getString(1),cursor.getDouble(2)));
-	 * 
-	 * while(cursor.moveToNext()) { accountList.add(new
-	 * Account(cursor.getInt(0),cursor.getString(1),cursor.getDouble(2))); } }
-	 * 
-	 * return accountList;
-	 * 
-	 * }
-	 */
-
-	/*
-	 * public Account getAccount(int accountID) { SQLiteDatabase db = new
-	 * DatabaseOpenHelper(context) .getWritableDatabase(); String[] arr = {
-	 * "id", "name", "balance" }; Cursor cursor = db.query("accounts", arr,
-	 * "id == " + accountID, null, null, null, null);
-	 * 
-	 * if (cursor.moveToFirst()) { return new Account(cursor.getInt(0),
-	 * cursor.getString(1), cursor.getDouble(2)); } else { throw new
-	 * IllegalArgumentException("Account ID " + accountID + " does not exist");
-	 * } }
-	 */
-
 	/**
 	 * True if an Account exists in the database.
 	 */
@@ -703,16 +670,6 @@ public class DataAccessor {
 
 		return this.getCategory((int) id);
 
-		// if (parent.getId() == Constants.EXPENSE_ID || parent.getId() ==
-		// Constants.INCOME_ID){
-		// String parentId = String.valueOf(parent.getId());
-		//
-		// db.execSQL("INSERT INTO categories (name, parentId) VALUES ( " + "\""
-		// + name + "\"" + ", " + parentId + ")");
-		// } else {
-		// throw new IllegalArgumentException("Parent ID must be either " +
-		// "Constants.EXPENSE_ID or Constants.INCOME_ID");
-		// }
 
 	}
 

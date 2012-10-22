@@ -226,9 +226,6 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 					Category category = (Category)categoryButton.getTag();
 					Double value = Double.parseDouble(valueText.getText().toString());
 
-					// budgetItem.setCategory(category);
-					// budgetItem.setValue(value);
-
 					// rfnoneed
 					budgetItemList.add(new BudgetItem(budgetItem.getId(), category, value));
 				}
@@ -259,7 +256,6 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 			} else {
 				this.chooseCategoryFragment = new ChooseCategoryFragment(this, category.getId());
 			}
-			//((HostActivity)getActivity()).changeFragment(chooseCategoryFragment);
 			FragmentManager fm = ((HostActivity)getActivity()).getFragmentManager();
 
 			chooseCategoryFragment.show(fm, "");
@@ -328,9 +324,6 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 	}
 
 	public void chooseCategoryCategoryChosen(Category newCategory) {
-		// TODO Choose category
-		//controller.setCategoryOnBudgetItem(budgetItemToUpdate, newCategory);
-		//hostActivity.changeFragment(this);
 		this.editButtonCategory(buttonToUpdate, newCategory);
 		chooseCategoryFragment.dismiss();
 	}

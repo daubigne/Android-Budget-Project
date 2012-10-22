@@ -38,14 +38,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper{
 
 		this.insertDefaultValues(db);
 		
-		/*
-		//Do not insert default values if just testing...
-		String[] list = db.getPath().split("/");
-		if(list[list.length-1].substring(0, 5).equals("_test")) {
-			return;
-		}
-		*/
-		//this.insertDefaultBudget(db);
+
 	}
 	
 	private void insertDefaultValues(SQLiteDatabase db) {

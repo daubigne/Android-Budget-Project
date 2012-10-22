@@ -91,17 +91,6 @@ public class GraphViewModel {
 		return accountBalances;
 	}
 	
-	public Double getActualSpendingsInCategoryOverPeriod(Category category, Date from, Date to) {
-		Double result;
-		
-//TODO		
-//		for(Transaction transaction : account.getTransactions(from, to, category)) {
-//			result += transaction.getAmount();
-//		}
-		
-		return 2000.0;
-	}
-
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
