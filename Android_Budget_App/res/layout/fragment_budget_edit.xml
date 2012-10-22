@@ -30,43 +30,59 @@
 
     <RelativeLayout
         android:id="@+id/budgetItemEditBar"
+        style="@style/editButtonLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="45dp" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/your_budget"
+            android:textSize="18dp"
+            android:textColor="#ffffff" />
 
         <Button
             android:id="@+id/budgetItemEditBarEditButton"
             style="@style/editButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="38dp"
+            android:padding="0dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:text="@string/edit" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/budgetItemEditDoneBar"
+        style="@style/editButtonLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:visibility="gone" >
 
         <Button
             android:id="@+id/budgetItemEditBarEditDoneButton"
             style="@style/editButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="38dp"
+            android:padding="0dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:text="@string/done" />
+        
+                <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/your_budget"
+            android:textSize="18dp"
+            android:textColor="#ffffff" />
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:text="@string/your_budget"
-        android:textSize="24dp"
-        android:gravity="center" />
 
     <ScrollView
         android:id="@+id/scrollView1"

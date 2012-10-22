@@ -7,10 +7,21 @@
     <style name="tabButtonLayout" parent="android:style/Holo.Light.ButtonBar" />
     <style name="tabButton" parent="android:style/Widget.Holo.Light.Button.Borderless.Small" />
     
-    <style name="editButton" parent="android:style/Widget.Holo.Light.Button.Small" />
+    <style name="editButtonLayout" >
+        <item name="android:background">#111111</item>
+    </style>
+    
+    <style name="editButton" parent="android:style/Widget.Holo.Button.Small"/>
     <style name="backButton" parent="android:style/Widget.Holo.Light.Button.Small" />
     <style name="addButton" parent="android:style/Widget.Holo.Light.Button.Small" />
-    <style name="chooseCategoryButton" parent="android:style/Widget.Holo.Light.Button.Small" />
+    <style name="chooseCategoryButton" parent="android:style/Widget.Holo.Light.Button.Small">
+        
+    </style>
+    <style name="deleteActionButton">
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:background">@drawable/ic_content_remove</item>
+    </style>
     
     
 </resources>

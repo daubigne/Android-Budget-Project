@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
     <Button
         android:id="@+id/budgetItemEditRowEditCategoryButton"
+        style="@style/chooseCategoryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".60" />
@@ -21,8 +22,9 @@
         android:layout_weight=".30" >
     </EditText>
     
-    <Button
+    <ImageButton
         android:id="@+id/budgetItemEditRowEditRemoveButton"
+        style="@style/deleteActionButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".10" />
