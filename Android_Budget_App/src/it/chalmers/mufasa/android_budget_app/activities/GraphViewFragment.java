@@ -3,6 +3,7 @@ package it.chalmers.mufasa.android_budget_app.activities;
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.GraphViewController;
 import it.chalmers.mufasa.android_budget_app.model.GraphViewModel;
+import it.chalmers.mufasa.android_budget_app.utilities.GraphViewAdapter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -34,8 +35,6 @@ public class GraphViewFragment extends Fragment implements PropertyChangeListene
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		this.inflater = inflater;
-		
 		this.model = new GraphViewModel(inflater.getContext());
 		this.controller = new GraphViewController(model);
 		
@@ -43,17 +42,13 @@ public class GraphViewFragment extends Fragment implements PropertyChangeListene
 
 		this.viewFlow = (ViewFlow) view.findViewById(R.id.viewflow);
 		GraphViewAdapter adapter = new GraphViewAdapter(inflater.getContext(),this.model);
-		viewFlow.setAdapter(adapter);
+		viewFlow.setAdapter(adapter,adapter.getCount());
 
 		TitleFlowIndicator indicator = (TitleFlowIndicator) view
 				.findViewById(R.id.viewflowindic);
 		indicator.setTitleProvider(adapter);
 
 		viewFlow.setFlowIndicator(indicator);
-		
-//		layout.addView(graphView);
-		
-//		this.view = layout;
 		
 		return this.view;
 	}

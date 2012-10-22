@@ -6,6 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -38,7 +39,15 @@ public class GraphViewModel {
 		calendar.add(Calendar.MONTH, 1);		
 		Date to = calendar.getTime();
 		
-		return getAccountBalanceForEachDay(from, to);
+		List<Double> result = getAccountBalanceForEachDay(from, to);
+
+		Collections.reverse(result);
+		
+		while(result.size() < calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+			result.add(result.get(result.size()-1));
+		}
+		
+		return result;
 	}
 
 	/**

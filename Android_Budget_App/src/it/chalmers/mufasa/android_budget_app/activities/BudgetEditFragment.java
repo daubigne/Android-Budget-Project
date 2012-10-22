@@ -39,6 +39,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -160,7 +161,7 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 
 				valueTextEdit.setText(String.valueOf(bi.getValue()));
 
-				Button removeButton = (Button) v.findViewById(R.id.budgetItemEditRowEditRemoveButton);
+				ImageButton removeButton = (ImageButton) v.findViewById(R.id.budgetItemEditRowEditRemoveButton);
 				removeButton.setTag(bi);
 				
 				removeButton.setOnClickListener(new OnClickListener() {

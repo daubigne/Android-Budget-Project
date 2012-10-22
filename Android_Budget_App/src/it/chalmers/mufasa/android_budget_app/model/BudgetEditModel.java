@@ -20,6 +20,7 @@ package it.chalmers.mufasa.android_budget_app.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.Context;
@@ -45,7 +46,8 @@ public class BudgetEditModel {
 	public BudgetEditModel(Context context) {
 		this.pcs = new PropertyChangeSupport(this);
 		this.account = Account.getInstance(context);
-		this.currentMainCategory = account.getCategory(1);
+		this.currentMainCategory = account.getCategory(1);		
+		
 	}
 	
 	public List<BudgetItem> getBudgetItems() {

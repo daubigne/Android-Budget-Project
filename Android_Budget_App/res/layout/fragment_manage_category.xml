@@ -5,11 +5,13 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        style="@style/tabButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/manageCategoryButtonIncome"
+            style="@style/tabButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.88"
@@ -17,10 +19,11 @@
 
         <Button
             android:id="@+id/manageCategoryButtonExpense"
+            style="@style/tabButton"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="Expense"/>
+            android:text="Expense" />
 
     </LinearLayout>
 
@@ -30,6 +33,7 @@
 
         <Button
             android:id="@+id/backToOptions"
+            style="@style/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -38,6 +42,7 @@
 
         <Button
             android:id="@+id/manageCategoryButtonEditSave"
+            style="@style/editButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
