@@ -207,7 +207,10 @@ public final class Account {
 		dataAccessor.removeBudgetItem(budgetItem);
 		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
-
+	
+	/**
+	 * Removes all budget items
+	 */
 	public void removeBudget() {
 		dataAccessor.removeAllBudgetItems();
 	}
