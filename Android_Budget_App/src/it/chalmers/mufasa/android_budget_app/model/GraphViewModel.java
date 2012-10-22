@@ -36,16 +36,11 @@ public class GraphViewModel {
 	Account account;
 	List<BudgetItem> budgetItems;
 
-	PropertyChangeSupport pcs;
-
-	Category currentMainCategory;
-
-	boolean editMode = false;
+	private PropertyChangeSupport pcs;
 
 	public GraphViewModel(Context context) {
 		this.pcs = new PropertyChangeSupport(this);
 		this.account = Account.getInstance(context);
-		this.currentMainCategory = account.getCategory(1);
 	}
 	
 	public List<Double> getAccountBalanceListForGraph(int number) {
