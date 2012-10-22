@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -40,7 +41,6 @@ public class HomescreenFragment extends Fragment {
 	private View view;
 	private TextView tv;
 	private TextView tv2;
-	private ProgressBar progressBar;
 	private HomeScreenModel model;
 	private HomeScreenController controller;
 	
@@ -51,18 +51,30 @@ public class HomescreenFragment extends Fragment {
 		this.controller = new HomeScreenController(this.model);
 
 
-		this.view = inflater.inflate(R.layout.fragment_homescreen, container,
+		this.view = inflater.inflate(R.layout.fragment_homescreen, null,
 				false);
 		//Create text fields and a progressbar to hold a balance and a comparison between the users' transactions and budgets.
 		tv = (TextView) view.findViewById(R.id.Balancefield);
 		tv2 = (TextView) view.findViewById(R.id.progressFeedback);
-		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+		TextView progressBarTextView = (TextView) view.findViewById(R.id.progressBarTextView);
+		TextView progressBarTextViewRest = (TextView) view.findViewById(R.id.progressBarTextViewRest);
 		//compares the user's transaction sum to the budget's total sum 
 		//and calculate how much % of the budget that the user has spent
-		controller.calculatePercentage(); 
+		model.calculatePercentage();
 		//Fill these components with information
 		tv.setText(model.getBalance() + "kr");
-		progressBar.setProgress((int)model.getPercentage());
+		double percentage = model.getPercentage();
+		System.out.println(percentage);
+		
+		LayoutParams layoutParams = new LayoutParams(0,LayoutParams.MATCH_PARENT);
+		layoutParams.weight = (float)percentage;
+		
+		progressBarTextView.setLayoutParams(layoutParams);
+		
+		layoutParams = new LayoutParams(0,LayoutParams.MATCH_PARENT);
+		layoutParams.weight = (float)(1.0-percentage);
+		
+		progressBarTextViewRest.setLayoutParams(layoutParams);
 		tv2.setText("Remaining % of your budget");
 		
 		return view;

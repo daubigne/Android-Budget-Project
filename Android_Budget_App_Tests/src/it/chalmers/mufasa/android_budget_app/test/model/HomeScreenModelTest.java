@@ -32,7 +32,7 @@ public class HomeScreenModelTest extends AndroidTestCase {
 		
 	}
 
-	private void testGetPercentage() {
+	public void testGetPercentage() {
 		if(model.getPercentage() != 0.0){
 			fail("Failed to recieve the percentage");
 		}

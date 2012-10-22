@@ -43,12 +43,13 @@ public class HomeScreenModel {
 		this.percentage = 0.0;
 	}
 	public double getBalance(){
-		return this.balance;
+		return this.account.getBalance();
 	}
 	public Account getAccount(){
 		return this.account;
 	}
 	public double getPercentage(){
+		this.calculatePercentage();
 		return this.percentage;
 	}
 	
@@ -62,9 +63,9 @@ public class HomeScreenModel {
 		Date to = c.getTime();
 		c.set(Calendar.DAY_OF_MONTH, 0);
 		Date from = c.getTime();
-		//Make sure to calculate with double's . Multiplies with 100 to get the percentage value.
-		this.percentage = (this.account.getTransactionsSum(from,to,Constants.EXPENSE_ID)
-				/ this.account.getBudgetItemsSum(Constants.EXPENSE_ID)) *100.0;
+		//Make sure to calculate with double's . 
+		this.percentage = 1.0-(this.account.getTransactionsSum(from,to,Constants.EXPENSE_ID)
+				/ this.account.getBudgetItemsSum(Constants.EXPENSE_ID));
 	}
 	
 }
