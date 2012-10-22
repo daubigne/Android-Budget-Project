@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">StudentBudget</string>
+    <string name="app_name">Cashin</string>
     <string name="balance">Account Balance</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">StudentBudgetApp</string>
@@ -10,7 +10,7 @@
     <string name="title_activity_manage_category">ManageCategoryActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_temporaryactivity">Temporaryactivity</string>
-    <string name="title_activity_home_screen_host">HomeScreenHostActivity</string>
+    <string name="title_activity_home_screen_host">Cashin</string>
     <string name="switchsucceded">SwitchSucceded</string>
     <string name="title_activity_budget_edit">BudgetEditActivity</string>
     <string name="category">Category</string>
@@ -33,6 +33,7 @@
     <string name="amount">Amount</string>
     <string name="add">Add</string>
     <string name="addTransaction">Add New Transaction</string>
+    <string name="plus">+</string>
     <string name="addDate">Add Date</string>
     <string name="medium_text">medium_text</string>
     <string name="manage_categories">manage_Categories</string>
@@ -41,5 +42,6 @@
     <string name="Save_balance">save_balance</string>
     <string name="chooseCategory">Choose Category</string>
     <string name="removeText">X</string>
-    
+    <string name="account_balance_over_time">Account balance over time</string>
+
 </resources>

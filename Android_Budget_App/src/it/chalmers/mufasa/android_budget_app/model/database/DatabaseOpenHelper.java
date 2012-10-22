@@ -23,38 +23,52 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseOpenHelper extends SQLiteOpenHelper{
+	
+	/** Database table initialization code */
+	public static final String SETTINGS_TABLE = "settings";
+	public static final String SETTINGS_TABLE_INIT = "CREATE TABLE settings ( currentAccountId INTEGER);";
+
+	public static final String ACCOUNTS_TABLE = "accounts";
+	public static final String ACCOUNTS_TABLE_INIT = "CREATE TABLE accounts ( id INTEGER PRIMARY KEY, name TEXT, balance FLOAT NOT NULL);";
+	  
+	public static final String TRANSACTIONS_TABLE = "transactions";
+	public static final String TRANSACTIONS_TABLE_INIT = "CREATE TABLE transactions ( id INTEGER PRIMARY KEY, name TEXT, value FLOAT NOT NULL, date DATE NOT NULL, accountId INTEGER, categoryId INTEGER);";
+	
+	public static final String CATEGORIES_TABLE = "categories";
+	public static final String CATEGORIES_TABLE_INIT = "CREATE TABLE categories ( id INTEGER PRIMARY KEY, name TEXT, parentId INTEGER);";
+	
+	public static final String BUDGETITEMS_TABLE = "budgetitems";
+	public static final String BUDGETITEMS_TABLE_INIT = "CREATE TABLE budgetitems ( id INTEGER PRIMARY KEY, categoryId INTEGER, value FLOAT NOT NULL);";
+	
 
 	public DatabaseOpenHelper(Context context) {
-		super(context, "StudentBudget", null, 1);
+		super(context, "Cashin", null, 1);
 	}
 
+	/** 
+	 * Initializes default database tables
+	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE settings ( currentAccountId INTEGER);");
-		db.execSQL("CREATE TABLE accounts ( id INTEGER PRIMARY KEY, name TEXT, balance FLOAT NOT NULL);");
-		db.execSQL("CREATE TABLE transactions ( id INTEGER PRIMARY KEY, name TEXT, value FLOAT NOT NULL, date DATETIME NOT NULL, accountId INTEGER, categoryId INTEGER);");
-		db.execSQL("CREATE TABLE categories ( id INTEGER PRIMARY KEY, name TEXT, parentId INTEGER);");
-		db.execSQL("CREATE TABLE budgetitems ( id INTEGER PRIMARY KEY, categoryId INTEGER, value FLOAT NOT NULL);");
+		db.execSQL(SETTINGS_TABLE_INIT);
+		db.execSQL(ACCOUNTS_TABLE_INIT);
+		db.execSQL(TRANSACTIONS_TABLE_INIT);
+		db.execSQL(CATEGORIES_TABLE_INIT);
+		db.execSQL(BUDGETITEMS_TABLE_INIT);
 
 		this.insertDefaultValues(db);
-		
-		/*
-		//Do not insert default values if just testing...
-		String[] list = db.getPath().split("/");
-		if(list[list.length-1].substring(0, 5).equals("_test")) {
-			return;
-		}
-		*/
-		//this.insertDefaultBudget(db);
 	}
 	
+	/** 
+	 * Inserts default account and settings. Also adding a default budget.
+	 */
 	private void insertDefaultValues(SQLiteDatabase db) {
 		//Assumes this is an empty database
 		
 		db.execSQL("INSERT INTO accounts (id,name,balance) VALUES (1,\"My Account\",0)");
 		db.execSQL("INSERT INTO settings (currentAccountId) VALUES (1)");
 		
-		//Values from average student between 18-30 years in sweden. Data from konsumentverket.se
+		//Values from average student between 18-30 years in Sweden. Data from konsumentverket.se
 		db.execSQL("INSERT INTO categories (name) VALUES (\"Inkomster\")"); //id = 1
 		db.execSQL("INSERT INTO categories (name) VALUES (\"Utgifter\")"); //id = 2
 

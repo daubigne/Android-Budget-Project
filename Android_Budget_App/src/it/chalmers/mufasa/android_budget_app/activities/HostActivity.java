@@ -18,9 +18,10 @@
  */
 package it.chalmers.mufasa.android_budget_app.activities;
 
+import it.chalmers.mufasa.android_budget_app.R;
+
 import java.util.Calendar;
 
-import it.chalmers.mufasa.android_budget_app.R;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -33,6 +34,8 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.view.Menu;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -50,43 +53,40 @@ public class HostActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_host);
 
 		// create an action bar for navigation
 		theBar = getActionBar();
 		theBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		theBar.setDisplayShowHomeEnabled(false);
 		theBar.setDisplayShowTitleEnabled(false);
-
-		// Create tabs for the action bar
-		// TODO : Replace the empty constructor with fragments that are going to
-		// fill the app,
-		// upon completion;remove the empty constructor
+		
 
 		Tab tab1 = theBar
 				.newTab()
-				.setText("Home")
+				.setIcon(R.drawable.ic_tab_home)
 				.setTabListener(
-						new HostTabListener((new HomescreenFragment())));
+						new HostTabListener(new HomescreenFragment()));
 		Tab tab2 = theBar
 				.newTab()
-				.setText("Transactions")
+				.setIcon(R.drawable.ic_tab_transactions)
 				.setTabListener(
 						new HostTabListener(new TransactionListFragment()));
 		Tab tab3 = theBar
 				.newTab()
-				.setText("Budget")
+				.setIcon(R.drawable.ic_tab_budget)
 				.setTabListener(
 						new HostTabListener(new BudgetEditFragment()));
-		Tab tab4 = theBar.newTab().setText("Graphs")
+		Tab tab4 = theBar
+				.newTab()
+				.setIcon(R.drawable.ic_tab_graphs)
 				.setTabListener(new HostTabListener(new GraphViewFragment()));
 		Tab tab5 = theBar
 				.newTab()
-				.setText("Options")
+				.setIcon(R.drawable.ic_tab_options)
 				.setTabListener(
 						new HostTabListener(new OptionsFragment()));
-
-
-
 
 		// add the tabs to the action bar
 		theBar.addTab(tab1);
@@ -94,7 +94,8 @@ public class HostActivity extends Activity {
 		theBar.addTab(tab3);
 		theBar.addTab(tab4);
 		theBar.addTab(tab5);
-		//theBar.addTab(tab6);
+
+
 	}
 	
 	/**

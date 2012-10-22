@@ -1,3 +1,21 @@
+ /*
+  * Copyright © 2012 Mufasa developer unit
+  *
+  * This file is part of Mufasa Budget.
+  *
+  *	Mufasa Budget is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * Mufasa Budget is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+  */
 package it.chalmers.mufasa.android_budget_app.activities;
 
 import java.beans.PropertyChangeEvent;
@@ -202,25 +220,24 @@ public class ManageCategoryFragment extends Fragment implements
 	 */
 	public void toggleEditSave() {
 		if (model.isEditMode()) {
-			
-			System.out.println("entering toggleEditSave");
+
 			
 			LinearLayout editCategoryLayout = (LinearLayout) this.view
 					.findViewById(R.id.manageCategoryListLayout);
 			
 			for (int i = 0; i < editCategoryLayout.getChildCount(); i++) {
 				
-				System.out.println("entering for loop: " + editCategoryLayout.getChildCount());
 				
 				if (editCategoryLayout.getChildAt(i) instanceof LinearLayout) {
 					
 					LinearLayout editCategoryRowLayout = (LinearLayout) editCategoryLayout.getChildAt(i);
-					System.out.println(editCategoryRowLayout.getChildCount());
+					
 					EditText editText = (EditText)editCategoryRowLayout.findViewById(R.id.manageCategoryCategoryEditText);
 					
 					if (editCategoryRowLayout.getTag() instanceof Category) {
 					Category category = (Category) editCategoryRowLayout.getTag();
-					this.editCategory(category, editText.getText().toString());
+					this.removeCategory(category);
+					this.addCategory(editText.getText().toString());
 					}
 					
 					

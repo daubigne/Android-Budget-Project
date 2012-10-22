@@ -20,6 +20,13 @@ package it.chalmers.mufasa.android_budget_app.controller;
 
 import it.chalmers.mufasa.android_budget_app.model.OptionsModel;
 
+/**
+ * 
+ * @author daubigne
+ * 
+ * A class that handles calls from OptionsFragment to OptionsModel
+ *
+ */
 public class OptionsController {
 	private OptionsModel model;
 	

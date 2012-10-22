@@ -29,7 +29,7 @@ import android.content.Context;
  * 
  * @author daubigne
  * 
- * A class that represent the homescreen's functions.
+ * A class that represent the homescreen's state and the appropriate calls to the account.
  *
  */
 public class HomeScreenModel { 

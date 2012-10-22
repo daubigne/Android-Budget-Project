@@ -3,27 +3,6 @@
     android:id="@+id/AbsoluteLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/balance"
-        tools:context=".MainActivity" />
-    
-    <EditText
-        android:id="@+id/accountBalanceField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="saveBalance"
-        android:text="@string/save" /> 
+    android:orientation="vertical" > 
 
 </LinearLayout>

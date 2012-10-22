@@ -40,7 +40,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
- * Data Accessor Object to fetch and save data from database. This is the only
+ * Data Acessor Object to fetch and save data from database. This is the only
  * place where classes Account,BudgetItem,Category,Transaction should be fetched
  * and saved from.
  */
@@ -62,7 +62,10 @@ public class DataAccessor {
 		DESC, ASC
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 	/**
 	 * True if an Account exists in the database.
 	 */
@@ -263,7 +266,8 @@ public class DataAccessor {
 	 */
 	public void addTransaction(Double amount, Date date, String name,
 			Category category) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 		db.execSQL("INSERT INTO transactions (accountId, name, date, value, categoryId ) VALUES ( "
 				+ Constants.ACCOUNT_ID
@@ -654,7 +658,6 @@ public class DataAccessor {
 	/**
 	 * Adds a category to the database.
 	 */
-
 	public Category addCategory(String name, Category parent) {
 		String parentId = "null";
 
@@ -670,16 +673,6 @@ public class DataAccessor {
 
 		return this.getCategory((int) id);
 
-		// if (parent.getId() == Constants.EXPENSE_ID || parent.getId() ==
-		// Constants.INCOME_ID){
-		// String parentId = String.valueOf(parent.getId());
-		//
-		// db.execSQL("INSERT INTO categories (name, parentId) VALUES ( " + "\""
-		// + name + "\"" + ", " + parentId + ")");
-		// } else {
-		// throw new IllegalArgumentException("Parent ID must be either " +
-		// "Constants.EXPENSE_ID or Constants.INCOME_ID");
-		// }
 
 	}
 
@@ -800,6 +793,10 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Gets sum of all budget items in the given parent category. The return
+	 * value is normally positive. With no budgetitems found 0.0 is returned
+	 */
 	public double getBudgetItemsSum(Category parent) {
 
 		Cursor cursor;
@@ -822,6 +819,22 @@ public class DataAccessor {
 		}
 		cursor.close();
 		return 0.0;
+	}
+	
+	/**
+	 * Removes all entires in the transaction table
+	 */
+	public void clearTransactions() {
+		db.execSQL("DROP TABLE ?",new String[]{DatabaseOpenHelper.TRANSACTIONS_TABLE});
+		db.execSQL(DatabaseOpenHelper.TRANSACTIONS_TABLE_INIT);
+	}
+	
+	/**
+	 * Removes all entires in the budgetitems table
+	 */
+	public void clearBudgetItems() {
+		db.execSQL("DROP TABLE ?",new String[]{DatabaseOpenHelper.BUDGETITEMS_TABLE});
+		db.execSQL(DatabaseOpenHelper.BUDGETITEMS_TABLE_INIT);
 	}
 
 }

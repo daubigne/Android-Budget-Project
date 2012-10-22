@@ -2,22 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp" >
-
-    <Button
-        android:id="@+id/addTransactionButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/addTransaction" />
+    android:orientation="vertical" >
 
     <LinearLayout
+        style="@style/tabButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <Button
             android:id="@+id/transactionListIncomeSwitchButton"
+            style="@style/tabButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
@@ -25,6 +19,7 @@
 
         <Button
             android:id="@+id/transactionListExpensesSwitchButton"
+            style="@style/tabButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight=".50"
@@ -33,15 +28,39 @@
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        style="@style/editButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" >
+
+        <Button
+            android:id="@+id/addTransactionButton"
+            style="@style/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="0dp"
+            android:text="@string/plus" />
 
         <Button
             android:id="@+id/editTransactionButton"
+            style="@style/editButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="38dp"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="0dp"
             android:text="@string/edit" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/transactions"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
     </RelativeLayout>
 
     <ListView
