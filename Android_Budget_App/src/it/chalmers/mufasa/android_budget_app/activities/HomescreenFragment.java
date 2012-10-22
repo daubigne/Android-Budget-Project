@@ -19,19 +19,13 @@
 package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
-import it.chalmers.mufasa.android_budget_app.R.layout;
-import it.chalmers.mufasa.android_budget_app.R.menu;
 import it.chalmers.mufasa.android_budget_app.controller.HomeScreenController;
 import it.chalmers.mufasa.android_budget_app.model.HomeScreenModel;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -43,7 +37,6 @@ import android.widget.TextView;
  *
  */
 public class HomescreenFragment extends Fragment {
-	private LayoutInflater inflater;
 	private View view;
 	private TextView tv;
 	private TextView tv2;
@@ -55,7 +48,6 @@ public class HomescreenFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		this.model = new HomeScreenModel(this.getActivity());
-		this.inflater = inflater;
 		this.controller = new HomeScreenController(this.model);
 
 

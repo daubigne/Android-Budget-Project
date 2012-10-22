@@ -18,29 +18,24 @@
   */
 package it.chalmers.mufasa.android_budget_app.activities;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.TransactionController;
 import it.chalmers.mufasa.android_budget_app.interfaces.ChooseCategoryInterface;
 import it.chalmers.mufasa.android_budget_app.interfaces.DateDialogFragmentListener;
-import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -53,9 +48,7 @@ import android.widget.TextView;
 public class AddTransactionFragment extends Fragment implements
 		DateDialogFragmentListener, ChooseCategoryInterface {
 
-	private LayoutInflater inflater;
 	private View view;
-	private Account account;
 	private TransactionController controller;
 	private Category choosenCategory;
 
@@ -82,13 +75,10 @@ public class AddTransactionFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		this.inflater = inflater;
 		this.view = inflater.inflate(R.layout.fragment_add_transaction,
 				container, false);
 
 		calendar = Calendar.getInstance();
-
-		this.account = Account.getInstance(this.getActivity());
 		chooseCategoryButton = (Button) view
 				.findViewById(R.id.chooseTransactionCategoryButton);
 		addTransactionButton = (Button) view

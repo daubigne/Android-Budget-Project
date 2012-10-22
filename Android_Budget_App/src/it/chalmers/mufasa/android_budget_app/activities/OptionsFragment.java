@@ -20,22 +20,15 @@ package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.OptionsController;
-import it.chalmers.mufasa.android_budget_app.model.Account;
-
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 public class OptionsFragment extends Fragment{
-	private Account account;
-	private LayoutInflater inflater;
 	private View view;
 	private OptionsController controller;
 
@@ -47,10 +40,8 @@ public class OptionsFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		this.inflater = inflater;
 		this.view = inflater.inflate(R.layout.fragment_options,
 				container, false);
-		this.inflater = inflater;
 		this.controller = new OptionsController(this.getActivity());
 		setupOnClickListeners();
 

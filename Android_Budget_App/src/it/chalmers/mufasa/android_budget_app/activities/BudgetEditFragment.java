@@ -54,7 +54,6 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 	private BudgetEditController controller;
 	private BudgetEditModel model;
 	private ChooseCategoryFragment chooseCategoryFragment;
-	private HostActivity hostActivity;
 	private boolean initialized = false;
 
 	private LayoutInflater inflater;
@@ -68,7 +67,6 @@ public class BudgetEditFragment extends Fragment implements PropertyChangeListen
 		if(!initialized) {
 			this.model = new BudgetEditModel(this.getActivity());
 			this.controller = new BudgetEditController(model);
-			this.hostActivity = ((HostActivity)getActivity());
 		}
 	}
 
