@@ -36,6 +36,10 @@ public class Category {
 		setId(id);
 		setParent(parent);
 	}
+	
+	public Category clone(){
+		return new Category(name, id, parent);
+	}
 
 	private void setName(String name) {
 		this.name = name;

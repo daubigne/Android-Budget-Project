@@ -100,7 +100,7 @@ public class Transaction {
 	 * Returns the date of the transaction.
 	 */
 	public Date getDate() {
-		Date temp = this.date;
+		Date temp = (Date)this.date.clone();
 		return temp;
 	}
 
@@ -108,7 +108,7 @@ public class Transaction {
 	 * Returns the category of the transaction.
 	 */
 	public Category getCategory() {
-		Category temp = this.category;
+		Category temp = this.category.clone();
 		return temp;
 	}
 	
