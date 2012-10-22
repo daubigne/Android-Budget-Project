@@ -39,8 +39,8 @@ import android.test.RenamingDelegatingContext;
 
 public class DatabaseTest extends AndroidTestCase {
 
-	DataAccessor dataAccessor;
-	RenamingDelegatingContext context;
+	private DataAccessor dataAccessor;
+	private RenamingDelegatingContext context;
 
 	protected void setUp() throws Exception {
 		super.setUp();
