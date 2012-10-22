@@ -21,7 +21,6 @@ package it.chalmers.mufasa.android_budget_app.utilities;
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.model.GraphViewModel;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
