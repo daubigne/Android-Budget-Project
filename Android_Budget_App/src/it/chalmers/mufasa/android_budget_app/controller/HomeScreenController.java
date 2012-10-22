@@ -32,7 +32,9 @@ public class HomeScreenController {
 	public HomeScreenController(HomeScreenModel model){
 		this.model = model;
 	}
-
+	public HomeScreenModel getModel(){
+		return this.model;
+	}
 	public void calculatePercentage() {
 		this.model.calculatePercentage();
 	}

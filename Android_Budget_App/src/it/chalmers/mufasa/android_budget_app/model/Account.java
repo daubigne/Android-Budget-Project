@@ -63,7 +63,7 @@ public final class Account {
 		// If the database has an account we retrieve the data from that
 		// account.
 		if (dataAccessor.accountExists()) {
-			this.id = dataAccessor.getAccountId();
+			this.id = Constants.ACCOUNT_ID;
 			this.name = dataAccessor.getAccountName(Constants.ACCOUNT_ID);
 			this.balance = dataAccessor.getAccountBalance();
 			// If it doesn't a new account is stored in the database.

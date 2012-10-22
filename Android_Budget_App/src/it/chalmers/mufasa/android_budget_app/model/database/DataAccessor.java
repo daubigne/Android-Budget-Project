@@ -126,6 +126,10 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Inner class to represent a day of the year 
+	 * and the account balance that day
+	 */
 	public class AccountDay {
 
 		Date day;
@@ -147,16 +151,19 @@ public class DataAccessor {
 		@Override
 		public String toString() {
 
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 			return "AccountDay: day=" + dateFormat.format(day) + " value="
 					+ this.value;
 		}
 	}
 
+	/**
+	 * Returns list with "AccountDay" classes for each day between from and to
+	 */
 	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = new GregorianCalendar();
 		Date to = cal.getTime();
 
@@ -235,25 +242,6 @@ public class DataAccessor {
 		} else {
 
 			throw new IllegalArgumentException("Could not access account name");
-		}
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public int getAccountId() {
-		String[] arr = { "id", "name", "balance" };
-		Cursor cursor = db.query("accounts", arr, "id == "
-				+ Constants.ACCOUNT_ID, null, null, null, null);
-
-		if (cursor.moveToFirst()) {
-			int id = cursor.getInt(0);
-			cursor.close();
-			return id;
-		} else {
-			cursor.close();
-			throw new IllegalArgumentException("Could not access account ID");
 		}
 	}
 
@@ -669,7 +657,6 @@ public class DataAccessor {
 
 		return this.getCategory((int) id);
 
-
 	}
 
 	/**
@@ -816,7 +803,7 @@ public class DataAccessor {
 		cursor.close();
 		return 0.0;
 	}
-	
+
 	/**
 	 * Removes all entries in the transaction table
 	 */
@@ -824,7 +811,7 @@ public class DataAccessor {
 		db.execSQL("DROP TABLE "+DatabaseOpenHelper.TRANSACTIONS_TABLE);
 		db.execSQL(DatabaseOpenHelper.TRANSACTIONS_TABLE_INIT);
 	}
-	
+
 	/**
 	 * Removes all entries in the budgetitems table
 	 */

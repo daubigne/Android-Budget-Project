@@ -18,31 +18,32 @@
  */
 package it.chalmers.mufasa.android_budget_app.controller;
 
-import it.chalmers.mufasa.android_budget_app.model.OptionsModel;
+import it.chalmers.mufasa.android_budget_app.model.Account;
+import android.content.Context;
 
 /**
  * 
  * @author daubigne
  * 
- * A class that handles calls from OptionsFragment to OptionsModel
+ * A class that work calls between account and OptionsFragment.
  *
  */
 public class OptionsController {
-	private OptionsModel model;
+	private Account account;
 	
-	public OptionsController(OptionsModel model){
-		this.model = model;
+	public OptionsController(Context context){
+		this.account = Account.getInstance(context);
 	}
-
+	
 	public void clearTransactions() {
-		this.model.clearTransactions();	
+		this.account.removeAllTransactions();	
 	}
 	
 	public void clearBudget(){
-		this.model.clearBudget();
+		this.account.removeBudget();
 	}
 	public void addBalance(double balance){
-		this.model.addBalance(balance);
+		this.account.setBalance(balance);
 	}
 
 }

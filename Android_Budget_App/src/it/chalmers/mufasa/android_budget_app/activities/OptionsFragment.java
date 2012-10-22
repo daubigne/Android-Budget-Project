@@ -21,7 +21,7 @@ package it.chalmers.mufasa.android_budget_app.activities;
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.OptionsController;
 import it.chalmers.mufasa.android_budget_app.model.Account;
-import it.chalmers.mufasa.android_budget_app.model.OptionsModel;
+
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -38,7 +38,7 @@ public class OptionsFragment extends Fragment{
 	private LayoutInflater inflater;
 	private View view;
 	private OptionsController controller;
-	private OptionsModel model;
+
 	private Button addBalanceButton;
 	private Button clearTransactionButton;
 	private Button clearBudgetButton;
@@ -50,9 +50,8 @@ public class OptionsFragment extends Fragment{
 		this.inflater = inflater;
 		this.view = inflater.inflate(R.layout.fragment_options,
 				container, false);
-		this.model = new OptionsModel(this.getActivity());
 		this.inflater = inflater;
-		this.controller = new OptionsController(this.model);
+		this.controller = new OptionsController(this.getActivity());
 		setupOnClickListeners();
 
 		return view;
