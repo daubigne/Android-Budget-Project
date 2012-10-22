@@ -24,12 +24,22 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:text="Expense" />
-
     </LinearLayout>
 
     <RelativeLayout
+        style="@style/editButtonLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/categories"
+            android:textColor="#ffffff"
+            android:textSize="18dp" />
 
         <Button
             android:id="@+id/backToOptions"
@@ -48,7 +58,6 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="Edit" />
-
     </RelativeLayout>
 
     <ScrollView
