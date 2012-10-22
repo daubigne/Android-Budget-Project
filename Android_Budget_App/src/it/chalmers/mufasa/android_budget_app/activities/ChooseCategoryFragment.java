@@ -34,13 +34,10 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 
 public class ChooseCategoryFragment extends DialogFragment implements
 		DialogInterface.OnClickListener {
@@ -57,7 +54,6 @@ public class ChooseCategoryFragment extends DialogFragment implements
 	public ChooseCategoryFragment(ChooseCategoryInterface cci, int id) {
 		parentCategoryId = id;
 		chooseCategoryListener = cci;
-
 		list = new ArrayList<String>();
 		this.account = Account.getInstance(getActivity());
 	}
