@@ -3,6 +3,7 @@ package it.chalmers.mufasa.android_budget_app.utilities;
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.model.GraphViewModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -45,23 +46,16 @@ public class GraphViewAdapter extends BaseAdapter implements TitleProvider {
 			View view = inflater.inflate(R.layout.graph_list, null);
 			ListView listView = (ListView) view.findViewById(R.id.graphListView);
 			
-			listView.setAdapter(new GraphListAdapter(inflater.getContext(), model.getAccountBalanceListForGraph(position)));
+			listView.setAdapter(new GraphListAdapter(inflater.getContext(), model.getAccountBalanceListForGraph(12-position-1)));
 			
 			convertView = view;
-			
-//			View view = inflater.inflate(R.layout.graph_scroll_list, null);
-//			LinearLayout layout = (LinearLayout) view.findViewById(R.id.graphList);
-//			layout.addView((new AccountBalanceGraphViewFragment()).onCreateView(inflater, parent, null));
-//			layout.addView((new AccountBalanceGraphViewFragment()).onCreateView(inflater, parent, null));
-//			layout.addView((new AccountBalanceGraphViewFragment()).onCreateView(inflater, parent, null));
-//			convertView = view;
 		}
 		return convertView;
 	}
 
 	public String getTitle(int position) {
 		Calendar calendar = new GregorianCalendar();
-		calendar.add(Calendar.MONTH, -position);
+		calendar.add(Calendar.MONTH, -12+position+1);
 		
 		return calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + " " + calendar.get(Calendar.YEAR);
 	}

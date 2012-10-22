@@ -18,12 +18,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dip"
             app:clipPadding="5dp"
-            app:footerColor="#FFFFC445"
+            app:footerColor="#111111"
             app:footerLineHeight="2dp"
             app:footerTriangleHeight="10dp"
-            app:selectedColor="#FFFFC445"
+            app:selectedColor="#111111"
             app:selectedSize="12dp"
-            app:textColor="#FFFFFFFF"
+            app:textColor="#999999"
             app:textSize="11dp"
             app:titlePadding="10dp" />
     </LinearLayout>
@@ -32,7 +32,8 @@
         android:id="@+id/viewflow"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:duplicateParentState="true" >
+        android:duplicateParentState="true"
+        android:background="#111111" >
     </org.taptwo.android.widget.ViewFlow>
 
 </LinearLayout>
