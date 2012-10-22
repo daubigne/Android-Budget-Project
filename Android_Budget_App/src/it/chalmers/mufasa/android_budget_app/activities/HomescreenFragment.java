@@ -74,17 +74,4 @@ public class HomescreenFragment extends Fragment {
 		return view;
 	}
 	
-	//TODO
-	private void setupOnClickListeners(){
-		Button incomeButton = (Button) view
-				.findViewById(R.id.homeScreenAddTransactionButton);
-		
-		incomeButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-
-			}
-		});
-	}
-
-	//TODO: Method for swapping the percentage for something else, so that user can customize his or her homescreen.
 }
