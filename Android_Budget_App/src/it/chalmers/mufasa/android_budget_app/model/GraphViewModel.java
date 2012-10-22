@@ -33,9 +33,7 @@ import android.content.Context;
 
 public class GraphViewModel {
 
-	Account account;
-	List<BudgetItem> budgetItems;
-
+	private Account account;
 	private PropertyChangeSupport pcs;
 
 	public GraphViewModel(Context context) {
