@@ -119,6 +119,9 @@ public class Transaction {
 		return id;
 	}
 	
+	/**
+	 * Returns a string representation of the transaction object.
+	 */
 	@Override
 	public String toString() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -164,29 +167,28 @@ public class Transaction {
 		}
 		Transaction other = (Transaction) obj;
 		if (Double.doubleToLongBits(amount) != Double
-				.doubleToLongBits(other.amount)) {
+				.doubleToLongBits(other.getAmount())) {
+
 			return false;
 		}
-		if (category.equals(other.category)) {
-			return false;
-		} else if (!(category.equals(other.category))) {
+		if (!(category.equals(other.getCategory()))) {
 			return false;
 		}
 		if (date == null) {
-			if (other.date != null) {
+			if (other.getDate() != null) {
 				return false;
 			}
-		} else if (!date.equals(other.date)) {
+		} else if (!date.equals(other.getDate())) {
 			return false;
 		}
-		if (id != other.id) {
+		if (id != other.getId()) {
 			return false;
 		}
 		if (name == null) {
-			if (other.name != null) {
+			if (other.getName() != null) {
 				return false;
 			}
-		} else if (!name.equals(other.name)) {
+		} else if (!name.equals(other.getName())) {
 			return false;
 		}
 		return true;

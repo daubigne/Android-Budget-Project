@@ -25,11 +25,12 @@ import it.chalmers.mufasa.android_budget_app.controller.TransactionController;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
-import it.chalmers.mufasa.android_budget_app.model.TransactionListModel;
+import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
 /**
+ * Runs tests for TransactionController
  * @author Slurpo
  * 
  */
@@ -39,6 +40,9 @@ public class TransactionControllerTest extends AndroidTestCase {
 		super.setUp();
 	}
 
+	/**
+	 * Tests the addTransaction and the getTransactions methods.
+	 */
 	public void testAddTransactions() {
 		
 		RenamingDelegatingContext context = new RenamingDelegatingContext(
@@ -62,6 +66,9 @@ public class TransactionControllerTest extends AndroidTestCase {
 		}
 	}
 	
+	/**
+	 * Tests the removeTransactions method and getTransactions method.
+	 */
 	public void testRemoveTransactions() {
 		
 		
@@ -89,6 +96,55 @@ public class TransactionControllerTest extends AndroidTestCase {
 		
 		if (list.size() != 3) {
 			fail("Size != 3 is " + list.size());
+		}
+	}
+	
+	/**
+	 * Tests the edit mode functions.
+	 */
+	public void testEditMode(){
+		RenamingDelegatingContext context = new RenamingDelegatingContext(
+				getContext(), "_test"); // This will start with fresh userdata
+
+		Account account = Account.getInstance(context);
+		TransactionController controller = new TransactionController(account);
+		
+		//Should not be in edit mode when instantiated.
+		if(controller.isEditMode()){
+			fail("Controller is in edit mode when created");
+		}
+		
+		controller.setEditMode(true);
+		
+		if(!controller.isEditMode()){
+			fail("Controller is not in edit mode after setting edit mode to true.");
+		}
+	}
+	
+	/**
+	 * Tests the current main category methods.
+	 */
+	public void testCurrentMainCategory(){
+		RenamingDelegatingContext context = new RenamingDelegatingContext(
+				getContext(), "_test"); // This will start with fresh userdata
+
+		Account account = Account.getInstance(context);
+		TransactionController controller = new TransactionController(account);
+		
+		if(controller.getCurrentMainCategory().getId() != Constants.INCOME_ID){
+			fail("Current main category is not 'Income' when controller is created.");
+		}
+		
+		controller.switchToExpenses();
+		
+		if(controller.getCurrentMainCategory().getId() != Constants.EXPENSE_ID){
+			fail("Current main category is not 'expenses'.");
+		}
+		
+		controller.switchToIncome();
+		
+		if(controller.getCurrentMainCategory().getId() != Constants.INCOME_ID){
+			fail("Current main category is not 'Income'");
 		}
 	}
 }

@@ -27,7 +27,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 /**
- * A fragment for adding transactions.
+ * A fragment for registering transactions.
  * 
  * @author marcusisaksson
  * 
@@ -143,18 +143,29 @@ public class AddTransactionFragment extends Fragment implements
 
 		EditText amountEdit = (EditText) view
 				.findViewById(R.id.transactionAmountEditText);
-
-		controller.addTransaction(
-				Double.parseDouble(amountEdit.getText().toString()),
-				this.calendar.getTime(), nameEdit.getText().toString(),
-				choosenCategory);
+		
+		try{
+			controller.addTransaction(
+					Double.parseDouble(amountEdit.getText().toString()),
+					this.calendar.getTime(), nameEdit.getText().toString(),
+					choosenCategory);
+		} catch(NumberFormatException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
+	/**
+	 * Sets the date of the transaction.
+	 */
 	public void dateDialogFragmentDateSet(Calendar date) {
 		this.calendar = date;
 		updateDateText();
 	}
 
+	/**
+	 * Opens up a chooseCategory fragment.
+	 */
 	private void chooseCategory(View v) {
 		this.chooseCategoryFragment = new ChooseCategoryFragment(this,
 				controller.getCurrentMainCategory().getId());
@@ -165,6 +176,9 @@ public class AddTransactionFragment extends Fragment implements
 		updateCategoryText();
 	}
 
+	/**
+	 * Updates the tex where the choosen date of the transaction is shown.
+	 */
 	private void updateDateText() {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 		String dateString = df.format(calendar.getTime());
@@ -177,8 +191,12 @@ public class AddTransactionFragment extends Fragment implements
 				.getName());
 	}
 
+	/**
+	 * Sets the category.
+	 */
 	public void chooseCategoryCategoryChosen(Category category) {
 		this.choosenCategory = category;
+		//Used only by a chooseCategoryFragment which needs to be dismissed when it's done.
 		chooseCategoryFragment.dismiss();
 	}
 }

@@ -41,7 +41,7 @@ public class TransactionController {
 
 	public TransactionController(Account account) {
 		this.account = account;
-		this.currentMainCategory = account.getCategory(1);
+		this.currentMainCategory = account.getCategory(Constants.INCOME_ID);
 
 
 	}

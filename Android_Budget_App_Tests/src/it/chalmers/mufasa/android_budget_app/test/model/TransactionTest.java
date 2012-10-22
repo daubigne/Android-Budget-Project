@@ -22,7 +22,9 @@ import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
@@ -37,6 +39,7 @@ public class TransactionTest extends AndroidTestCase {
 	Category category1;
 	Account account1;
 	Transaction transaction1;
+	Date date1;
 
 	/*
 	 * (non-Javadoc)
@@ -45,34 +48,67 @@ public class TransactionTest extends AndroidTestCase {
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
+		Calendar cal = new GregorianCalendar();
+		cal.set(2012, 0, 0);
+		date1 = cal.getTime();
 		category1 = new Category("category1", 1, null);
-		transaction1 = new Transaction(1, 20.0, new Date(), "transaction1",
+		transaction1 = new Transaction(1, 20.0, date1, "transaction1",
 				category1);
 	}
 
+	/**
+	 * Test the getAmount method.
+	 */
 	public void testAmount() {
 		if (transaction1.getAmount() != 20.0) {
-			fail("Amount is not equal");
+			fail("Amount is not not '20.0', it's " + transaction1.getAmount());
 		}
 	}
 
+	/**
+	 * Tests the getId method.
+	 */
 	public void testId() {
 		if (transaction1.getId() != 1) {
-			fail("ID is not equal");
+			fail("ID is not '1', it's " + transaction1.getId());
 		}
 	}
 
+	/**
+	 * Tests the getName method.
+	 */
 	public void testName() {
 		if (!(transaction1.getName().equals("transaction1"))) {
-			fail("Name is not equal");
+			fail("Name is not 'transaction1, it's " + transaction1.getName());
 		}
 	}
 
-	// TODO test date
+	/**
+	 * Test the getDate method.
+	 */
+	public void testDate() {
+		if(!(transaction1.getDate().equals(date1))){
+			fail("Date not equal");
+		}
+	}
 	
+	/**
+	 * Tests the getCategory method.
+	 */
 	public void testCategory() {
 		if (!(transaction1.getCategory().equals(category1))) {
 			fail("Category not equal");
+		}
+	}
+	
+	/**
+	 * Tests the equals method.
+	 */
+	public void testEquals() {
+		Transaction transaction2 = new Transaction(1, 20.0, date1, "transaction1",
+				category1);
+		if(!transaction1.equals(transaction2)){
+			fail("Transaction is not equals");
 		}
 	}
 }

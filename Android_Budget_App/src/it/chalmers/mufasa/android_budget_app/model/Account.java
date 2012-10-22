@@ -1,21 +1,21 @@
- /*
-  * Copyright © 2012 Mufasa developer unit
-  *
-  * This file is part of Mufasa Budget.
-  *
-  *	Mufasa Budget is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-  *
-  * Mufasa Budget is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
-  */
+/*
+ * Copyright © 2012 Mufasa developer unit
+ *
+ * This file is part of Mufasa Budget.
+ *
+ *	Mufasa Budget is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mufasa Budget is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.chalmers.mufasa.android_budget_app.model;
 
 import it.chalmers.mufasa.android_budget_app.model.database.DataAccessor;
@@ -36,7 +36,8 @@ import android.content.Context;
 
 /**
  * A class that holds almost all data that user has stored in the app. This
- * class keeps the database updated This is a singleton class.
+ * class keeps the database updated. 
+ * This is a singleton class.
  * 
  * @author Slurpo
  */
@@ -59,7 +60,8 @@ public class Account {
 	private Account(Context context) {
 		dataAccessor = new DataAccessor(context);
 
-		// If the database has an account we retrieve the data from that account.
+		// If the database has an account we retrieve the data from that
+		// account.
 		if (dataAccessor.accountExists()) {
 			this.id = dataAccessor.getAccountId();
 			this.name = dataAccessor.getAccountName(Constants.ACCOUNT_ID);
@@ -126,7 +128,7 @@ public class Account {
 	public double getBalance() {
 		return this.balance;
 	}
-	
+
 	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
 		return dataAccessor.getAccountBalanceForEachDay(from);
 	}
@@ -151,7 +153,7 @@ public class Account {
 	public List<BudgetItem> getBudgetItems() {
 		return getBudgetItems(null);
 	}
-	
+
 	/**
 	 * Returns all budgetItems under a certain category,
 	 */
@@ -161,14 +163,14 @@ public class Account {
 	}
 
 	public Double getBudgetItemsSum(int categoryId) {
-		return dataAccessor.getBudgetItemsSum(dataAccessor.getCategory(categoryId));
+		return dataAccessor.getBudgetItemsSum(dataAccessor
+				.getCategory(categoryId));
 	}
-	
+
 	private void updateBudgetItemList(Category parent) {
 		budgetItemList.clear();
 		budgetItemList.addAll(dataAccessor.getBudgetItems(parent));
 	}
-	
 
 	/**
 	 * Stores a budget item in the list of budget items.
@@ -185,9 +187,11 @@ public class Account {
 		dataAccessor.removeBudgetItem(budgetItem);
 		pcs.firePropertyChange("BudgetItems Updated", null, null);
 	}
-	public void removeBudget(){
-		//TODO: complete method.
+
+	public void removeBudget() {
+		// TODO: complete method.
 	}
+
 	/**
 	 * Returns a single saved category.
 	 */
@@ -202,7 +206,7 @@ public class Account {
 		updateCategoryList();
 		return new ArrayList<Category>(categoryList);
 	}
-	
+
 	/**
 	 * Returns the categories which has a certain parent category.
 	 */
@@ -234,8 +238,7 @@ public class Account {
 		dataAccessor.editCategory(category, newName);
 		updateCategoryList();
 	}
-	
-	
+
 	/**
 	 * Removes the given category from the list of categories.
 	 */
@@ -245,36 +248,55 @@ public class Account {
 	}
 
 	/**
-	 * Returns the transactions that the users have saved.
+	 * Returns the transactions that the users have saved. Set parent to null if
+	 * you want all transactions.
 	 */
-	public List<Transaction> getTransactions(int nbrOfTransactions, Category parent) {
+	public List<Transaction> getTransactions(int nbrOfTransactions,
+			Category parent) {
 		this.nbrOfTransactions = nbrOfTransactions;
 		updateTransactionList(parent);
 		return transactionList;
 	}
-	
+
 	public List<Transaction> getTransactions(SortBy sortBy,
-			SortByOrder sortByOrder, Category parent,
-			Date from, Date to) {
-		return dataAccessor.getTransactions(sortBy, sortByOrder, 0, 10000, parent, from, to);
+			SortByOrder sortByOrder, Category parent, Date from, Date to) {
+		return dataAccessor.getTransactions(sortBy, sortByOrder, 0, Constants.NUMBER_OF_TRANSACTIONS,
+				parent, from, to);
 	}
-	
+
+	/**
+	 * Returns the sum of all transactions in a specific category during a specific time span.
+	 * @param from - The start date of the time span.
+	 * @param to - The end date of the time span.
+	 * @param categoryId - The id of the category which the transactions are placed in.
+	 * @return
+	 */
 	public double getTransactionsSum(Date from, Date to, int categoryId) {
-		
+
 		double sum = 0.0;
-		
-		for(Transaction transaction : dataAccessor.getTransactions(SortBy.DATE, SortByOrder.DESC, 0, 10000, dataAccessor.getCategory(categoryId), from, to)) {
+
+		for (Transaction transaction : dataAccessor.getTransactions(
+				SortBy.DATE, SortByOrder.DESC, 0, 10000,
+				dataAccessor.getCategory(categoryId), from, to)) {
 			sum += transaction.getAmount();
 		}
 		return sum;
 	}
 
+	/**
+	 *  Updates the transaction list from the database.
+	 * @param parent The category which to get transactions from.
+	 */
 	private void updateTransactionList(Category parent) {
 		transactionList.clear();
-		transactionList.addAll(dataAccessor.getTransactions(SortBy.DATE,
-				SortByOrder.DESC, 0, nbrOfTransactions, parent));
+		if (parent == null) {
+			transactionList.addAll(dataAccessor.getTransactions(SortBy.DATE,
+					SortByOrder.DESC, 0, nbrOfTransactions));
+		} else {
+			transactionList.addAll(dataAccessor.getTransactions(SortBy.DATE,
+					SortByOrder.DESC, 0, nbrOfTransactions, parent));
+		}
 	}
-	
 
 	/**
 	 * Adds a transaction to the list of transactions.
@@ -295,8 +317,12 @@ public class Account {
 		updateBalance();
 		pcs.firePropertyChange("Transactions Updated", null, null);
 	}
-	public void removeAllTransactions(){
-	//TODO: Finish method
+
+	/**
+	 * Removes all transactions from the database.
+	 */
+	public void removeAllTransactions() {
+		// TODO: Finish method
 	}
 
 	/**
@@ -313,7 +339,5 @@ public class Account {
 	public void removePropertyChangeListener(PropertyChangeListener l) {
 		pcs.removePropertyChangeListener(l);
 	}
-
-
 
 }
