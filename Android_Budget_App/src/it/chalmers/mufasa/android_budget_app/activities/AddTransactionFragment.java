@@ -108,13 +108,13 @@ public class AddTransactionFragment extends Fragment implements
 
 		chooseCategoryButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				AddTransactionFragment.this.chooseCategory(v);
+				AddTransactionFragment.this.chooseCategory();
 			}
 		});
 
 		addTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				AddTransactionFragment.this.saveTransaction(v);
+				AddTransactionFragment.this.saveTransaction();
 				((HostActivity) getActivity())
 						.changeFragment(new TransactionListFragment());
 			}
@@ -145,7 +145,7 @@ public class AddTransactionFragment extends Fragment implements
 	/**
 	 * Gathers data from the user and stores it as a transaction.
 	 */
-	private void saveTransaction(View v) {
+	private void saveTransaction() {
 		EditText nameEdit = (EditText) view
 				.findViewById(R.id.transactionNameEditText);
 
@@ -163,7 +163,7 @@ public class AddTransactionFragment extends Fragment implements
 		updateDateText();
 	}
 
-	private void chooseCategory(View v) {
+	private void chooseCategory() {
 		this.chooseCategoryFragment = new ChooseCategoryFragment(this,
 				controller.getCurrentMainCategory().getId());
 		FragmentManager fm = ((HostActivity) getActivity())
