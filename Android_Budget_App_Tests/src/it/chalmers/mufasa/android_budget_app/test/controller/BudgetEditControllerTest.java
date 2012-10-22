@@ -28,7 +28,7 @@ import android.test.RenamingDelegatingContext;
 
 public class BudgetEditControllerTest extends AndroidTestCase {
 
-	Context context;
+	private Context context;
 
 	protected void setUp() throws Exception {
 		super.setUp();

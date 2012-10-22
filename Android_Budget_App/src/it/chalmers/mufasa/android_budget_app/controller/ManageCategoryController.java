@@ -24,7 +24,8 @@ import it.chalmers.mufasa.android_budget_app.model.ManageCategoryModel;
 /**
  * version 1
  * 
- * @author FannyM A class which updates the model.
+ * @author FannyM 
+ * A class which updates the model.
  */
 
 public class ManageCategoryController {
