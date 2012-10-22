@@ -20,6 +20,13 @@ package it.chalmers.mufasa.android_budget_app.model;
 
 import android.content.Context;
 
+/**
+ * 
+ * @author daubigne
+ * 
+ * A class that serves as a model for the OptionsFragment. Holds the account and the calls to that account.
+ *
+ */
 public class BalanceModel {
 	private Account account;
 	

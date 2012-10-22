@@ -58,7 +58,9 @@ public class OptionsFragment extends Fragment{
 		return view;
 
 	}
-	
+	/**
+	 * Sets up clickListeners for the buttons in the option view.
+	 */
 	private void setupOnClickListeners() {
 		this.addBalanceButton = (Button) view.findViewById(R.id.addBalance);
 		this.clearTransactionButton = (Button) view.findViewById(R.id.clearTransactions);
