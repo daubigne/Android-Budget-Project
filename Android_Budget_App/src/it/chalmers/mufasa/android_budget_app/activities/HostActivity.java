@@ -19,9 +19,6 @@
 package it.chalmers.mufasa.android_budget_app.activities;
 
 import it.chalmers.mufasa.android_budget_app.R;
-
-import java.util.Calendar;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -33,9 +30,6 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.format.Time;
-import android.view.Menu;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -102,7 +96,7 @@ public class HostActivity extends Activity {
 	 * A class used to respond to actions performed on the tab.
 	 */
 	private class HostTabListener implements ActionBar.TabListener {
-		public Fragment fragment;
+		private Fragment fragment;
 
 		public HostTabListener(Fragment fragment) {
 			this.fragment = fragment;
