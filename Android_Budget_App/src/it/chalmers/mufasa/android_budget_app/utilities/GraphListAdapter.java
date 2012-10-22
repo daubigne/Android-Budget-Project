@@ -61,8 +61,7 @@ public class GraphListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		if (position == 0) {
-			View title = LayoutInflater.from(context).inflate(R.layout.graph_account_balance_title, null);
-			return title;
+			return LayoutInflater.from(context).inflate(R.layout.graph_account_balance_title, null);
 		} else if (position == 1) {
 			if (values.size() > 0) {
 				GraphViewData[] graphViewData = new GraphViewData[values.size()];
