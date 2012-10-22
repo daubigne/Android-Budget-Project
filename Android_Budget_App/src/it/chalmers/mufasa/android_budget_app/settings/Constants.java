@@ -22,6 +22,8 @@ package it.chalmers.mufasa.android_budget_app.settings;
  * A class holding constants which the whole application has acces to.
  */
 public final class Constants {
+	private Constants(){
+	}
 	//The ID of the only existing Account in the model.
 	public static final int ACCOUNT_ID = 1;
 	//Used when get transactions from the database.
