@@ -314,30 +314,95 @@ public class DatabaseTest extends AndroidTestCase {
 		}
 	}
 	
-	public void testGetTransactionsByDates() {
-		for(int i=0; i<20; i++) {
-			dataAccessor.addTransaction(200.0*i, (new GregorianCalendar(2012,9,12,15,00,00)).getTime(), "Mat"+i, dataAccessor.getCategory(2));
-		}
-		
-	}
 	public void testGetAccountBalanceForEachDay() {
 		
-		dataAccessor.addTransaction(2000.0, (new GregorianCalendar(2012,8,0,15,00,00)).getTime(), "Income 1", dataAccessor.getCategory(1));
-		dataAccessor.addTransaction(1000.0, (new GregorianCalendar(2012,8,19,15,00,00)).getTime(), "Income 2", dataAccessor.getCategory(1));
+		Calendar calendar = new GregorianCalendar();
 		
-		dataAccessor.addTransaction(200.0, (new GregorianCalendar(2012,8,5,15,00,00)).getTime(), "Expense 1", dataAccessor.getCategory(2));
-		dataAccessor.addTransaction(200.0, (new GregorianCalendar(2012,8,25,15,00,00)).getTime(), "Expense 2", dataAccessor.getCategory(2));
-		dataAccessor.addTransaction(200.0, (new GregorianCalendar(2012,8,25,15,00,00)).getTime(), "Expense 3", dataAccessor.getCategory(2));
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
-//		for(int i=0; i<20; i++) {
-//			dataAccessor.addTransaction(200.0*i, (new GregorianCalendar(2012,9,i,15,00,00)).getTime(), "Expense "+i, dataAccessor.getCategory(2));
-//		}
-//		for(int i=0; i<5; i++) {
-//			dataAccessor.addTransaction(1000.0*i, (new GregorianCalendar(2012,9,i,15,00,00)).getTime(), "Income "+i, dataAccessor.getCategory(1));
-//		}
+		Date today = calendar.getTime();
+		
+		calendar.set(2012, 8, 1); //2012-09-02
+		Date day1 = calendar.getTime();
+		double value1 = 2000.0;
+		
+		calendar.set(2012, 8, 5); //2012-09-06
+		Date day2 = calendar.getTime();
+		double value2 = 200.0;
+		
+		calendar.set(2012, 8, 19); //2012-09-20
+		Date day3 = calendar.getTime();
+		double value3 = 1000.0;
+		
+		calendar.set(2012, 8, 25); //2012-09-25
+		Date day4 = calendar.getTime();
+		double value4 = 200.0;
+		
+		calendar.set(2012, 8, 0);
+		Date from = calendar.getTime();
+		
+		dataAccessor.addTransaction(value1, day1, "Income 1", dataAccessor.getCategory(1));
+
+		dataAccessor.addTransaction(value2, day2, "Expense 1", dataAccessor.getCategory(2));
+		
+		dataAccessor.addTransaction(value3, day3, "Income 2", dataAccessor.getCategory(1));
+		
+		dataAccessor.addTransaction(value4, day4, "Expense 2", dataAccessor.getCategory(2));
+		
+		List<AccountDay> accountDays = dataAccessor.getAccountBalanceForEachDay(from);
+		
+		int lastIndex = accountDays.size()-1;
+		
+		if(accountDays.get(lastIndex).getValue() != 0) {
+			fail("First day value != "+0+", is"+accountDays.get(lastIndex).getValue());
+		}
+		
+		if(accountDays.get(lastIndex).getDay() != from) {
+			fail("First day != "+dateFormat.format(from)+", is "+dateFormat.format(accountDays.get(lastIndex).getValue()));
+		}
+		
+		if(accountDays.get(lastIndex-1).getValue() != value1) {
+			fail("First day value != "+value1+", is"+accountDays.get(lastIndex-1).getValue());
+		}
+		
+		if(accountDays.get(lastIndex-1).getDay() != day1) {
+			fail("First day != "+dateFormat.format(day1)+", is "+dateFormat.format(accountDays.get(lastIndex-1).getValue()));
+		}
+
+		if(accountDays.get(lastIndex-5).getValue() != value1-value2) {
+			fail("day value != "+(value1-value2)+", is"+accountDays.get(lastIndex-5).getValue());
+		}
+		
+		if(accountDays.get(lastIndex-5).getDay() != day2) {
+			fail("day != "+dateFormat.format(day2)+", is "+dateFormat.format(accountDays.get(lastIndex-5).getValue()));
+		}
+		
+		if(accountDays.get(lastIndex-19).getValue() != value1-value2+value3) {
+			fail("day value != "+(value1-value2+value3)+", is"+accountDays.get(lastIndex-19).getValue());
+		}
+		
+		if(accountDays.get(lastIndex-19).getDay() != day3) {
+			fail("day != "+dateFormat.format(day3)+", is "+dateFormat.format(accountDays.get(lastIndex-19).getValue()));
+		}
+		
+		if(accountDays.get(lastIndex-25).getValue() != value1-value2+value3-value4) {
+			fail("day value != "+(value1-value2+value3-value4)+", is"+accountDays.get(lastIndex-25).getValue());
+		}
+		
+		if(accountDays.get(lastIndex-25).getDay() != day4) {
+			fail("day != "+dateFormat.format(day4)+", is "+dateFormat.format(accountDays.get(lastIndex-25).getValue()));
+		}
+		
+		if(accountDays.get(0).getValue() != value1-value2+value3-value4) {
+			fail("Last day value != "+(value1-value2+value3-value4)+", is"+accountDays.get(0).getValue());
+		}
+		
+		if(accountDays.get(0).getDay() != today) {
+			fail("Last day != "+dateFormat.format(today)+", is "+dateFormat.format(accountDays.get(0).getDay()));
+		}
 		
 		for(AccountDay accountDay : dataAccessor.getAccountBalanceForEachDay((new GregorianCalendar(2012,8,1)).getTime())) {
-			//System.out.println(accountDay.toString());
+			System.out.println(accountDay.toString());
 		}
 	}
 }
