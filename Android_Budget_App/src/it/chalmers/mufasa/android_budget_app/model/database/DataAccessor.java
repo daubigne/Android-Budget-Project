@@ -687,7 +687,6 @@ public class DataAccessor {
 	/**
 	 * Adds a category to the database.
 	 */
-
 	public Category addCategory(String name, Category parent) {
 		String parentId = "null";
 
@@ -833,6 +832,10 @@ public class DataAccessor {
 
 	}
 
+	/**
+	 * Gets sum of all budget items in the given parent category. The return
+	 * value is normally positive. With no budgetitems found 0.0 is returned
+	 */
 	public double getBudgetItemsSum(Category parent) {
 
 		Cursor cursor;
@@ -855,6 +858,22 @@ public class DataAccessor {
 		}
 		cursor.close();
 		return 0.0;
+	}
+	
+	/**
+	 * Removes all entires in the transaction table
+	 */
+	public void clearTransactions() {
+		db.execSQL("DROP TABLE ?",new String[]{DatabaseOpenHelper.TRANSACTIONS_TABLE});
+		db.execSQL(DatabaseOpenHelper.TRANSACTIONS_TABLE_INIT);
+	}
+	
+	/**
+	 * Removes all entires in the budgetitems table
+	 */
+	public void clearBudgetItems() {
+		db.execSQL("DROP TABLE ?",new String[]{DatabaseOpenHelper.BUDGETITEMS_TABLE});
+		db.execSQL(DatabaseOpenHelper.BUDGETITEMS_TABLE_INIT);
 	}
 
 }
