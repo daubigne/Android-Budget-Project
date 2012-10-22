@@ -1,21 +1,21 @@
- /*
-  * Copyright © 2012 Mufasa developer unit
-  *
-  * This file is part of Mufasa Budget.
-  *
-  *	Mufasa Budget is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-  *
-  * Mufasa Budget is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
-  */
+/*
+ * Copyright © 2012 Mufasa developer unit
+ *
+ * This file is part of Mufasa Budget.
+ *
+ *	Mufasa Budget is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mufasa Budget is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.chalmers.mufasa.android_budget_app.test.model;
 
 import java.util.Date;
@@ -26,13 +26,12 @@ import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
-import junit.framework.TestCase;
 
 public class AccountTest extends AndroidTestCase {
 
-	Account account1;
-	Category category1;
-	Category category2;
+	private Account account1;
+	private Category category1;
+	private Category category2;
 
 	/*
 	 * (non-Javadoc)
@@ -84,15 +83,15 @@ public class AccountTest extends AndroidTestCase {
 		if (account1.getBalance() != 8.0) {
 			fail("Balance isn't 8.0 it's " + account1.getBalance());
 		}
-		if (account1.getTransactions(100,null).size() != 2) {
+		if (account1.getTransactions(100, null).size() != 2) {
 			fail("The number of transaction isn't 2 it's "
-					+ account1.getTransactions(100,null).size());
+					+ account1.getTransactions(100, null).size());
 		}
 
 	}
 
 	public void testBudgetItems() {
-		
+
 		int budgetListSize = account1.getBudgetItems().size();
 		BudgetItem budgetItem1 = new BudgetItem(1, category1, 50.0);
 
@@ -115,24 +114,21 @@ public class AccountTest extends AndroidTestCase {
 		}
 
 	}
-	
+
 	public void tesCategories() {
-			
-			int budgetListSize = account1.getBudgetItems().size();
-			Category category3 = new Category("category3", 3, category1);
-	
-	
-			account1.addCategory(category1.getName(), category1.getParent());
-			account1.addCategory(category2.getName(), category2.getParent());
-			account1.addCategory(category3.getName(), category3.getParent());
-			
-			account1.removeCategory(category2);
-			
-			if (account1.getCategories().size() != 2) {
-				fail("The number of categories isn't 2 it's "
-						+ account1.getCategories().size());
-			}
-	
+
+		Category category3 = new Category("category3", 3, category1);
+
+		account1.addCategory(category1.getName(), category1.getParent());
+		account1.addCategory(category2.getName(), category2.getParent());
+		account1.addCategory(category3.getName(), category3.getParent());
+		account1.removeCategory(category2);
+
+		if (account1.getCategories().size() != 2) {
+			fail("The number of categories isn't 2 it's "
+					+ account1.getCategories().size());
 		}
+
+	}
 
 }
