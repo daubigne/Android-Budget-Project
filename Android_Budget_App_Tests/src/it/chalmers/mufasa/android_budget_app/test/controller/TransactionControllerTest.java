@@ -35,10 +35,6 @@ import android.test.RenamingDelegatingContext;
  */
 public class TransactionControllerTest extends AndroidTestCase {
 
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
 	public void testAddTransactions() {
 		
 		RenamingDelegatingContext context = new RenamingDelegatingContext(
