@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class TransactionListModel {
 	private Account account;
-	private ArrayList<Transaction> transactionHistory;
+	private List<Transaction> transactionHistory;
 	private PropertyChangeSupport pcs;
 
 	public TransactionListModel() {

@@ -65,7 +65,7 @@ public class GraphViewAdapter extends BaseAdapter implements TitleProvider {
 			
 			listView.setAdapter(new GraphListAdapter(inflater.getContext(), model.getAccountBalanceListForGraph(12-position-1)));
 			
-			convertView = view;
+			return view;
 		}
 		return convertView;
 	}
