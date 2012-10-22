@@ -33,6 +33,7 @@
     <string name="amount">Amount</string>
     <string name="add">Add</string>
     <string name="addTransaction">Add New Transaction</string>
+    <string name="plus">+</string>
     <string name="addDate">Add Date</string>
     <string name="medium_text">medium_text</string>
     <string name="manage_categories">manage_Categories</string>
@@ -42,5 +43,5 @@
     <string name="chooseCategory">Choose Category</string>
     <string name="removeText">X</string>
     <string name="account_balance_over_time">Account balance over time</string>
-    
+
 </resources>
