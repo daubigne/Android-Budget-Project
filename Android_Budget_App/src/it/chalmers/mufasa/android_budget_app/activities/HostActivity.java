@@ -61,12 +61,7 @@ public class HostActivity extends Activity {
 		theBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		theBar.setDisplayShowHomeEnabled(false);
 		theBar.setDisplayShowTitleEnabled(false);
-		//theBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE);
-
-		// Create tabs for the action bar
-		// TODO : Replace the empty constructor with fragments that are going to
-		// fill the app,
-		// upon completion;remove the empty constructor
+		
 
 		Tab tab1 = theBar
 				.newTab()

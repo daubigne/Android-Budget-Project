@@ -65,9 +65,11 @@ public class HomescreenFragment extends Fragment {
 		tv = (TextView) view.findViewById(R.id.Balancefield);
 		tv2 = (TextView) view.findViewById(R.id.progressFeedback);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+		//compares the user's transaction sum to the budget's total sum 
+		//and calculate how much % of the budget that the user has spent
+		controller.calculatePercentage(); 
 		//Fill these components with information
 		tv.setText(model.getBalance() + "kr");
-		controller.calculatePercentage();
 		progressBar.setProgress((int)model.getPercentage());
 		tv2.setText("Remaining % of your budget");
 		

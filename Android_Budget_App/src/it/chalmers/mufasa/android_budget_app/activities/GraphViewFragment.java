@@ -41,7 +41,7 @@ import android.view.ViewGroup;
  * @author Simon
  * 
  */
-public class GraphViewFragment extends Fragment implements PropertyChangeListener {
+public class GraphViewFragment extends Fragment{
 
 	private GraphViewController controller;
 	private GraphViewModel model;
@@ -71,8 +71,4 @@ public class GraphViewFragment extends Fragment implements PropertyChangeListene
 		return this.view;
 	}
 
-	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
-		
-	}
 }
