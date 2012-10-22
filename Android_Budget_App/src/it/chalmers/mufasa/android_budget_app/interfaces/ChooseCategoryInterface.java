@@ -20,8 +20,11 @@ package it.chalmers.mufasa.android_budget_app.interfaces;
 
 import it.chalmers.mufasa.android_budget_app.model.Category;
 
+/**
+ * An interface for fragments using the choose category interface. 
+ */
 public interface ChooseCategoryInterface {
 
-public void chooseCategoryCategoryChosen(Category category);
+	public void chooseCategoryCategoryChosen(Category category);
 	
 }

@@ -19,11 +19,11 @@
 package it.chalmers.mufasa.android_budget_app.utilities;
 
 import it.chalmers.mufasa.android_budget_app.R;
-import it.chalmers.mufasa.android_budget_app.activities.AddTransactionFragment;
-import it.chalmers.mufasa.android_budget_app.activities.HostActivity;
-import it.chalmers.mufasa.android_budget_app.activities.TransactionListFragment;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
+import it.chalmers.mufasa.android_budget_app.view.activities.HostActivity;
+import it.chalmers.mufasa.android_budget_app.view.fragments.AddTransactionFragment;
+import it.chalmers.mufasa.android_budget_app.view.fragments.TransactionListFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

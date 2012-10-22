@@ -20,6 +20,11 @@ package it.chalmers.mufasa.android_budget_app.interfaces;
 
 import java.util.Calendar;
 
+/**
+ * An interface for fragments using the DateDialogFragmentListener
+ * @author marcusisaksson
+ */
+
 public interface DateDialogFragmentListener{
     public void dateDialogFragmentDateSet(Calendar date);
 }

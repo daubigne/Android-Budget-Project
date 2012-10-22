@@ -30,12 +30,17 @@ import android.content.Context;
 public class BalanceModel {
 	private Account account;
 	
-	
-	public void saveBalance(double balance){
-		this.account.setBalance(balance);
-	}
 	public BalanceModel(Context context){
 		this.account = Account.getInstance(context);
 	}
+	
+	/**
+	 * Saves the given balance.
+	 */
+	public void saveBalance(double balance){
+		this.account.setBalance(balance);
+	}
+	
+
 
 }

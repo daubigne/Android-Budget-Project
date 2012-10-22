@@ -86,33 +86,56 @@ public class ManageCategoryModel {
 		pcs.firePropertyChange("edited_category", null, null);
 	}
 
+	/**
+	 * Returns the current parent category.
+	 */
 	public Category getCurrentParentCategory() {
 		return currentParentCategory;
 	}
 
+	/**
+	 * Sets the current parent category.
+	 * @param id - the ID of the parent category.
+	 */
 	public void setCurrentParentCategory(int id) {
 		this.setCurrentParentCategory(account.getCategory(id));
 	}
 
+	/**
+	 * Sets the current parent category.
+	 * @param category - the parent category.
+	 */
 	public void setCurrentParentCategory(Category category) {
 		currentParentCategory = category;
 		pcs.firePropertyChange("changed_parent_category", null, null);
 	}
 
+	/**
+	 * Adds a property change listener to this.
+	 * @param listener
+	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
 
+	/**
+	 * Removes a property change listener to this.
+	 * @param listener
+	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
 
+	/**
+	 * Returns true if in edit mode and false if not.
+	 * @return
+	 */
 	public boolean isEditMode() {
 		return editMode;
 	}
 
 	/**
-	 * a method to change the edit mode of the model
+	 * A method to change the edit mode of the model
 	 * 
 	 * @return
 	 */

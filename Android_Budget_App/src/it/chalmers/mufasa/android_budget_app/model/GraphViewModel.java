@@ -48,6 +48,11 @@ public class GraphViewModel {
 		this.currentMainCategory = account.getCategory(1);
 	}
 	
+	/**
+	 * Returns a list of the account balance for all days in this month.
+	 * @param number
+	 * @return
+	 */
 	public List<Double> getAccountBalanceListForGraph(int number) {
 		
 		Calendar calendar = new GregorianCalendar();
@@ -91,10 +96,18 @@ public class GraphViewModel {
 		return accountBalances;
 	}
 	
+	/**
+	 * Adds a property change listener to this.
+	 * @param listener
+	 */
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
 
+	/**
+	 * Removes a property change listener from this.
+	 * @param listener
+	 */
 	public void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
