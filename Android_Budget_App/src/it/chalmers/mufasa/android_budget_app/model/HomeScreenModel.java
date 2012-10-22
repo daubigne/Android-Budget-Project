@@ -64,8 +64,8 @@ public class HomeScreenModel {
 		c.set(Calendar.DAY_OF_MONTH, 0);
 		Date from = c.getTime();
 		//Make sure to calculate with double's . Multiplies with 100 to get the percentage value.
-		this.percentage = (this.account.getTransactionsSum(to,from,Constants.EXPENSE_ID) * 1.0 
-				/ this.account.getBudgetItemsSum(Constants.EXPENSE_ID) * 1.0) *100.0;
+		this.percentage = (this.account.getTransactionsSum(from,to,Constants.EXPENSE_ID)
+				/ this.account.getBudgetItemsSum(Constants.EXPENSE_ID)) *100.0;
 	}
 	
 }
