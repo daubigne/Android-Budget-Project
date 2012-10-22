@@ -46,8 +46,7 @@ public class HomeScreenModel {
 		return this.balance;
 	}
 	public Account getAccount(){
-		Account temp = this.account;
-		return temp;
+		return this.account;
 	}
 	public double getPercentage(){
 		return this.percentage;
