@@ -27,7 +27,7 @@ import it.chalmers.mufasa.android_budget_app.model.HomeScreenModel;
  *
  */
 public class HomeScreenController {
-	HomeScreenModel model;
+	private HomeScreenModel model;
 	
 	public HomeScreenController(HomeScreenModel model){
 		this.model = model;

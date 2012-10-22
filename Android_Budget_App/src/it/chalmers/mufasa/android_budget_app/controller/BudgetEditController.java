@@ -31,7 +31,7 @@ import java.util.List;
 
 public class BudgetEditController {
 	
-	BudgetEditModel model;
+	private BudgetEditModel model;
 	
 	public BudgetEditController(BudgetEditModel model) {
 		this.model = model;

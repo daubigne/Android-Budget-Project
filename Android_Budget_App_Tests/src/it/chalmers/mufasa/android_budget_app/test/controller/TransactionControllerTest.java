@@ -18,14 +18,14 @@
   */
 package it.chalmers.mufasa.android_budget_app.test.controller;
 
-import java.util.Date;
-import java.util.List;
-
 import it.chalmers.mufasa.android_budget_app.controller.TransactionController;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
+
+import java.util.Date;
+import java.util.List;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
@@ -35,10 +35,6 @@ import android.test.RenamingDelegatingContext;
  * 
  */
 public class TransactionControllerTest extends AndroidTestCase {
-
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
 
 	/**
 	 * Tests the addTransaction and the getTransactions methods.

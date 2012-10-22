@@ -27,11 +27,8 @@ import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-
 import android.content.Context;
 
 /**

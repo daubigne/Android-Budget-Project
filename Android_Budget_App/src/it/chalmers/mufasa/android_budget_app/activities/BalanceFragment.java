@@ -33,14 +33,12 @@ import android.widget.EditText;
 public class BalanceFragment extends Fragment{
 	private EditText balanceInput;
 	private Button saveBalanceButton;
-	private LayoutInflater inflater;
 	private BalanceModel model;
 	private BalanceController controller;
 	private View view;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		this.inflater = inflater;
 		this.model = new BalanceModel(this.getActivity());
 		this.controller = new BalanceController(this.model);
 		this.view = inflater.inflate(R.layout.fragment_balance,

@@ -39,8 +39,8 @@ import android.test.RenamingDelegatingContext;
 
 public class DatabaseTest extends AndroidTestCase {
 
-	DataAccessor dataAccessor;
-	RenamingDelegatingContext context;
+	private DataAccessor dataAccessor;
+	private RenamingDelegatingContext context;
 
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -263,8 +263,9 @@ public class DatabaseTest extends AndroidTestCase {
 			fail("List size isn't 1, it's " + (list.size() - listSizeBefore));
 		}
 
-		if (!(condition2))
+		if (!(condition2)){
 			fail("Value isn't 2000.0 it's " + list.get(0).getValue());
+		}
 
 	}
 

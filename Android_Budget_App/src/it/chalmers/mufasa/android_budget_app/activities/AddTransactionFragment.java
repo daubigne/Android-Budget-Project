@@ -18,29 +18,24 @@
   */
 package it.chalmers.mufasa.android_budget_app.activities;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.TransactionController;
 import it.chalmers.mufasa.android_budget_app.interfaces.ChooseCategoryInterface;
 import it.chalmers.mufasa.android_budget_app.interfaces.DateDialogFragmentListener;
-import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Category;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -53,9 +48,7 @@ import android.widget.TextView;
 public class AddTransactionFragment extends Fragment implements
 		DateDialogFragmentListener, ChooseCategoryInterface {
 
-	private LayoutInflater inflater;
 	private View view;
-	private Account account;
 	private TransactionController controller;
 	private Category choosenCategory;
 
@@ -82,13 +75,10 @@ public class AddTransactionFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		this.inflater = inflater;
 		this.view = inflater.inflate(R.layout.fragment_add_transaction,
 				container, false);
 
 		calendar = Calendar.getInstance();
-
-		this.account = Account.getInstance(this.getActivity());
 		chooseCategoryButton = (Button) view
 				.findViewById(R.id.chooseTransactionCategoryButton);
 		addTransactionButton = (Button) view
@@ -118,13 +108,13 @@ public class AddTransactionFragment extends Fragment implements
 
 		chooseCategoryButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				AddTransactionFragment.this.chooseCategory(v);
+				AddTransactionFragment.this.chooseCategory();
 			}
 		});
 
 		addTransactionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				AddTransactionFragment.this.saveTransaction(v);
+				AddTransactionFragment.this.saveTransaction();
 				((HostActivity) getActivity())
 						.changeFragment(new TransactionListFragment());
 			}
@@ -155,7 +145,7 @@ public class AddTransactionFragment extends Fragment implements
 	/**
 	 * Gathers data from the user and stores it as a transaction.
 	 */
-	private void saveTransaction(View v) {
+	private void saveTransaction() {
 		EditText nameEdit = (EditText) view
 				.findViewById(R.id.transactionNameEditText);
 
@@ -184,7 +174,8 @@ public class AddTransactionFragment extends Fragment implements
 	/**
 	 * Opens up a chooseCategory fragment.
 	 */
-	private void chooseCategory(View v) {
+
+	private void chooseCategory() {
 		this.chooseCategoryFragment = new ChooseCategoryFragment(this,
 				controller.getCurrentMainCategory().getId());
 		FragmentManager fm = ((HostActivity) getActivity())

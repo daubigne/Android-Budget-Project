@@ -18,28 +18,24 @@
   */
 package it.chalmers.mufasa.android_budget_app.activities;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.List;
-
 import it.chalmers.mufasa.android_budget_app.R;
 import it.chalmers.mufasa.android_budget_app.controller.TransactionController;
 import it.chalmers.mufasa.android_budget_app.model.Account;
 import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import it.chalmers.mufasa.android_budget_app.utilities.TransactionAdapter;
-import android.app.AlertDialog;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
+
 import android.app.Fragment;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
@@ -51,7 +47,6 @@ import android.widget.ListView;
 public class TransactionListFragment extends Fragment implements
 		PropertyChangeListener {
 
-	private LayoutInflater inflater;
 	private View view;
 	private Account account;
 	private TransactionController controller;
@@ -65,7 +60,6 @@ public class TransactionListFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		this.inflater = inflater;
 		this.view = inflater.inflate(R.layout.fragment_transaction_list,
 				container, false);
 

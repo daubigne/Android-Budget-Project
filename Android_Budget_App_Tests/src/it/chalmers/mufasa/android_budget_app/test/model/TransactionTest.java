@@ -1,21 +1,21 @@
- /*
-  * Copyright © 2012 Mufasa developer unit
-  *
-  * This file is part of Mufasa Budget.
-  *
-  *	Mufasa Budget is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-  *
-  * Mufasa Budget is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-  * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
-  */
+/*
+ * Copyright © 2012 Mufasa developer unit
+ *
+ * This file is part of Mufasa Budget.
+ *
+ *	Mufasa Budget is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Mufasa Budget is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Mufasa Budget.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.chalmers.mufasa.android_budget_app.test.model;
 
 import it.chalmers.mufasa.android_budget_app.model.Account;
@@ -25,10 +25,7 @@ import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import android.test.AndroidTestCase;
-import android.test.RenamingDelegatingContext;
-import junit.framework.TestCase;
 
 /**
  * @author marcusisaksson
@@ -36,10 +33,11 @@ import junit.framework.TestCase;
  */
 public class TransactionTest extends AndroidTestCase {
 
-	Category category1;
-	Account account1;
-	Transaction transaction1;
-	Date date1;
+	private Category category1;
+	private Account account1;
+	private Transaction transaction1;
+	private Date date1;
+
 
 	/*
 	 * (non-Javadoc)
@@ -95,6 +93,7 @@ public class TransactionTest extends AndroidTestCase {
 	/**
 	 * Tests the getCategory method.
 	 */
+
 	public void testCategory() {
 		if (!(transaction1.getCategory().equals(category1))) {
 			fail("Category not equal");

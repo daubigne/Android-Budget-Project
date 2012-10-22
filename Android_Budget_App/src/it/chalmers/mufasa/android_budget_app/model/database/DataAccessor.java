@@ -132,8 +132,8 @@ public class DataAccessor {
 	 */
 	public class AccountDay {
 
-		Date day;
-		Double value;
+		private Date day;
+		private Double value;
 
 		public AccountDay(Date day, Double value) {
 			this.day = day;
@@ -163,7 +163,6 @@ public class DataAccessor {
 	 */
 	public List<AccountDay> getAccountBalanceForEachDay(Date from) {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = new GregorianCalendar();
 		Date to = cal.getTime();
 
@@ -476,7 +475,6 @@ public class DataAccessor {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				System.out.println(date.toString());
 				transaction = new Transaction(cursor.getInt(2),
 						(cursor.getDouble(3)), date, cursor.getString(0), cat);
 				transactionList.add(transaction);

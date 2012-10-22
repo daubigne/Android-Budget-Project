@@ -31,11 +31,11 @@ import android.widget.DatePicker;
 
 public class DateDialogFragment extends DialogFragment {
 
-	public static String TAG = "DateDialogFragment";
+	public final static String TAG = "DateDialogFragment";
 
-	static Context sContext;
-	static Calendar sDate;
-	static DateDialogFragmentListener sListener;
+	private static Context sContext;
+	private static Calendar sDate;
+	private static DateDialogFragmentListener sListener;
 
 	public static DateDialogFragment newInstance(Context context,
 			int titleResource, Calendar date) {

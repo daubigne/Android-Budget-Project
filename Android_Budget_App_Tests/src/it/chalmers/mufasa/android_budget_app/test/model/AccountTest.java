@@ -29,7 +29,6 @@ import it.chalmers.mufasa.android_budget_app.model.Transaction;
 import it.chalmers.mufasa.android_budget_app.settings.Constants;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
-import junit.framework.TestCase;
 
 /**
  * A class that tests the Account class.
@@ -46,6 +45,7 @@ public class AccountTest extends AndroidTestCase {
 	private Date date2;
 	private Date date3;
 	private Calendar cal;
+	private Account account1;
 
 	/*
 	 * (non-Javadoc)
@@ -118,32 +118,42 @@ public class AccountTest extends AndroidTestCase {
 
 		if (account.getBalance() != -2.0) {
 			fail("Balance isn't -2.0 it's " + account.getBalance());
-		}
 
-		if (account.getTransactions(10, null).size() != 3) {
-			fail("The number of transaction isn't 3, it's "
-					+ account.getTransactions(10, null).size());
-		}
+			account1.removeTransaction(transaction3);
+			if (account1.getBalance() != 8.0) {
+				fail("Balance isn't 8.0 it's " + account1.getBalance());
+			}
+			if (account1.getTransactions(100, null).size() != 2) {
+				fail("The number of transaction isn't 2 it's "
+						+ account1.getTransactions(100, null).size());
 
-		getTransactionsByCategory();
+			}
 
-		transactionsSum();
+			if (account.getTransactions(10, null).size() != 3) {
+				fail("The number of transaction isn't 3, it's "
+						+ account.getTransactions(10, null).size());
+			}
 
-		account.removeTransaction(transaction3);
+			getTransactionsByCategory();
 
-		if (account.getBalance() != 8.0) {
-			fail("Balance isn't 8.0 it's " + account.getBalance());
-		}
-		if (account.getTransactions(100, null).size() != 2) {
-			fail("The number of transaction isn't 2 it's "
-					+ account.getTransactions(100, null).size());
-		}
+			transactionsSum();
 
-		account.removeAllTransactions();
+			account.removeTransaction(transaction3);
 
-		if (account.getTransactions(100, null).size() != 0) {
-			fail("The number of transaction isn't 0 it's "
-					+ account.getTransactions(100, null).size());
+			if (account.getBalance() != 8.0) {
+				fail("Balance isn't 8.0 it's " + account.getBalance());
+			}
+			if (account.getTransactions(100, null).size() != 2) {
+				fail("The number of transaction isn't 2 it's "
+						+ account.getTransactions(100, null).size());
+			}
+
+			account.removeAllTransactions();
+
+			if (account.getTransactions(100, null).size() != 0) {
+				fail("The number of transaction isn't 0 it's "
+						+ account.getTransactions(100, null).size());
+			}
 		}
 	}
 
@@ -195,7 +205,7 @@ public class AccountTest extends AndroidTestCase {
 
 		int budgetListSize = account.getBudgetItems().size();
 		double budgetStartSum = account.getBudgetItemsSum(Constants.INCOME_ID);
-		
+
 		BudgetItem budgetItem1 = new BudgetItem(1, category1, 50.0);
 
 		BudgetItem budgetItem2 = new BudgetItem(2, category2, 30.0);
@@ -206,8 +216,9 @@ public class AccountTest extends AndroidTestCase {
 		account.addBudgetItem(budgetItem2.getCategory(), budgetItem2.getValue());
 		account.addBudgetItem(budgetItem3.getCategory(), budgetItem3.getValue());
 
-		if(account.getBudgetItemsSum(Constants.INCOME_ID) - budgetStartSum != 150.0){
-			fail("The income budget sum isn't 150.0, it's " + account.getBudgetItemsSum(Constants.INCOME_ID));
+		if (account.getBudgetItemsSum(Constants.INCOME_ID) - budgetStartSum != 150.0) {
+			fail("The income budget sum isn't 150.0, it's "
+					+ account.getBudgetItemsSum(Constants.INCOME_ID));
 		}
 		account.removeBudgetItem(budgetItem1);
 
@@ -218,27 +229,29 @@ public class AccountTest extends AndroidTestCase {
 
 	}
 
-	public void tesCategories() {
+	public void testCategories() {
 
-		int budgetListSize = account.getBudgetItems().size();
-		Category category3 = new Category("category3", 3, account.getCategory(Constants.INCOME_ID));
+		Category category3 = new Category("category3", 3,
+				account.getCategory(Constants.INCOME_ID));
 
 		account.addCategory(category1.getName(), category1.getParent());
 		account.addCategory(category2.getName(), category2.getParent());
 		account.addCategory(category3.getName(), category3.getParent());
 
-		if(account.getCategories(account.getCategory(Constants.INCOME_ID)).size() != 2){
-			fail("The number of income transactions isn't 2, it's " + account.getCategories(account.getCategory(Constants.INCOME_ID)).size());
+		if (account.getCategories(account.getCategory(Constants.INCOME_ID))
+				.size() != 2) {
+			fail("The number of income transactions isn't 2, it's "
+					+ account.getCategories(
+							account.getCategory(Constants.INCOME_ID)).size());
 		}
-		
+
 		account.removeCategory(category2);
 
 		if (account.getCategories().size() != 2) {
 			fail("The number of categories isn't 2 it's "
 					+ account.getCategories().size());
 		}
-		
-		
 
 	}
+
 }

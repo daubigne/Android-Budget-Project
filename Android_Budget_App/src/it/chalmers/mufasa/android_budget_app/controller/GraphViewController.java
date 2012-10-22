@@ -22,7 +22,7 @@ import it.chalmers.mufasa.android_budget_app.model.GraphViewModel;
 
 public class GraphViewController {
 	
-	GraphViewModel model;
+	private GraphViewModel model;
 	
 	public GraphViewController(GraphViewModel model) {
 		this.model = model;

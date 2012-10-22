@@ -41,7 +41,7 @@ public class ManageCategoryModel {
 	public ManageCategoryModel(Context context) {
 		pcs = new PropertyChangeSupport(this);
 		this.account = Account.getInstance(context);
-		this.setCurrentParentCategory(account.getCategory(2));
+		this.currentParentCategory=account.getCategory(2);
 	}
 
 	/**
