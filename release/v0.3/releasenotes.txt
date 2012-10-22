@@ -1,0 +1,20 @@
+Student Budget App v0.3 Release Notes
+========================
+Released on Oct 22, 2012
+
+Requirements
+--------------------
+Smartphone with Android 2.2 or higher
+
+Added features
+--------------------
+* Options menu
+* Edit your account balance
+* Remove transactions
+* Reset transactions and budget items
+
+Known bugs and limtations
+--------------------
+* Removing categories hides all budget-items and transactions from the lists and opening graphs makes the app crash* Duplicate budget-items when changing category
+* Budget value disappears when adding while editing
+* Adding future transaction makes graph work incorrectly
