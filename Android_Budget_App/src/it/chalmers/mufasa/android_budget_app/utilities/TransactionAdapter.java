@@ -53,7 +53,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction> {
 		super(context, textViewResourceId, textViewResourceId, objects);
 		this.transactions = objects;
 		this.context = context;
-		setEditMode(isEditMode);
+		this.isEditMode=isEditMode;
 		
 	}
 
